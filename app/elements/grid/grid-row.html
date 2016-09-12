@@ -1,0 +1,45 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
+
+<dom-module id="grid-row">
+
+  <template>
+    <div id="row" class="layout horizontal">
+      <content></content>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+
+  (function () {
+
+    Polymer({
+
+      is: 'grid-row',
+
+      behaviors: [
+        Polymer.IronResizableBehavior
+      ],
+
+      listeners: {
+        'iron-resize': '_onResize',
+        'iron-request-resize-notifications': '_onResizer'
+      },
+
+      _onResize: function (e) {
+
+        var widthElement = this.$.row.children[0].offsetWidth;
+        this.$.row.style.height = (widthElement - 1) + 'px';
+      },
+      _onResizer: function (e) {
+
+        var widthElement = this.$.row.children[0].offsetWidth;
+        this.$.row.style.height = (widthElement - 1) + 'px';
+      }
+    });
+
+  })();
+
+</script>

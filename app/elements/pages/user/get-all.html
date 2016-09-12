@@ -1,0 +1,60 @@
+<link rel="import" href="../../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../../bower_components/paper-datatable/paper-datatable.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-api-client.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-paginator.html">
+
+<dom-module id="strapieno-user-get-all">
+    <template>
+        <div class="layout horizontal end-justified">
+            <a href="/user/add">
+                <paper-fab icon="add" title="heart"></paper-fab>
+            </a>
+        </div>
+        <apigility-rest-api-client
+                auth="{{auth}}"
+                collection-name="users"
+                collection="{{users}}"
+                page-count="{{usersPages}}"
+                page-size="[[userPageSize]]"
+                page="[[userPage]]"
+                auto-load="{{loadCollection}}">
+            <apigility-resource resource-name="rest/user"></apigility-resource>
+        </apigility-rest-api-client>
+        <paper-datatable data="{{users}}">
+            <paper-datatable-column header="Username" property="user_name" type="String" sortable></paper-datatable-column>
+            <paper-datatable-column header="Email" property="email" type="String" sortable></paper-datatable-column>
+            <paper-datatable-column header="Created" property="date_created" type="date" sortable></paper-datatable-column>
+            <paper-datatable-column header="Last modify" property="date_created" type="date" sortable></paper-datatable-column>
+            <paper-datatable-column property="id" type="String">
+                <template>
+                    <a href="/user/{{value}}">
+                        <paper-icon-button icon="datatable:editable"></paper-icon-button>
+                    </a>
+                </template>
+            </paper-datatable-column>
+        </paper-datatable>
+        <apigility-rest-paginator
+                page-count="{{usersPages}}"
+                page="{{userPage}}"
+                page-size="{{userPageSize}}">
+        </apigility-rest-paginator>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'strapieno-user-get-all',
+
+                properties: {
+                    loadCollection :{
+                        type: Boolean,
+                        value: false
+                    }
+                }
+            });
+        })();
+    </script>
+
+</dom-module>

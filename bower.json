@@ -1,0 +1,19 @@
+{
+  "name": "polymer-admin",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "iron-elements": "PolymerElements/iron-elements#^1.0.6",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.6",
+    "polymer-apigility": "git@github.com:visa4/polymer-apigility.git#develop",
+    "app-layout": "polymerelements/app-layout#^0.10.0",
+    "iron-grid": "The5heepDev/iron-grid#master",
+    "page": "page.js#~1.7.1",
+    "paper-datatable": "git@github.com:visa4/paper-datatable.git#master",
+    "google-map": "GoogleWebComponents/google-map#~1.1.10"
+  },
+  "devDependencies": {
+    "web-component-tester": "*",
+    "test-fixture": "PolymerElements/test-fixture#^1.0.0"
+  }
+}

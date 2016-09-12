@@ -1,0 +1,226 @@
+<link rel="import" href="../routing.html">
+
+<dom-module id="strapieno-router">
+  <template>
+    <style>
+      iron-pages {
+        padding: 24px 16px 56px;
+        min-height: 100%;
+        box-sizing: border-box;
+      }
+
+      @media (min-width: 640px) {
+        iron-pages {
+          padding: 24px 36px 56px;
+        }
+      }
+    </style>
+    <iron-pages attr-for-selected="data-route" selected="{{route}}">
+      <!-- Home page -->
+      <section data-route="dashboard">
+
+      </section>
+      <!-- List user -->
+      <section data-route="users">
+        <strapieno-user-get-all
+                auth="[[auth]]"
+                load-collection="{{loadUserCollection}}">
+        </strapieno-user-get-all>
+      </section>
+      <!-- Add user -->
+      <section data-route="user-add">
+        <strapieno-user-post
+                auth="[[auth]]"
+                id="addUserPage">
+        </strapieno-user-post>
+      </section>
+      <!-- User -->
+      <section data-route="user">
+        <strapieno-user-put
+                auth="[[auth]]"
+                user-id="[[userId]]"
+                identity-object="[[identityObject]]">
+        </strapieno-user-put>
+      </section>
+      <!-- Profile -->
+      <section data-route="profile">
+        <strapieno-user-put
+                auth="[[auth]]"
+                user-id="[[identityObject.id]]"
+                load-user="{{loadUser}}"
+                identity-object="{{identityObject}}">
+        </strapieno-user-put>
+      </section>
+      <!-- List place -->
+      <section data-route="places">
+        <strapieno-place-get-all
+                auth="[[auth]]"
+                load-collection="{{loadPlaceCollection}}">
+        </strapieno-place-get-all>
+      </section>
+      <!-- Place -->
+      <section data-route="place">
+        <strapieno-place-put
+                auth="[[auth]]"
+                place-id="[[placeId]]"
+                load-place="{{loadPlace}}"
+                api-key="{{mapsApiKey}}">
+        </strapieno-place-put>
+      </section>
+      <!-- Add Place -->
+      <section data-route="place-add">
+        <strapieno-place-post
+                auth="[[auth]]"
+                id="addPlacePage"
+                api-key="{{mapsApiKey}}">
+        </strapieno-place-post>
+      </section>
+      <!-- List reviews -->
+      <section data-route="reviews">
+        <strapieno-place-review-get-all
+                auth="[[auth]]"
+                place-id="[[placeId]]"
+                load-collection="{{loadPlaceReviewCollection}}">
+        </strapieno-place-review-get-all>
+      </section>
+      <section data-route="add-review">
+        <strapieno-place-review-post
+                auth="[[auth]]"
+                id="addPlaceReviewPage"
+                place-id="[[placeId]]">
+        </strapieno-place-review-post>
+      </section>
+      <section data-route="review">
+        <strapieno-place-review-put
+                auth="[[auth]]"
+                place-id="[[placeId]]"
+                review-id="[[reviewId]]">
+        </strapieno-place-review-put>
+      </section>
+      <section data-route="girls">
+        <strapieno-place-girl-get-all
+                auth="[[auth]]"
+                place-id="[[placeId]]"
+                load-collection="{{loadPlaceGirlCollection}}">
+        </strapieno-place-girl-get-all>
+      </section>
+      <section data-route="add-girl">
+        <strapieno-place-girl-post
+                auth="[[auth]]"
+                id="addPlaceGirlPage"
+                place-id="[[placeId]]">
+        </strapieno-place-girl-post>
+      </section>
+      <section data-route="girl">
+        <strapieno-place-girl-put
+                auth="[[auth]]"
+                place-id="[[placeId]]"
+                girl-id="{{girlId}}">
+        </strapieno-place-girl-put>
+      </section>
+      <section data-route="not-found">
+       not found
+      </section>
+
+    </iron-pages>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'strapieno-router',
+
+        properties: {
+
+          route: {
+            type: String
+          },
+
+          routeParams: {
+            type: Object,
+            value: function () {return {};},
+            observer: '_routeParamsChanged'
+          },
+
+          loadUserCollection: {
+            type: Boolean,
+            value: false
+          },
+
+          userId: {
+            type: String
+          },
+
+          loadPlaceCollection: {
+            type: Boolean,
+            value: false
+          },
+
+          placeId: {
+            type: String
+          },
+
+          reviewId: {
+            type: String
+          },
+
+          girlId: {
+            type: String
+          }
+        },
+
+        _routeParamsChanged:  function (value) {
+          switch(value.routeName) {
+            case 'dashboard':
+              break;
+            case 'users':
+              this.loadUserCollection = true;
+              break;
+            case 'user':
+              this.userId = value.params.userId;
+              this.loadUser = true;
+              break;
+            case 'profile':
+              this.loadUser = true;
+              break;
+            case 'places':
+              this.loadPlaceCollection = true;
+              break;
+            case 'place':
+              this.placeId = value.params.placeId;
+              this.loadPlace = true;
+              break;
+            case 'reviews':
+              this.placeId = value.params.placeId;
+              this.loadPlaceReviewCollection = true;
+              break;
+            case 'add-review':
+              this.placeId = value.params.placeId;
+              break;
+            case 'review':
+              this.placeId = value.params.placeId;
+              this.reviewId = value.params.reviewId;
+              break;
+            case 'girls':
+              this.placeId = value.params.placeId;
+              this.loadPlaceGirlCollection = true;
+              break;
+            case 'add-girl':
+              this.placeId = value.params.placeId;
+              this.girlId = value.params.girlId;
+              break;
+            case 'girl':
+              this.placeId = value.params.placeId;
+              this.girlId = value.params.girlId;
+              break;
+            default:
+              break;
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

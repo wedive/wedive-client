@@ -1,0 +1,174 @@
+<link rel="import" href="../../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../../bower_components/google-map/google-map-search.html">
+<link rel="import" href="../../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../google-map/google-map-autocomplete.html">
+
+<dom-module id="place-input">
+  <style>
+    .mapContainer {
+      min-width: 300px;
+      height: 300px;
+    }
+  </style>
+  <template>
+    <google-map-autocomplete
+            api-key="[[apiKey]]"
+            longitude="{{longitude}}"
+            latitude="{{latitude}}"
+            country="{{country}}"
+            postal-code="{{postalCode}}"
+            city="{{city}}"
+            region="{{region}}"
+            street="{{street}}"
+            street-number="{{streetNumber}}">
+    </google-map-autocomplete>
+    <div class="mapContainer">
+      <google-map map="{{map}}" api-key="[[apiKey]]" latitude="{{mapCenterLatitude}}" longitude="{{mapCenterLongitude}}" zoom="{{zoom}}">
+        <template is="dom-if" if="[[marker]]">
+          <google-map-marker map="[[map]]" latitude="{{marker.latitude}}" longitude="{{marker.longitude}}">
+            <h2>test</h2>
+          </google-map-marker>
+        </template>
+      </google-map>
+    </div>
+    <content></content>
+  </template>
+</dom-module>
+
+<script>
+
+  (function () {
+    'use strict';
+
+    Polymer({
+
+      is: 'place-input',
+
+      properties: {
+
+        noDataZoom: {
+          type: Number,
+          value: 3
+        },
+
+        dataZoom: {
+          type: Number,
+          value: 14
+        },
+
+        apiKey: {
+          type: String
+        },
+
+        mapCenterLatitude: {
+          type: Number,
+          value: 45.466352
+        },
+
+        mapCenterLongitude: {
+          type: Number,
+          value: 9.188691
+        },
+
+        marker: {
+          type: Object,
+          notify: true,
+          value: null,
+          observer: '_markerChanged'
+        },
+
+        /**
+         * The point's longitude coordinate.
+         */
+        longitude: {
+          type: Number,
+          notify: true,
+          value: null
+        },
+
+        /**
+         * The point's latitude coordinate.
+         */
+        latitude: {
+          type: Number,
+          notify: true,
+          value: null
+        },
+
+        country: {
+          type: String,
+          notify: true,
+          value: null
+        },
+
+        postalCode: {
+          type: String,
+          notify: true,
+          value: null
+        },
+
+        city: {
+          type: String,
+          notify: true,
+          value: null
+        },
+
+        region: {
+          type: String,
+          notify: true,
+          value: null
+        },
+
+        street: {
+          type: String,
+          notify: true,
+          value: null
+        },
+
+        streetNumber: {
+          type: Number,
+          notify: true,
+          value: null
+        }
+      },
+
+      ready: function () {
+        this.zoom = this.noDataZoom;
+      },
+
+      _markerChanged: function (marker) {
+        if (marker) {
+          this.setMarker(marker.latitude, marker.longitude);
+        }
+      },
+
+      listeners: {
+        'place_loaded': 'loadMap'
+      },
+
+      loadMap: function (e) {
+        this.setMarker(e.target.latitude, e.target.longitude);
+      },
+
+      setMarker: function (latitude, longitude) {
+        this.zoom = this.dataZoom;
+        // Marker
+        if (this.marker === null) {
+          this.marker = {};
+        }
+        this.marker.latitude = latitude;
+        this.marker.longitude = longitude;
+        // Center Map
+        this.mapCenterLatitude = latitude;
+        this.mapCenterLongitude = longitude;
+        this.resize();
+      },
+
+      resize : function () {
+        Polymer.dom(this.root).querySelector('google-map').resize();
+      }
+    });
+
+  })();
+
+</script>

@@ -1,0 +1,99 @@
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/rest/form/rest-form.html">
+<link rel="import" href="../../dropdown-menu/dropdown-menu-input.html">
+<link rel="import" href="../../user-avatar/user-avatar.html">
+
+<dom-module id="strapieno-user-put">
+    <template>
+        <form
+            id="userAvatar"
+            is="apigility-rest-form"
+            content-type="multipart/form-data"
+            auth="[[auth]]">
+            <apigility-resource resource-name="rest/user" identifier="[[userId]]" has-identifier i-am-entity>
+                <apigility-resource resource-name="avatar">
+                </apigility-resource>
+            </apigility-resource>
+            <file-input label="Upload file" name="blob" auto-send></file-input>
+            <strapieno-user-avatar user="[[user]]" height="50" width="50" sizing="cover" placeholder="/images/avatar35x35.png"></strapieno-user-avatar>
+        </form>
+        <div hidden$="{{!genericError}}" style="color: red">
+            {{genericError}}
+        </div>
+        <form
+            id="userEdit"
+            is="apigility-rest-form"
+            identify="[[userId]]"
+            entity="{{user}}"
+            update-method="PATCH"
+            auth="[[auth]]"
+            generic-error="{{genericError}}"
+            auto-load="{{loadUser}}">
+            <apigility-resource resource-name="rest/user" identifier="[[userId]]" has-identifier></apigility-resource>
+            <paper-input name="user_name" label="Username"></paper-input>
+            <paper-input name="email" label="Email"></paper-input>
+            <paper-input name="first_name" label="First name"></paper-input>
+            <paper-input name="last_name" label="Last name"></paper-input>
+            <paper-input name="birth_date" type="date" label="Birth date"></paper-input>
+            <dropdown-menu-input name="role_id" label="Role">
+                <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                    <paper-item value="guest">Guest</paper-item>
+                    <paper-item value="god">God</paper-item>
+                </paper-menu>
+            </dropdown-menu-input>
+            <div class="layout horizontal end-justified">
+                <paper-button submit-button raised>UPDATE</paper-button>
+            </div>
+            </paper-menu>
+        </form>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'strapieno-user-put',
+
+                properties: {
+                    identityObject: {
+                        type: Object,
+                        value: null,
+                        notify: true
+                    }
+                },
+
+                listeners: {
+                    'rest-patch-response': 'userNotificationListener'
+                },
+
+                ready: function () {
+                    this.$.userAvatar.addEventListener('rest-form-response', this.loadUserListener.bind(this));
+                    this.$.userEdit.$.restClient.addEventListener('rest-get-response', this.checkUserAvatarListener.bind(this));
+                },
+
+                userNotificationListener: function (event) {
+                    this.fire('iron-signal', {name: 'notification', data: {entity: this.entity, type: 'user', method: 'PATCH'}});
+                },
+
+                loadUserListener: function (e) {
+                  this.$.userEdit.$.restClient.get();
+                },
+
+                checkUserAvatarListener: function (e) {
+                    if (!this.identityObject) {
+                        return
+                    }
+
+                    if (this.identityObject.id == e.detail.restClient.entity.id
+                        && this.identityObject.avatar != e.detail.restClient.entity.avatar)
+                    {
+                        this.fire('iron-signal', {name: 'identity-object', data: {identityObject: e.detail.restClient.entity}});
+                    }
+                }
+            });
+        })();
+    </script>
+
+</dom-module>

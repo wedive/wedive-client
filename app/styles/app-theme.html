@@ -1,0 +1,166 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/paper-styles-classes.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+
+<style is="custom-style">
+
+  :root {
+    --iron-image-width: 100%;
+    --iron-image-height: 100%;
+  }
+
+  /* General styles */
+  body {
+    @apply(--layout-fullbleed);
+    @apply(--layout-vertical);
+    font-family: 'Roboto', 'Noto', sans-serif;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 440px;
+    color: white;
+    background-image: url(/images/header.jpg);
+    background-position: bottom center;
+    background-size: cover;
+    z-index: 1;
+    --app-header-background-front-layer: {
+      background: -webkit-linear-gradient(top, transparent 0%, transparent 50%, rgba(0,0,0,0.5) 100%);
+    };
+
+    --app-header-background-rear-layer: {
+      background-color: #303f9f;
+    };
+  }
+
+  paper-icon-button {
+    --paper-icon-button-ink-color: white;
+  }
+
+  app-toolbar.tall {
+    height: 400px;
+  }
+
+  div.content {
+    padding-top: 440px;
+  }
+
+  [main-title] {
+    font-weight: 300;
+    position: absolute;
+    bottom: 40px;
+    left: 180px;
+    font-size: 45px;
+    margin: 0;
+  }
+
+  [condensed-title] {
+    font-weight: lighter;
+    margin-left: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  [condensed-title] i {
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  /*
+   *
+   */
+
+  .wrap-content {
+    width: 1280px;
+  }
+
+  .team-content {
+    @apply(--layout-horizontal);
+  }
+
+  .section-padding {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .team-content {
+    @apply(--layout-vertical);
+  }
+
+  .team-profile {
+    @apply(--layout-flex-4);
+  }
+
+  .work-team {
+    text-align: center;
+  }
+
+/**
+ * MEDIA QUERY
+ */
+
+  @media (max-width: 639px) {
+    [main-title] {
+      left: 85px;
+    }
+  }
+
+  @media (max-width: 1281px) {
+
+    .grid1280 {
+      display: none;
+    }
+
+    .team-image iron-image {
+      height: 250px !important;
+      width: 250px !important;
+    }
+
+    .team-image iron-image::content img {
+    background-color: red;
+    }
+  }
+
+  @media (max-width: 1025px) {
+
+    .grid1024 {
+      display: none;
+    }
+  }
+
+  @media (max-width: 841px) {
+
+    .grid841 {
+      display: none;
+    }
+
+    .section-padding {
+      padding-bottom: 0;
+    }
+
+    .team-profile {
+      padding-bottom: 50px;
+    }
+  }
+
+  @media  (min-width: 841px) {
+
+    .team-content {
+      @apply(--layout-horizontal);
+    }  }
+
+  @media (max-width: 481px) {
+
+    .grid480 {
+      display: none;
+    }
+  }
+
+</style>
+

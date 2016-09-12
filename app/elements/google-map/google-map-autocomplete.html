@@ -1,0 +1,139 @@
+
+
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/google-apis/google-maps-api.html">
+
+<dom-module id="google-map-autocomplete">
+    <template>
+        <google-maps-api id="api"
+                         api-key="[[apiKey]]"
+                         client-id="[[clientId]]"
+                         version="[[version]]"
+                         signed-in="[[signedIn]]"
+                         language="[[language]]"
+                         on-api-load="_mapApiLoaded"></google-maps-api>
+
+        <div id="map"></div>
+        <paper-input id="autocomplete" type="text" class="form-control" label="{{autoCompleteLabel}}"></paper-input>
+    </template>
+
+    <script>
+      Polymer({
+        is: 'google-map-autocomplete',
+
+          properties: {
+              /**
+               * The point's longitude coordinate.
+               */
+              longitude: {
+                  type: Number,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              /**
+               * The point's latitude coordinate.
+               */
+              latitude: {
+                  type: Number,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              country: {
+                  type: String,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              postalCode: {
+                  type: String,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              city: {
+                  type: String,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              region: {
+                  type: String,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              street: {
+                  type: String,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              streetNumber: {
+                  type: Number,
+                  readOnly: true,
+                  notify: true,
+                  value: null
+              },
+
+              autoCompleteLabel: {
+                  type: String,
+                  value: 'Search'
+              }
+          },
+
+        _mapApiLoaded: function (e) {
+
+            var input = this.$.autocomplete.$.input;
+            var options = { types: ['address'] };
+            this.autocomplete = new e.target.api.places.Autocomplete(input, options);
+            e.target.api.event.addListener(this.autocomplete, 'place_changed', this._resultApiSearch.bind(this));
+        },
+
+        _resultApiSearch: function (e) {
+
+          var place = this.autocomplete.getPlace();
+          this._setLatitude(place.geometry.location.lat());
+          this._setLongitude(place.geometry.location.lng());
+
+          // TODO clear data address
+          if (place.address_components) {
+            for (var i = 0; i < place.address_components.length; i++) {
+              var componentType = place.address_components[i].types[0];
+              switch(componentType) {
+                case 'locality':
+                  this._setCity(place.address_components[i]['short_name']);
+                  break;
+                case 'administrative_area_level_1':
+                    this._setRegion(place.address_components[i]['short_name']);
+                  break;
+                case 'postal_code':
+                  this._setPostalCode(place.address_components[i]['short_name']);
+                  break;
+                case 'country':
+                  // TODO locale country?
+                  this._setCountry(place.address_components[i]['long_name']);
+                  break;
+                case 'route':
+                  this._setStreet(place.address_components[i]['short_name']);
+                  break;
+                case 'street_number':
+                  this._setStreet(place.address_components[i]['short_name']);
+                  break;
+              }
+            }
+          }
+
+            this.fire('place_loaded');
+        }
+      });
+    </script>
+</dom-module>

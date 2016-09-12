@@ -1,0 +1,77 @@
+<link rel="import" href="../../../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../../bower_components/paper-datatable/paper-datatable.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-api-client.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-paginator.html">
+
+<dom-module id="strapieno-place-review-get-all">
+    <template>
+        <div class="layout horizontal end-justified">
+            <a href="/place/{{placeId}}/review/add">
+                <paper-fab icon="add" title="heart"></paper-fab>
+            </a>
+        </div>
+        <apigility-rest-api-client
+                collection-name="reviews"
+                collection="{{reviews}}"
+                page-count="{{pageCount}}"
+                page-size="[[pageSize]]"
+                page="[[page]]"
+                auth="{{auth}}"
+                auto-load="{{loadCollection}}">
+            <apigility-resource resource-name="rest/nightclub" identifier="[[placeId]]" has-identifier>
+                <apigility-resource resource-name="review" >
+                </apigility-resource>
+            </apigility-resource>
+        </apigility-rest-api-client>
+        <paper-datatable data="{{reviews}}">
+            <paper-datatable-column header="Rating" property="rating" object-property="rating_value" type="object" sortable></paper-datatable-column>
+            <paper-datatable-column header="Created" property="date_created" type="date" sortable></paper-datatable-column>
+            <paper-datatable-column header="Last modify" property="date_created" type="date" sortable></paper-datatable-column>
+            <paper-datatable-column property="id" type="String">
+                <template>
+                    <a href="/place/{{placeId}}/review/{{value}}">
+                        <paper-icon-button icon="datatable:editable"></paper-icon-button>
+                    </a>
+                </template>
+            </paper-datatable-column>
+        </paper-datatable>
+        <rest-pagination
+                page-count="{{pageCount}}"
+                page="{{page}}"
+                page-size="{{pageSize}}">
+        </rest-pagination>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'strapieno-place-review-get-all',
+
+                properties: {
+                    loadCollection :{
+                        type: Boolean,
+                        value: false
+                    }
+                },
+
+                observers: [
+                    'configRequest(placeId, loadCollection)'
+                ],
+
+                configRequest: function (placeId, loadCollection) {
+                    var apiRest = Polymer.dom(this.root).querySelector('apigility-rest-api-client');
+                    if (loadCollection === true && placeId) {
+                        apiRest.queries = {"place_id": placeId};
+                        this.canLoad = true;
+                    } else {
+                        apiRest.queries = null;
+                        this.canLoad = false;
+                    }
+                }
+            });
+        })();
+    </script>
+
+</dom-module>

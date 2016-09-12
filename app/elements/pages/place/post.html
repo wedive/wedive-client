@@ -1,0 +1,73 @@
+<link rel="import" href="../../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/rest/form/rest-form.html">
+<link rel="import" href="../../dropdown-menu/dropdown-menu-input.html">
+<link rel="import" href="../../user-avatar/user-avatar.html">
+
+<dom-module id="strapieno-place-post">
+    <template>
+        <form id="placeUpsert"
+              is="apigility-rest-form"
+              entity="{{entity}}"
+              update-method="PATCH"
+              auth="{{auth}}">
+            <apigility-resource resource-name="rest/nightclub"></apigility-resource>
+            <paper-input name="name" label="Name"></paper-input>
+            <paper-input name="fax_number" label="Fax number"></paper-input>
+            <paper-input name="telephone" label="Telephone"></paper-input>
+            <paper-input name="user_id" label="User id"></paper-input>
+            <dropdown-menu-input  name="type" label="Type">
+                <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                    <paper-item value="NightClub">Night Club</paper-item>
+                    <paper-item value="ClubPrive">Club Prive</paper-item>
+                </paper-menu>
+            </dropdown-menu-input>
+
+            <place-input
+                    api-key="[[apiKey]]"
+                    street="{{editiStreet}}"
+                    postal-code="{{postalCode}}"
+                    city="{{city}}"
+                    region="{{region}}"
+                    country="{{country}}"
+                    marker="{{entity.geo_coordinate}}"
+                    latitude="{{latitude}}"
+                    longitude="{{longitude}}"
+            >
+                <paper-input name="postal_address[street_address]" label="Address" value="{{editiStreet}}"></paper-input>
+                <paper-input name="postal_address[postal_code]" label="Postal code" value="{{postalCode}}"></paper-input>
+                <paper-input name="postal_address[address_locality]" label="City" value="{{city}}"></paper-input>
+                <paper-input name="postal_address[address_region]" label="Region" value="{{region}}"></paper-input>
+                <paper-input name="postal_address[address_country]" label="Country" value="{{country}}"></paper-input>
+                <input type="hidden" name="geo_coordinate[longitude]" value="{{longitude}}">
+                <input type="hidden" name="geo_coordinate[latitude]" value="{{latitude}}">
+            </place-input>
+            <div class="layout horizontal end-justified">
+                <paper-button submit-button raised>SAVE</paper-button>
+            </div>
+        </form>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'strapieno-place-post',
+
+                listeners: {
+                    'rest-post-response': 'userNotificationListener'
+                },
+
+                userNotificationListener: function (event) {
+                    this.fire(
+                        'iron-signal',
+                        {name: 'notification', data: {entity: this.entity, type: 'nightclub', method: 'POST'}}
+                    );
+                },
+
+            });
+        })();
+    </script>
+
+</dom-module>

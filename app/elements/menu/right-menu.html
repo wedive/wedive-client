@@ -1,0 +1,44 @@
+<link rel="import" href="../../../bower_components/paper-menu/paper-menu.html">
+<dom-module id="strapieno-right-menu">
+  <template>
+    <style>
+      iron-icon, paper-icon-button {
+        color: #111111;
+        opacity: 0.54;
+        padding-bottom: 16px;
+        padding-top: 16px;
+      }
+
+      .iron-selected {
+        color: var(--default-primary-color);
+      }
+    </style>
+
+      <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
+        <div class="layout horizontal center-justified">
+          <a href="/profile">
+            <iron-icon icon="verified-user"></iron-icon>
+          </a>
+        </div>
+        <div class="layout horizontal center-justified">
+            <iron-icon icon="power-settings-new" on-tap="_onTap" style="cursor:pointer;"></iron-icon>
+        </div>
+      </paper-menu>
+  </template>
+
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'strapieno-right-menu',
+
+        _onTap: function() {
+          this.fire('logout');
+        }
+
+      });
+    })();
+  </script>
+
+</dom-module>

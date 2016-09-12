@@ -1,0 +1,166 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../bower_components/iron-form-element-behavior/iron-form-element-behavior.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-behavior.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-container.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-error.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input-char-counter.html">
+
+
+<dom-module id="file-input">
+
+  <style>
+
+    :host {
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+      background: transparent;
+      outline: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+      z-index: 0;
+      text-align: left;
+    }
+
+    paper-input-container, #content, input {
+      display: inherit;
+    }
+
+    #content input {
+      cursor: pointer;
+    }
+
+    paper-input-error {
+      white-space: normal;
+    }
+
+    :host.no-padding paper-input-container {
+      padding: 0px !important;
+    }
+
+  </style>
+
+  <template>
+    <paper-input-container id="container" no-label-float="[[noLabelFloat]]"
+                           always-float-label="[[_computeAlwaysFloatLabel(alwaysFloatLabel,placeholder)]]"
+                           auto-validate$="[[autoValidate]]" disabled$="[[disabled]]" invalid="[[invalid]]">
+
+      <label hidden$="[[!label]]">[[label]]</label>
+
+      <template is="dom-if" if="[[_hasIcon(icon)]]">
+        <iron-icon icon="[[icon]]" prefix></iron-icon>
+      </template>
+
+      <div id="content">
+        <content>
+          <input is="iron-input" bind-value="[[value.name]]" readonly>
+        </content>
+      </div>
+
+      <input is="iron-input"
+         id="input"
+         type="file"
+         hidden
+         aria-labelledby$="[[_ariaLabelledBy]]"
+         aria-describedby$="[[_ariaDescribedBy]]"
+         disabled$="[[disabled]]"
+         invalid="{{invalid}}"
+         validator="[[validator]]"
+         placeholder$="[[placeholder]]"
+         required$="[[required]]">
+
+      <template is="dom-if" if="[[errorMessage]]">
+        <paper-input-error>[[errorMessage]]</paper-input-error>
+      </template>
+
+    </paper-input-container>
+  </template>
+</dom-module>
+
+<script>
+
+  (function () {
+
+    Polymer({
+
+      is: 'file-input',
+
+      properties: {
+
+        /**
+         * The value for this element.
+         *
+         */
+        value: {
+          type: Object,
+          notify: true,
+          readOnly: true
+        },
+
+        autoSend: {
+          type: Boolean,
+          value: false
+        },
+
+        noUnderline: {
+          type: Boolean,
+          value: false,
+          observer: '_noUnderlineChanged'
+        },
+
+        icon: String
+      },
+
+      behaviors: [
+        Polymer.IronFormElementBehavior,
+        Polymer.PaperInputBehavior,
+        Polymer.IronControlState
+      ],
+
+      listeners: {
+        'content.click': '_onContentClick',
+        'input.change': '_onFileChange'
+      },
+
+      _onContentClick: function () {
+        var elem = this.$.input;
+        if (elem && document.createEvent) { // sanity check
+          var evt = document.createEvent("MouseEvents");
+          evt.initEvent("click", true, false);
+          elem.dispatchEvent(evt);
+        }
+      },
+
+      _onFileChange: function (e) {
+        e.stopImmediatePropagation();
+        var file = e.target.files[0];
+        this._setValue(file ? file : null);
+        if (this.autoSend && this.parentElement instanceof HTMLFormElement) {
+          this.parentElement.submit();
+        }
+      },
+
+      _noUnderlineChanged: function (value) {
+        var underline = Polymer.dom(this.$.container.root).querySelector('.underline');
+        if (underline) {
+          underline.hidden = value;
+        }
+      },
+
+      _hasIcon: function(icon) {
+        return !(!icon || icon === '' || icon === true);
+      },
+
+      reset: function() {
+        this._setValue(null);
+        this.$.input.value = null;
+      }
+
+    });
+
+  })();
+
+</script>
