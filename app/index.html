@@ -10,101 +10,104 @@
 
 <span id="browser-sync-binding"></span>
 <template is="dom-bind" id="app">
-
-        <app-header fixed condenses
-                    effects="waterfall resize-snapped-title fade-background"
-                    effects-config='{"resize-snapped-title": {"startsAt": 0.8, "duration": "100ms"}, "fade-background": {"startsAt": 0.8, "endsAt": 0.9}}'>
-            <app-toolbar>
-                <paper-icon-button icon="menu"></paper-icon-button>
-                <h4 condensed-title>Wedive</h4>
-                <paper-icon-button icon="search"></paper-icon-button>
-            </app-toolbar>
-            <h1 main-title>Wedive</h1>
-        </app-header>
-        <div class="content">
-            <section>
-                <div class="layout horizontal center-justified">
-                    <div class="wrap-content">
-                        <div class="layout horizontal center-justified">
-                            <div>MISSION</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section>
-                <grid-row>
-                    <grid-image class="flex-2"  background="images/img6.jpg"></grid-image>
-                    <grid-image class="flex-2"  background="images/img5.jpg"></grid-image>
-                    <grid-image class="flex-2 grid480"  background="images/img4.jpg"></grid-image>
-                    <grid-image class="flex-2 grid841"  background="images/img3.jpg"></grid-image>
-                    <grid-image class="flex-2 grid1024"  background="images/img2.jpg"></grid-image>
-                    <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
-                </grid-row>
-                <grid-row>
-                    <grid-image class="flex-2"  background="images/img6.jpg"></grid-image>
-                    <grid-image class="flex-2"  background="images/img5.jpg"></grid-image>
-                    <grid-image class="flex-2 grid480"  background="images/img4.jpg"></grid-image>
-                    <grid-image class="flex-2 grid841"  background="images/img3.jpg"></grid-image>
-                    <grid-image class="flex-2 grid1024"  background="images/img2.jpg"></grid-image>
-                    <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
-                </grid-row>
-                <grid-row>
-                    <grid-image class="flex-2"  background="images/img6.jpg"></grid-image>
-                    <grid-image class="flex-2"  background="images/img5.jpg"></grid-image>
-                    <grid-image class="flex-2 grid480"  background="images/img4.jpg"></grid-image>
-                    <grid-image class="flex-2 grid841"  background="images/img3.jpg"></grid-image>
-                    <grid-image class="flex-2 grid1024"  background="images/img2.jpg"></grid-image>
-                    <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
-                </grid-row>
-            </section>
-            <section>
-                <div class="layout horizontal center-justified">
-                    <div class="wrap-content">
-                        <div class="team-content section-padding">
-                            <div class="team-profile">
-                                <div class="layout horizontal center-justified team-image">
-                                    <iron-image src="images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
-                                </div>
-                                <div class="layout horizontal center-justified padding-top-20">
-                                    <div>
-                                        <div class="layout vertical">
-                                            <span class="name-team">STO CAZZO</span>
-                                            <span class="work-team">proprio bello</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-profile">
-                                <div class="layout horizontal center-justified team-image">
-                                    <iron-image src="images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
-                                </div>
-                                <div class="layout horizontal center-justified padding-top-20">
-                                    <div>
-                                        <div class="layout vertical">
-                                            <span class="name-team">EMANUELE CAMPANINI</span>
-                                            <span class="work-team">nadd istructor</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="team-profile">
-                                <div class="layout horizontal center-justified team-image">
-                                    <iron-image src="images/avatar.png" class="circle" height="300" width="300"></iron-image>
-                                </div>
-                                <div class="layout horizontal center-justified padding-top-20">
-                                    <div>
-                                        <div class="layout vertical">
-                                            <span class="name-team">ANTONINO VISALLI</span>
-                                            <span class="work-team">Software architect</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <app-header fixed condenses
+                effects="waterfall resize-snapped-title fade-background"
+                effects-config='{"resize-snapped-title": {"startsAt": 0.8, "duration": "100ms"}, "fade-background": {"startsAt": 0.8, "endsAt": 0.9}}'>
+        <app-toolbar>
+            <h4 condensed-title>Wedive</h4>
+            <paper-icon-button icon="menu"></paper-icon-button>
+        </app-toolbar>
+        <div class="header-content">
+            <h1>Condividere i siti di immersione</h1>
         </div>
+        <div class="header-content">
+            <h2>Condividere i siti di immersione</h2>
+        </div>
+    </app-header>
+    <div class="content">
+        <section>
+            <div class="layout horizontal center-justified">
+                <div class="wrap-content">
+                    <div class="layout horizontal center-justified">
+                        <div>MISSION</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <grid-row>
+                <grid-image class="flex-2"  background="images/img6.jpg"></grid-image>
+                <grid-image class="flex-2"  background="images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+            <grid-row>
+                <grid-image class="flex-2"  background="images/img6.jpg"></grid-image>
+                <grid-image class="flex-2"  background="images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+            <grid-row>
+                <grid-image class="flex-2"  background="images/img6.jpg"></grid-image>
+                <grid-image class="flex-2"  background="images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+        </section>
+        <section>
+            <div class="layout horizontal center-justified">
+                <div class="wrap-content">
+                    <div class="team-content section-padding">
+                        <div class="team-profile">
+                            <div class="layout horizontal center-justified team-image">
+                                <iron-image src="images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
+                            </div>
+                            <div class="layout horizontal center-justified padding-top-20">
+                                <div>
+                                    <div class="layout vertical">
+                                        <span class="name-team">STO CAZZO</span>
+                                        <span class="work-team">proprio bello</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-profile">
+                            <div class="layout horizontal center-justified team-image">
+                                <iron-image src="images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
+                            </div>
+                            <div class="layout horizontal center-justified padding-top-20">
+                                <div>
+                                    <div class="layout vertical">
+                                        <span class="name-team">EMANUELE CAMPANINI</span>
+                                        <span class="work-team">nadd istructor</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-profile">
+                            <div class="layout horizontal center-justified team-image">
+                                <iron-image src="images/avatar.png" class="circle" height="300" width="300"></iron-image>
+                            </div>
+                            <div class="layout horizontal center-justified padding-top-20">
+                                <div>
+                                    <div class="layout vertical">
+                                        <span class="name-team">ANTONINO VISALLI</span>
+                                        <span class="work-team">Software architect</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </template>
 <script src="/bower_components/page/page.js"></script>
 <script src="/scripts/app.js"></script>
