@@ -1,5 +1,6 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../paper-rating/paper-rating.html">
 
 
 <dom-module id="grid-image">
@@ -9,10 +10,47 @@
       background-image: url(http://lorempixel.com/300/300);
       background-size:contain;
     }
+
+    .grid-image-class {
+      position: relative;
+      height: 100%;
+    }
+
+    .title {
+      text-align: right;
+      font-size: 20px;
+    }
+
+    .bottom {
+      color: #ffffff;
+      position: absolute;
+      bottom: 16px;
+      right: 0;
+      margin-bottom: 8px;
+      padding-right: 8px;
+    }
+
+    .rating {
+      color: #ffffff;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin-bottom: 8px;
+      padding-right: 8px;
+    }
   </style>
 
   <template>
     <div id="gridImage" class="grid-image-class">
+      <a id="placeSrc" href="{{createSrc()}}" hidden$="1"></a>
+      <div class="bottom">
+        <div class="title">{{title}}</div>
+      </div>
+      <template is="dom-if" if="{{rate}}">
+        <div class="rating">
+          <paper-rating rate="{{rate}}" readonly></paper-rating>
+        </div>
+      </template>
     </div>
   </template>
 </dom-module>
@@ -27,11 +65,19 @@
 
       properties: {
 
-        /**
-         * The value for this element.
-         *
-         */
-        class: {
+        title : {
+          type: String
+        },
+
+        place: {
+          type: Object
+        },
+
+        rate : {
+          type: Number
+        },
+
+        rewriteClass: {
           type: String,
           notify: true,
           observer: 'classChanged'
@@ -47,6 +93,26 @@
           type: String,
           value: false
         }
+      },
+
+      attached: function () {
+        if (this.src) {
+          this.style['cursor'] = 'pointer';
+          this.updateStyles();
+
+          this.listen(this, 'tap', 'onTap');
+        }
+
+      },
+
+
+      onTap: function (e) {
+        console.log('Schiacciatooooooooo');
+
+      },
+
+      createSrc: function () {
+     
       },
 
       classChanged: function (newValue) {

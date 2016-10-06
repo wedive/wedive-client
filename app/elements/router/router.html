@@ -1,126 +1,35 @@
 <link rel="import" href="../routing.html">
 
+<link rel="import" href="../pages/home/mission-section.html">
+<link rel="import" href="../pages/home/maps-section.html">
+<link rel="import" href="../pages/home/team-section.html">
+<link rel="import" href="../pages/home/grid-section.html">
+
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+
 <dom-module id="strapieno-router">
   <template>
     <style>
-      iron-pages {
-        padding: 24px 16px 56px;
-        min-height: 100%;
-        box-sizing: border-box;
-      }
 
-      @media (min-width: 640px) {
-        iron-pages {
-          padding: 24px 36px 56px;
-        }
-      }
+    ::content section {
+      padding-top: 120px;
+    }
     </style>
     <iron-pages attr-for-selected="data-route" selected="{{route}}">
       <!-- Home page -->
       <section data-route="dashboard">
+        <mission-section></mission-section>
+        <maps-section></maps-section>
+        <team-section></team-section>
+        <grid-section></grid-section>
+      </section>
 
-      </section>
-      <!-- List user -->
-      <section data-route="users">
-        <strapieno-user-get-all
-                auth="[[auth]]"
-                load-collection="{{loadUserCollection}}">
-        </strapieno-user-get-all>
-      </section>
-      <!-- Add user -->
-      <section data-route="user-add">
-        <strapieno-user-post
-                auth="[[auth]]"
-                id="addUserPage">
-        </strapieno-user-post>
-      </section>
-      <!-- User -->
-      <section data-route="user">
-        <strapieno-user-put
-                auth="[[auth]]"
-                user-id="[[userId]]"
-                identity-object="[[identityObject]]">
-        </strapieno-user-put>
-      </section>
-      <!-- Profile -->
-      <section data-route="profile">
-        <strapieno-user-put
-                auth="[[auth]]"
-                user-id="[[identityObject.id]]"
-                load-user="{{loadUser}}"
-                identity-object="{{identityObject}}">
-        </strapieno-user-put>
-      </section>
-      <!-- List place -->
-      <section data-route="places">
-        <strapieno-place-get-all
-                auth="[[auth]]"
-                load-collection="{{loadPlaceCollection}}">
-        </strapieno-place-get-all>
-      </section>
-      <!-- Place -->
       <section data-route="place">
-        <strapieno-place-put
-                auth="[[auth]]"
-                place-id="[[placeId]]"
-                load-place="{{loadPlace}}"
-                api-key="{{mapsApiKey}}">
-        </strapieno-place-put>
+        <div>sono un place</div>
       </section>
-      <!-- Add Place -->
-      <section data-route="place-add">
-        <strapieno-place-post
-                auth="[[auth]]"
-                id="addPlacePage"
-                api-key="{{mapsApiKey}}">
-        </strapieno-place-post>
-      </section>
-      <!-- List reviews -->
-      <section data-route="reviews">
-        <strapieno-place-review-get-all
-                auth="[[auth]]"
-                place-id="[[placeId]]"
-                load-collection="{{loadPlaceReviewCollection}}">
-        </strapieno-place-review-get-all>
-      </section>
-      <section data-route="add-review">
-        <strapieno-place-review-post
-                auth="[[auth]]"
-                id="addPlaceReviewPage"
-                place-id="[[placeId]]">
-        </strapieno-place-review-post>
-      </section>
-      <section data-route="review">
-        <strapieno-place-review-put
-                auth="[[auth]]"
-                place-id="[[placeId]]"
-                review-id="[[reviewId]]">
-        </strapieno-place-review-put>
-      </section>
-      <section data-route="girls">
-        <strapieno-place-girl-get-all
-                auth="[[auth]]"
-                place-id="[[placeId]]"
-                load-collection="{{loadPlaceGirlCollection}}">
-        </strapieno-place-girl-get-all>
-      </section>
-      <section data-route="add-girl">
-        <strapieno-place-girl-post
-                auth="[[auth]]"
-                id="addPlaceGirlPage"
-                place-id="[[placeId]]">
-        </strapieno-place-girl-post>
-      </section>
-      <section data-route="girl">
-        <strapieno-place-girl-put
-                auth="[[auth]]"
-                place-id="[[placeId]]"
-                girl-id="{{girlId}}">
-        </strapieno-place-girl-put>
-      </section>
-      <section data-route="not-found">
-       not found
-      </section>
+
 
     </iron-pages>
   </template>

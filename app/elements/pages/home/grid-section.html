@@ -1,7 +1,8 @@
 <link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../grid/grid-row.html">
+<link rel="import" href="../../grid/grid-image.html">
 
-<dom-module id="team-section">
+<dom-module id="grid-section">
     <template>
         <style>
             .wrap-content {
@@ -45,51 +46,32 @@
             }
         </style>
         <section>
-            <div class="layout horizontal center-justified">
-                <div class="wrap-content">
-                    <div class="team-content section-padding">
-                        <div class="team-profile">
-                            <div class="layout horizontal center-justified team-image">
-                                <iron-image src="/images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
-                            </div>
-                            <div class="layout horizontal center-justified padding-top-20">
-                                <div>
-                                    <div class="layout vertical">
-                                        <span class="name-team">STO CAZZO</span>
-                                        <span class="work-team">proprio bello</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-profile">
-                            <div class="layout horizontal center-justified team-image">
-                                <iron-image src="/images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
-                            </div>
-                            <div class="layout horizontal center-justified padding-top-20">
-                                <div>
-                                    <div class="layout vertical">
-                                        <span class="name-team">EMANUELE CAMPANINI</span>
-                                        <span class="work-team">nadd istructor</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-profile">
-                            <div class="layout horizontal center-justified team-image">
-                                <iron-image src="/images/avatar.png" class="circle" height="300" width="300"></iron-image>
-                            </div>
-                            <div class="layout horizontal center-justified padding-top-20">
-                                <div>
-                                    <div class="layout vertical">
-                                        <span class="name-team">ANTONINO VISALLI</span>
-                                        <span class="work-team">Software architect</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <grid-row>
+                <grid-image class="flex-2" title="Tube di falloppio" rate="3"  background="/images/img6.jpg" src="test">
+
+                </grid-image>
+                <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="/images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="/images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+            <grid-row>
+                <grid-image class="flex-2"  background="/images/img6.jpg"></grid-image>
+                <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="/images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="/images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+            <grid-row>
+                <grid-image class="flex-2"  background="/images/img6.jpg"></grid-image>
+                <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="/images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="/images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
         </section>
     </template>
     <script>
@@ -97,7 +79,7 @@
             'use strict';
 
             Polymer({
-                is: 'team-section'
+                is: 'grid-section'
             });
         })();
     </script>

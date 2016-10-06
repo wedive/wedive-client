@@ -1,83 +1,104 @@
-<link rel="import" href="../../../../bower_components/paper-fab/paper-fab.html">
-<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../../../bower_components/paper-datatable/paper-datatable.html">
-<link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-api-client.html">
-<link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-paginator.html">
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../../bower_components/iron-image/iron-image.html">
 
-<dom-module id="strapieno-place-get-all">
+<dom-module id="team-section">
     <template>
-        <div class="layout horizontal end-justified">
-            <a href="/place/add">
-                <paper-fab icon="add" title="heart"></paper-fab>
-            </a>
-        </div>
-        <apigility-rest-api-client
-                auth="{{auth}}"
-                collection-name="nightclubs"
-                collection="{{nightclubs}}"
-                page-count="{{nightclubPages}}"
-                page-size="[[nightclubPageSize]]"
-                page="[[nightclubPage]]"
-                auth="{{auth}}"
-                auto-load="{{loadCollection}}">
-            <apigility-resource resource-name="rest/nightclub"></apigility-resource>
-        </apigility-rest-api-client>
-        <template is="dom-if" if="{{hasCollection}}">
-            <paper-datatable data="{{nightclubs}}">
-                <paper-datatable-column header="Name" property="name" type="String" sortable></paper-datatable-column>
-                <paper-datatable-column header="Type" property="type" type="String" sortable></paper-datatable-column>
-                <paper-datatable-column header="Created" property="date_created" type="date" sortable></paper-datatable-column>
-                <paper-datatable-column header="Last modify" property="date_created" type="date" sortable></paper-datatable-column>
-                <paper-datatable-column property="id" type="String">
-                    <template>
-                        <a href="/place/{{value}}">
-                            <paper-icon-button icon="datatable:editable"></paper-icon-button>
-                        </a>
-                    </template>
-                </paper-datatable-column>
-            </paper-datatable>
-            <rest-pagination
-                    page-count="{{nightclubPages}}"
-                    page="{{nightclubPage}}"
-                    page-size="{{nightclubPageSize}}">
-            </rest-pagination>
-        </template>
-        <template is="dom-if" if="{{!hasCollection}}">
-           no place
-        </template>
+        <style>
+            .wrap-content {
+                width: 1280px;
+            }
+
+            .team-content {
+                @apply(--layout-vertical);
+            }
+
+            .work-team {
+                text-align: center;
+            }
+
+            .team-profile {
+                @apply(--layout-flex-4);
+            }
+
+            @media (max-width: 841px) {
+
+                .section-padding {
+                    padding-bottom: 0;
+                }
+
+                .team-profile {
+                    padding-bottom: 50px;
+                }
+            }
+
+            @media  (min-width: 841px) {
+
+                .team-content {
+                    @apply(--layout-horizontal);
+                }
+            }
+
+            @media (min-width: 640px) {
+                iron-pages {
+                    padding: 24px 36px 56px;
+                }
+            }
+        </style>
+        <section>
+            <div class="layout horizontal center-justified">
+                <div class="wrap-content">
+                    <div class="team-content section-padding">
+                        <div class="team-profile">
+                            <div class="layout horizontal center-justified team-image">
+                                <iron-image src="/images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
+                            </div>
+                            <div class="layout horizontal center-justified padding-top-20">
+                                <div>
+                                    <div class="layout vertical">
+                                        <span class="name-team">STO CAZZO</span>
+                                        <span class="work-team">proprio bello</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-profile">
+                            <div class="layout horizontal center-justified team-image">
+                                <iron-image src="/images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
+                            </div>
+                            <div class="layout horizontal center-justified padding-top-20">
+                                <div>
+                                    <div class="layout vertical">
+                                        <span class="name-team">EMANUELE CAMPANINI</span>
+                                        <span class="work-team">nadd istructor</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-profile">
+                            <div class="layout horizontal center-justified team-image">
+                                <iron-image src="/images/avatar.png" class="circle" height="300" width="300"></iron-image>
+                            </div>
+                            <div class="layout horizontal center-justified padding-top-20">
+                                <div>
+                                    <div class="layout vertical">
+                                        <span class="name-team">ANTONINO VISALLI</span>
+                                        <span class="work-team">Software architect</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </template>
     <script>
         (function() {
             'use strict';
 
             Polymer({
-                is: 'strapieno-place-get-all',
-
-                properties: {
-                    loadCollection :{
-                        type: Boolean,
-                        value: false
-                    },
-
-                    hasCollection: {
-                        type: Boolean,
-                        value: false
-                    }
-                },
-
-                observers: [
-                    '_collectionsChanged(nightclubs)'
-                ],
-
-                _collectionsChanged: function(nightclubs){
-                    if (Array.isArray(nightclubs) && nightclubs.length > 0) {
-                        this.hasCollection = true;
-                        return;
-                    }
-                    this.hasCollection = false;
-                }
+                is: 'team-section'
             });
         })();
     </script>
-
 </dom-module>

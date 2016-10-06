@@ -1,10 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-icon/iron-icon.html">
+
+<!--
+A Polymer element for star ratings.
+##### Basic usage (editable):
+    <paper-rating></paper-rating>
+##### Custom number of stars:
+    <paper-rating stars="10"></paper-rating>
+##### Default rate selected:
+    <paper-rating stars="10" rate="3"></paper-rating>
+##### Default rate custom icon:
+    <paper-rating icon="warning"></paper-rating>
+##### Not editable:
+    <paper-rating stars="10" rate="3" readonly></paper-rating>
+-->
+
+<dom-module id="paper-rating">
+    <style>
+        :host {
+            display: inline-block;
+            position: relative;
+            min-width: 80px;
+        }
+        :host([rtl]) {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+        }
+        .rating-wrapper {
+            display: inline-block;
+            min-width: 80px;
+            text-align: left;
+        }
+        .rating-wrapper > span {
+            position: relative;
+            width: 1.1em;
+            font-size: 1em;
+            cursor: default;
+            color: var(--divider-color);
+        }
+        :host(:not([readonly])) .rating-wrapper > span {
+            opacity: 0.7;
+            transition-duration: 150ms;
+        }
+        .rating-wrapper > span.active {
+            color: var(--accent-color);
+        }
+        .rating-wrapper:hover > span.editable {
+            cursor: pointer;
+            opacity: 1 !important;
+            color: var(--accent-color);
+            transition-duration: 150ms;
+        }
+        .rating-wrapper > span.editable:hover ~ span {
+            color: var(--divider-color);
+        }
+        .rating-wrapper > span.totals {
+            color: var(--secondary-text-color);
+            margin-left: 15px;
+            width: auto !important;
+        }
+        .rating-wrapper > span.text {
+            color: var(--secondary-text-color);
+            margin-left: 2px;
+            width: auto !important;
+        }
+        .rating-icon {
+            height: 16px;
+            width: 16px;
+            margin-top: -2px;
+        }
+        .rating-icon-mask {
+            height: 16px;
+            display: inline-block;
+            overflow: hidden;
+            color: var(--accent-color);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        .rating-wrapper:hover > span.editable .rating-icon-mask {
+            opacity: 0;
+            transition-duration: 150ms;
+        }
+        .content {
+            display: inline;
+            margin-left: 8px;
+            margin-right: 8px;
+            color: var(--secondary-text-color);
+            @apply(--paper-font-caption);
+        }
+    </style>
+
+    <template>
+        <div class="rating-wrapper">
+            <template is="dom-repeat" items="[[_computeStarsStack(stars)]]" as="value">
+                <!-- TODO: check data attribute correctly works -->
+                <span class$="[[_computeCssClass(value,rate,readonly)]]" on-tap="_setRate" data-value$="[[value]]">
+          <iron-icon class="rating-icon" icon="[[icon]]"></iron-icon>
+          <div class="rating-icon-mask" style$="[[_computeMaskStyle(value,rate)]]">
+            <iron-icon class="rating-icon" icon="[[icon]]"></iron-icon>
+          </div>
+        </span>
+            </template>
+            <template is="dom-if" if="[[showContent]]">
+                <p class="content"><content></content></p>
+            </template>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    (function () {
+        Polymer({
+            is: 'paper-rating',
+            properties: {
+                /**
+                 * stars: default number of stars to show
+                 * @type {Number}
+                 */
+                stars: {
+                    type: Number,
+                    value: 5
+                },
+                /**
+                 * icon: the icon to use. Options: 'star' (defualt), 'heart', 'face'
+                 * @type {String}
+                 */
+                icon: {
+                    type: String,
+                    value: 'star'
+                },
+                /**
+                 * rate: numbers of star selected
+                 * @type {Number}
+                 */
+                rate: {
+                    type: Number,
+                    value: 0,
+                    notify: true
+                },
+                readonly: {
+                    type: Boolean,
+                    value: false
+                },
+                showContent: {
+                    type: Boolean,
+                    value: false
+                }
+            },
+            _computeStarsStack: function(stars) {
+                var stack = [];
+                for (var i= 1; i <= stars; i++) {
+                    stack.push(i);
+                }
+                return stack;
+            },
+            _computeCssClass: function (value, rate, readonly) {
+                return [
+                    readonly ? '' : 'editable',
+                    value <= rate ? 'active' : ''
+                ].join(' ');
+            },
+            _computeMaskStyle: function(value, rate) {
+                var floor = Math.floor(rate);
+                if (floor === (value-1)) {
+                    var width = 16 * (rate - floor);
+                    return 'width: ' + width + 'px';
+                }
+                return 'display: none';
+            },
+            _setRate: function(e) {
+                if (this.readonly) {
+                    return;
+                }
+                var el = e.currentTarget;
+                if (el.hasAttribute('data-value')) {
+                    this.rate = el.getAttribute('data-value');
+                }
+            }
+        });
+    })();
+</script>

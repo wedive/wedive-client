@@ -9,7 +9,6 @@
     "app-layout": "polymerelements/app-layout#^0.10.0",
     "iron-grid": "The5heepDev/iron-grid#master",
     "page": "page.js#~1.7.1",
-    "paper-datatable": "git@github.com:visa4/paper-datatable.git#master",
     "google-map": "GoogleWebComponents/google-map#~1.1.10"
   },
   "devDependencies": {
