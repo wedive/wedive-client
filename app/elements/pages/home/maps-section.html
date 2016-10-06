@@ -1,0 +1,86 @@
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../grid/grid-row.html">
+<link rel="import" href="../../grid/grid-image.html">
+
+<dom-module id="grid-section">
+    <template>
+        <style>
+            .wrap-content {
+                width: 1280px;
+            }
+
+            .team-content {
+                @apply(--layout-vertical);
+            }
+
+            .work-team {
+                text-align: center;
+            }
+
+            .team-profile {
+                @apply(--layout-flex-4);
+            }
+
+            @media (max-width: 841px) {
+
+                .section-padding {
+                    padding-bottom: 0;
+                }
+
+                .team-profile {
+                    padding-bottom: 50px;
+                }
+            }
+
+            @media  (min-width: 841px) {
+
+                .team-content {
+                    @apply(--layout-horizontal);
+                }
+            }
+
+            @media (min-width: 640px) {
+                iron-pages {
+                    padding: 24px 36px 56px;
+                }
+            }
+        </style>
+        <section>
+            <grid-row>
+                <grid-image class="flex-2" title="Tube di falloppio" rate="3"  background="/images/img6.jpg">
+
+                </grid-image>
+                <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="/images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="/images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+            <grid-row>
+                <grid-image class="flex-2"  background="/images/img6.jpg"></grid-image>
+                <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="/images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="/images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+            <grid-row>
+                <grid-image class="flex-2"  background="/images/img6.jpg"></grid-image>
+                <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>
+                <grid-image class="flex-2 grid480"  background="/images/img4.jpg"></grid-image>
+                <grid-image class="flex-2 grid841"  background="/images/img3.jpg"></grid-image>
+                <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
+                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+            </grid-row>
+        </section>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'grid-section'
+            });
+        })();
+    </script>
+</dom-module>
