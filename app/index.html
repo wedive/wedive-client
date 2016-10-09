@@ -9,12 +9,14 @@
 <body class="fullbleed" unresolved>
 <span id="browser-sync-binding"></span>
 <template is="dom-bind" id="app">
+    <iron-meta type="apigility" key="base-url" value="{{config.base-url}}"></iron-meta>
     <app-header fixed condenses
                 effects="waterfall resize-snapped-title fade-background"
                 effects-config='{"resize-snapped-title": {"startsAt": 0.8, "duration": "100ms"}, "fade-background": {"startsAt": 0.8, "endsAt": 0.9}}'>
         <app-toolbar>
             <h4 condensed-title></h4>
-            <span>Pre registrazione</span>
+            <div main-title></div>
+            <paper-button onclick="preregistration.open()">Pre registrazione</paper-button>
         </app-toolbar>
         <div class="header-content">
             <h1>Condividere i siti di immersione</h1>
@@ -32,8 +34,27 @@
     <partial-footer>
 
     </partial-footer>
+    <paper-dialog id="preregistration">
+        <form id="registrationForm"
+              is="apigility-rest-form">
+            <apigility-resource resource-name="rest/user"></apigility-resource>
+            <paper-input name="email" label="Email"></paper-input>
+            <paper-dropdown-menu name="type" label="Type">
+                <paper-listbox class="dropdown-content">
+                    <paper-item>Subacquo</paper-item>
+                    <paper-item>Istruttore</paper-item>
+                    <paper-item>Diving</paper-item>
+                </paper-listbox>
+            </paper-dropdown-menu>
+            <div class="buttons">
+                <paper-button submit-button raised>Registrati</paper-button>
+                <paper-button dialog-confirm raised>Chiudi</paper-button>
+            </div>
+        </form>
+    </paper-dialog>
 </template>
 <script src="/bower_components/page/page.js"></script>
 <script src="/scripts/app.js"></script>
+
 </body>
 </html>
