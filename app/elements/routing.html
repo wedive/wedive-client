@@ -21,7 +21,7 @@
     /**
      * Place
      */
-    page('/place', scrollToTop, function(ctx) {
+    page('/place/:placeId', scrollToTop, function(ctx) {
       console.log('ROUTING', 'place');
       app.route = ctx.routeName =  'place';
       app.routeParams = ctx;

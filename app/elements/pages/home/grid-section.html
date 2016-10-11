@@ -21,6 +21,21 @@
                 @apply(--layout-flex-4);
             }
 
+            @media (max-width: 1281px) {
+
+                .grid1280 {
+                    display: none;
+                }
+            }
+
+            @media (max-width: 1025px) {
+
+                .grid1024 {
+                    display: none;
+                }
+            }
+
+
             @media (max-width: 841px) {
 
                 .section-padding {
@@ -30,6 +45,11 @@
                 .team-profile {
                     padding-bottom: 50px;
                 }
+
+                .grid841 {
+                    display: none;
+                }
+
             }
 
             @media  (min-width: 841px) {
@@ -44,10 +64,17 @@
                     padding: 24px 36px 56px;
                 }
             }
+            @media (max-width: 481px) {
+
+                .grid480 {
+                    display: none;
+                }
+            }
+
         </style>
         <section>
             <grid-row>
-                <grid-image class="flex-2" title="Tube di falloppio" rate="3"  background="/images/img6.jpg" src="test">
+                <grid-image class="flex-2" title="Tube di falloppio" rate="3"  background="/images/img6.jpg" src="http://libero.it">
 
                 </grid-image>
                 <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>

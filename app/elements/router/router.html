@@ -5,6 +5,8 @@
 <link rel="import" href="../pages/home/team-section.html">
 <link rel="import" href="../pages/home/grid-section.html">
 
+<link rel="import" href="../pages/place/profile.html">
+
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../../bower_components/iron-image/iron-image.html">
@@ -27,7 +29,7 @@
       </section>
 
       <section data-route="place">
-        <div>sono un place</div>
+        <place-profile plac-id="{{placeId}}"></place-profile>
       </section>
 
 
@@ -51,78 +53,17 @@
             type: Object,
             value: function () {return {};},
             observer: '_routeParamsChanged'
-          },
-
-          loadUserCollection: {
-            type: Boolean,
-            value: false
-          },
-
-          userId: {
-            type: String
-          },
-
-          loadPlaceCollection: {
-            type: Boolean,
-            value: false
-          },
-
-          placeId: {
-            type: String
-          },
-
-          reviewId: {
-            type: String
-          },
-
-          girlId: {
-            type: String
           }
         },
 
         _routeParamsChanged:  function (value) {
+
           switch(value.routeName) {
             case 'dashboard':
-              break;
-            case 'users':
-              this.loadUserCollection = true;
-              break;
-            case 'user':
-              this.userId = value.params.userId;
-              this.loadUser = true;
-              break;
-            case 'profile':
-              this.loadUser = true;
-              break;
-            case 'places':
-              this.loadPlaceCollection = true;
               break;
             case 'place':
               this.placeId = value.params.placeId;
               this.loadPlace = true;
-              break;
-            case 'reviews':
-              this.placeId = value.params.placeId;
-              this.loadPlaceReviewCollection = true;
-              break;
-            case 'add-review':
-              this.placeId = value.params.placeId;
-              break;
-            case 'review':
-              this.placeId = value.params.placeId;
-              this.reviewId = value.params.reviewId;
-              break;
-            case 'girls':
-              this.placeId = value.params.placeId;
-              this.loadPlaceGirlCollection = true;
-              break;
-            case 'add-girl':
-              this.placeId = value.params.placeId;
-              this.girlId = value.params.girlId;
-              break;
-            case 'girl':
-              this.placeId = value.params.placeId;
-              this.girlId = value.params.girlId;
               break;
             default:
               break;

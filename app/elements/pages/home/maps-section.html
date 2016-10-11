@@ -7,12 +7,32 @@
             .section-world {
                 height: 600px;
             }
+
+            .content-wrapper {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+                background-color: red;
+            }
+
+            @media (max-width: 841px) {
+
+                .content-wrapper{
+                    @apply(--layout-vertical-reverse);
+                }
+            }
         </style>
         <section>
-            <div class="layout horizontal center-justified section-world">
+            <div class="content-wrapper section-world">
                 <div class="flex-9">
-                    <google-map api-key="AIzaSyDqWIe-keAOSqpmBzxuGFw7NmewBDY22TE" zoom="3" latitude="20.53492712067565" longitude="0.6274550000000678">
-
+                    <google-map
+                      api-key="AIzaSyDqWIe-keAOSqpmBzxuGFw7NmewBDY22TE"
+                      zoom="3"
+                      latitude="20.53492712067565"
+                      longitude="0.6274550000000678"
+                      draggable="false"
+                      disable-zoom
+                      drag-events
+                      click-events>
                     </google-map>
                 </div>
                 <div class="flex-3">

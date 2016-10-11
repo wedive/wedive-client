@@ -12,12 +12,6 @@
     "google-map-api-key": "AIzaSyAqDcu1vu9rj_Fj-3qCxFKbwdozZFGZOOE"
   };
 
-
-  console.log('TESTTTTTTTTTTTTTTTTTTTT');
-
-
-
-
   app.openPreregistation = function () {
     cosole.log('apriti');
   };

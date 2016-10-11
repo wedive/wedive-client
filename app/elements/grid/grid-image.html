@@ -40,8 +40,8 @@
   </style>
 
   <template>
+    <a id="linkPlace" href="{{src}}" hidden$="1"></a>
     <div id="gridImage" class="grid-image-class">
-      <a id="placeSrc" href="{{createSrc()}}" hidden$="1"></a>
       <div class="bottom">
         <div class="title">{{title}}</div>
       </div>
@@ -68,10 +68,6 @@
           type: String
         },
 
-        place: {
-          type: Object
-        },
-
         rate : {
           type: Number
         },
@@ -90,12 +86,23 @@
 
         src: {
           type: String,
-          value: false
+          readOnly: true
+        },
+
+        place: {
+          type: Object,
+          value: {
+            "id": 31
+          }
         }
       },
 
+      observers: [
+        'placeChanged(place)'
+      ],
+
       attached: function () {
-        if (this.src) {
+        if (this.place) {
           this.style['cursor'] = 'pointer';
           this.updateStyles();
 
@@ -104,14 +111,14 @@
 
       },
 
-
-      onTap: function (e) {
-        console.log('Schiacciatooooooooo');
-
+      placeChanged: function (place) {
+        if (place) {
+          this._setSrc('/place/' + place.id);
+        }
       },
 
-      createSrc: function () {
-     
+      onTap: function (e) {
+        this.$.linkPlace.click();
       },
 
       classChanged: function (newValue) {
