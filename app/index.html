@@ -39,13 +39,12 @@
               is="apigility-rest-form">
             <apigility-resource resource-name="rest/user"></apigility-resource>
             <paper-input name="email" label="Email"></paper-input>
-            <paper-dropdown-menu name="type" label="Type">
-                <paper-listbox class="dropdown-content">
-                    <paper-item>Subacquo</paper-item>
-                    <paper-item>Istruttore</paper-item>
-                    <paper-item>Diving</paper-item>
-                </paper-listbox>
-            </paper-dropdown-menu>
+            <dropdown-menu-input  name="type" label="Type">
+                <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                    <paper-item value="diver">Subacquo</paper-item>
+                    <paper-item value="diverOwner">Proprietario di un diving</paper-item>
+                </paper-menu>
+            </dropdown-menu-input>
             <div class="buttons">
                 <paper-button submit-button raised>Registrati</paper-button>
                 <paper-button dialog-confirm raised>Chiudi</paper-button>
