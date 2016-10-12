@@ -34,23 +34,11 @@
     <partial-footer>
 
     </partial-footer>
-    <paper-dialog id="preregistration">
-        <form id="registrationForm"
-              is="apigility-rest-form">
-            <apigility-resource resource-name="rest/user"></apigility-resource>
-            <paper-input name="email" label="Email"></paper-input>
-            <dropdown-menu-input  name="type" label="Type">
-                <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
-                    <paper-item value="diver">Subacquo</paper-item>
-                    <paper-item value="diverOwner">Proprietario di un diving</paper-item>
-                </paper-menu>
-            </dropdown-menu-input>
-            <div class="buttons">
-                <paper-button submit-button raised>Registrati</paper-button>
-                <paper-button dialog-confirm raised>Chiudi</paper-button>
-            </div>
-        </form>
+    <paper-dialog id="preregistration" with-backdrop>
+        <registration-partial></registration-partial>
     </paper-dialog>
+    <iron-signals on-iron-signal-toast-notification="notificationHandler"></iron-signals>
+    <paper-toast id="notification"></paper-toast>
 </template>
 <script src="/bower_components/page/page.js"></script>
 <script src="/scripts/app.js"></script>

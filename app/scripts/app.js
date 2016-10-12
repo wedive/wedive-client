@@ -12,12 +12,11 @@
     "google-map-api-key": "AIzaSyAqDcu1vu9rj_Fj-3qCxFKbwdozZFGZOOE"
   };
 
-  app.openPreregistation = function () {
-    cosole.log('apriti');
+  app.notificationHandler = function (e) {
+    this.$.notification.text = e.detail.text;
+    this.$.notification.show();
+    this.$.preregistration.toggle();
   };
-
-
-
 
 
 
