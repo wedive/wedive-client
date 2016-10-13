@@ -1,22 +1,42 @@
+<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-api-client.html">
-<link rel="import" href="../../../../bower_components/polymer-apigility/rest/rest-paginator.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/api-resource.html">
 
 <dom-module id="place-profile">
     <template>
-        <apigility-rest-api-client
-                auth="{{auth}}"
-                collection-name="nightclubs"
-                collection="{{nightclubs}}"
-                page-count="{{nightclubPages}}"
-                page-size="[[nightclubPageSize]]"
-                page="[[nightclubPage]]"
-                auth="{{auth}}"
-                auto-load="{{loadCollection}}">
-            <apigility-resource resource-name="rest/nightclub"></apigility-resource>
+        <style>
+           .content-wrap {
+               @apply(--layout-horizontal);
+               @apply(--layout-center-justified);
+           }
+
+            .content {
+                width: var(--app-size-wrap-content);
+            }
+
+            .section {
+                @apply(--layout-flex);
+            }
+
+
+        </style>
+        <apigility-rest-api-client entity="{{entity}}" auto-load>
+            <apigility-resource resource-name="rest/place" identifier="{{placeId}}" has-identifier></apigility-resource>
         </apigility-rest-api-client>
-        <div>caricahiamo il gioco</div>
+        <div class="content-wrap">
+           <div class="content">
+               <div class="content-wrap">
+                    <div class="section">aaa</div>
+                    <div class="section">
+                        <h1>{{entity.name}}</h1>
+                        <p style="text-align: justify">{{entity.description}}</p>
+                        badge section
+                    </div>
+               </div>
+           </div>
+        </div>
     </template>
     <script>
         (function() {
@@ -26,8 +46,10 @@
                 is: 'place-profile',
 
                 properties: {
+
                     placeId :{
-                        type: String
+                        type: String,
+                        notify: true
                     }
                 }
             });
