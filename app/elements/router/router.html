@@ -22,10 +22,18 @@
     <iron-pages attr-for-selected="data-route" selected="{{route}}">
       <!-- Home page -->
       <section data-route="dashboard">
+        <apigility-rest-api-client
+                collection-name="places"
+                collection="{{places}}"
+                page-size="300"
+                page="1"
+                auto-load>
+          <apigility-resource resource-name="rest/place"></apigility-resource>
+        </apigility-rest-api-client>
         <mission-section></mission-section>
         <maps-section></maps-section>
         <team-section></team-section>
-        <grid-section></grid-section>
+        <grid-section places="{{places}}"></grid-section>
       </section>
 
       <section data-route="place">

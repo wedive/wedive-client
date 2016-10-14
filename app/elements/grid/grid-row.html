@@ -27,6 +27,19 @@
         'iron-request-resize-notifications': '_onResizer'
       },
 
+      attached: function () {
+        if (this.$.row.style.height == '0px') {
+          this.notifyResize();
+          this.debounce(
+             'resize',
+             function () {
+               this.notifyResize();
+             },
+            1000
+          );
+        }
+      },
+
       _onResize: function (e) {
 
         var widthElement = this.$.row.children[0].offsetWidth;

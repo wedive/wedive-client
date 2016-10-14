@@ -52,7 +52,7 @@
 
             }
 
-            @media  (min-width: 841px) {
+            @media (min-width: 841px) {
 
                 .team-content {
                     @apply(--layout-horizontal);
@@ -73,6 +73,7 @@
 
         </style>
         <section>
+            <!--
             <grid-row>
                 <grid-image class="flex-2" title="Tube di falloppio" rate="3"  background="/images/img6.jpg" src="http://libero.it">
 
@@ -91,13 +92,23 @@
                 <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
                 <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
             </grid-row>
+
+            -->
+
             <grid-row>
-                <grid-image class="flex-2"  background="/images/img6.jpg"></grid-image>
-                <grid-image class="flex-2"  background="/images/img5.jpg"></grid-image>
-                <grid-image class="flex-2 grid480"  background="/images/img4.jpg"></grid-image>
-                <grid-image class="flex-2 grid841"  background="/images/img3.jpg"></grid-image>
-                <grid-image class="flex-2 grid1024"  background="/images/img2.jpg"></grid-image>
-                <grid-image class="flex-2 grid1280"  background="images/img1.jpg"></grid-image>
+                <template is="dom-repeat" items="{{_firstRow}}">
+                    <grid-image  class$="{{computeClass(index)}}"  background="/images/img6.jpg"></grid-image>
+                </template>
+            </grid-row>
+            <grid-row>
+                <template is="dom-repeat" items="{{_secondRow}}" >
+                    <grid-image  class$="{{computeClass(index)}}" background="/images/img6.jpg"></grid-image>
+                </template>
+            </grid-row>
+            <grid-row>
+                <template is="dom-repeat" items="{{_thirdRow}}" >
+                    <grid-image class$="{{computeClass(index)}}"  background="/images/img{{index+1}}.jpg"></grid-image>
+                </template>
             </grid-row>
         </section>
     </template>
@@ -106,7 +117,53 @@
             'use strict';
 
             Polymer({
-                is: 'grid-section'
+                is: 'grid-section',
+                properties: {
+
+                    places: {
+                        type: Array
+                    }
+                },
+
+                observers: [
+                    'placesChanged(places)'
+                ],
+
+                computeClass: function (index) {
+                    var listClass = 'flex 2';
+
+                    switch(true) {
+                        case index === 2:
+                            listClass += ' grid480';
+                          break;
+                        case index === 3:
+                            listClass += ' grid841';
+                          break;
+                        case index === 4:
+                            listClass += ' grid1024';
+                          break;
+                        case index === 5:
+                            listClass += ' grid1280';
+                          break;
+                    }
+                    console.log(index, listClass);
+                    return listClass;
+                },
+
+                placesChanged: function (places) {
+                    this._firstRow = new Array();
+                    for (var i = 0; i < 6; i++) {
+                        this._firstRow.push(places[i]);
+                    }
+                    this._secondRow = new Array();
+                    for (var i = 6; i < 12; i++) {
+                        this._secondRow.push(places[i]);
+                    }
+                    this._thirdRow = new Array();
+                    for (var i = 12; i < 18; i++) {
+                        this._thirdRow.push(places[i]);
+                    }
+                }
             });
         })();
     </script>
