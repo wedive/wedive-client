@@ -74,18 +74,18 @@
         </style>
         <section>
             <grid-row>
-                <template is="dom-repeat" items="{{_firstRow}}" as>
-                    <grid-image  class$="{{computeClass(index)}}"  background="/images/img6.jpg"></grid-image>
+                <template is="dom-repeat" items="{{_firstRow}}" as="place">
+                    <grid-image  class$="{{computeClass(index)}}" place="{{place}}"></grid-image>
                 </template>
             </grid-row>
             <grid-row>
-                <template is="dom-repeat" items="{{_secondRow}}" >
-                    <grid-image  class$="{{computeClass(index)}}" background="/images/img6.jpg"></grid-image>
+                <template is="dom-repeat" items="{{_secondRow}}" as="place">
+                    <grid-image  class$="{{computeClass(index)}}" place="{{place}}"></grid-image>
                 </template>
             </grid-row>
             <grid-row>
                 <template is="dom-repeat" items="{{_thirdRow}}" as="place">
-                    <grid-image class$="{{computeClass(index)}}" place="{{place}}" background="{{place.id}}"></grid-image>
+                     <grid-image  class$="{{computeClass(index)}}" place="{{place}}"></grid-image>
                 </template>
             </grid-row>
         </section>
@@ -97,7 +97,17 @@
             Polymer({
                 is: 'grid-section',
                 properties: {
-
+                    employees: {
+                        type: Array,
+                        value: function() {
+                            return [
+                                { firstname: "Jack", lastname: "Aubrey" },
+                                { firstname: "Anne", lastname: "Elliot" },
+                                { firstname: "Stephen", lastname: "Maturin" },
+                                { firstname: "Emma", lastname: "Woodhouse" }
+                            ]
+                        }
+                    },
                     places: {
                         type: Array
                     }
@@ -128,18 +138,23 @@
                 },
 
                 placesChanged: function (places) {
-                    this._firstRow = new Array();
+                    var tmpRow = new Array();
                     for (var i = 0; i < 6; i++) {
-                        this._firstRow.push(places[i]);
+                        tmpRow.push(places[i]);
                     }
-                    this._secondRow = new Array();
+                    this._firstRow = tmpRow;
+
+                    var tmpRow = new Array();
                     for (var i = 6; i < 12; i++) {
-                        this._secondRow.push(places[i]);
+                        tmpRow.push(places[i]);
                     }
-                    this._thirdRow = new Array();
+                    this._secondRow = tmpRow;
+
+                    var tmpRow = new Array();
                     for (var i = 12; i < 18; i++) {
-                        this._thirdRow.push(places[i]);
+                        tmpRow.push(places[i]);
                     }
+                    this._thirdRow = tmpRow;
                 }
             });
         })();

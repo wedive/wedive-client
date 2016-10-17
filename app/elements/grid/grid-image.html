@@ -6,8 +6,8 @@
 
   <style>
     :host {
-      background-image: url(http://lorempixel.com/300/300);
-      background-size:contain;
+      background-size:cover;
+      background-repeat: no-repeat;
     }
 
     .grid-image-class {
@@ -43,7 +43,7 @@
     <a id="linkPlace" href="{{src}}" hidden$="1"></a>
     <div id="gridImage" class="grid-image-class">
       <div class="bottom">
-        <div class="title">{{title}}</div>
+        <div class="title">{{place.name}}</div>
       </div>
       <template is="dom-if" if="{{rate}}">
         <div class="rating">
@@ -69,19 +69,8 @@
         },
 
         rate : {
-          type: Number
-        },
-
-        rewriteClass: {
-          type: String,
-          notify: true,
-          observer: 'classChanged'
-        },
-
-        background: {
-          type: String,
-          value: false,
-          observer: 'backgroundChanged'
+          type: Number,
+          readOnly: true
         },
 
         src: {
@@ -114,6 +103,7 @@
       placeChanged: function (place) {
         if (place) {
           this._setSrc('/place/' + place.id);
+          this._changeBackground(place);
         }
       },
 
@@ -121,15 +111,10 @@
         this.$.linkPlace.click();
       },
 
-      classChanged: function (newValue) {
-        if (newValue) {
-          this.class = newValue;
-        }
-      },
 
-      backgroundChanged: function (newValue) {
-        if (newValue) {
-          this.style.backgroundImage = 'url(' + newValue + ')';
+      _changeBackground: function (place) {
+        if (place.cover) {
+          this.style.backgroundImage = 'url(' + place.cover + ')';
         }
       }
 

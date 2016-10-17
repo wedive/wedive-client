@@ -24,7 +24,6 @@
 
       listeners: {
         'iron-resize': '_onResize',
-        'iron-request-resize-notifications': '_onResizer'
       },
 
       attached: function () {
@@ -43,11 +42,7 @@
       _onResize: function (e) {
 
         var widthElement = this.$.row.children[0].offsetWidth;
-        this.$.row.style.height = (widthElement) + 'px';
-      },
-      _onResizer: function (e) {
-
-        var widthElement = this.$.row.children[0].offsetWidth;
+        console.log('RESIZE', widthElement);
         this.$.row.style.height = (widthElement) + 'px';
       }
     });
