@@ -50,7 +50,21 @@ Contenuto
             'use strict';
 
             Polymer({
-                is: 'maps-section'
+                is: 'maps-section',
+
+                properties: {
+                    places: {
+                        type: Array
+                    }
+                },
+
+                observers: [
+                    'placesChanged(places)'
+                ],
+
+                placesChanged: function (places) {
+                    console.log('CHANGE');
+                }
             });
         })();
     </script>
