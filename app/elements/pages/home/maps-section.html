@@ -1,5 +1,6 @@
 <link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../../../bower_components/google-map/google-map-marker.html">
 
 <dom-module id="maps-section">
     <template>
@@ -26,13 +27,16 @@
                 <div class="flex-9">
                     <google-map
                       api-key="AIzaSyDqWIe-keAOSqpmBzxuGFw7NmewBDY22TE"
-                      zoom="3"
-                      latitude="20.53492712067565"
-                      longitude="0.6274550000000678"
-                      draggable="false"
-                      disable-zoom
-                      drag-events
-                      click-events>
+                      zoom="7"
+                      max-zoom="14"
+                      min-zoom="7"
+                      latitude="44.264879216821896"
+                      longitude="9.156107191162176">
+                        <template is="dom-repeat" items="{{places}}" as="place">
+                            <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}">
+                                <h2>{{place.name}}</h2>
+                            </google-map-marker>
+                        </template>
                     </google-map>
                 </div>
                 <div class="flex-3">
@@ -58,12 +62,13 @@ Contenuto
                     }
                 },
 
-                observers: [
-                    'placesChanged(places)'
-                ],
-
-                placesChanged: function (places) {
-                    console.log('CHANGE');
+                attached: function () {
+                    var maps = this.querySelector('google-map');
+                    var marker = document.createElement('google-map-marker');
+                    marker.setAttribute('latitude', 44.0645037);
+                    marker.setAttribute('longitude', 9.6405873);
+                    marker.setAttribute('title', "Dynamic marker");
+                    Polymer.dom(maps).appendChild(marker);
                 }
             });
         })();

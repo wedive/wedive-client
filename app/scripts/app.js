@@ -12,112 +12,50 @@
     "google-map-api-key": "AIzaSyAqDcu1vu9rj_Fj-3qCxFKbwdozZFGZOOE"
   };
 
+  /**
+   * Notification handler to paper toast element
+   */
   app.notificationHandler = function (e) {
     this.$.notification.text = e.detail.text;
     this.$.notification.show();
     this.$.preregistration.toggle();
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   /**
-   * Slide left menu
+   * Load geolocation user information
    */
-  app.toggleMenu = function() {
+  app.requestCurrentPosition = function () {
+    this.currentPosition = null;
 
-    var drawerPanel = document.getElementById('paperDrawerPanel');
-    if (drawerPanel.narrow) {
-      drawerPanel.togglePanel();
-    } else {
-      drawerPanel.classList.toggle('collapsed-menu');
+    if (!navigator) {
+      return;
     }
+
+    navigator.geolocation.getCurrentPosition(
+        function (pos) {
+          this.currentPosition = pos.coords;
+          console.groupCollapsed('GEO');
+          console.log('LATITUDE : ' + this.currentPosition.latitude);
+          console.log('LONGITUDE: ' + this.currentPosition.longitude);
+          console.groupEnd();
+        }.bind(this),
+        function (error) {
+          console.warn('ERROR(' + err.code + '): ' + err.message);
+        },
+        []
+    );
   };
-
-  /**
-   * Slide right menu
-   */
-  app.toggleRightMenu = function() {
-
-    var drawerPanel = document.getElementById('rightPanel');
-    drawerPanel.togglePanel();
-  };
-
-  /**
-   * Logout user
-   */
-   app.logout = function() {
-    var rightMenu = document.querySelector('strapieno-right-menu');
-    if (rightMenu) {
-     rightMenu.addEventListener('logout', function (e) {
-         var auth = document.querySelector('apigility-auth-service');
-         auth.logout();
-       });
-     } else {
-       console.warn('strapieno-right-menu not found');
-     }
-
-  };
-
-  var tt = document.querySelector('#addUserPage strapieno-right-menu');
 
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
-    //document.getElementById('mainContainer').scrollTop = 1;
+    // TODO understand
   };
 
+  /**
+   * Set of function for the boot of the application
+   */
   app.boot = function () {
-    this.logout();
-  };
-
-  app.notificationListener = function (event) {
-    var toast = document.getElementById('notificationToast');
-    switch (event.detail.type) {
-      case 'user' :
-        switch (event.detail.method.toUpperCase()) {
-          case 'POST' :
-            toast.text = 'User creation complete';
-            break;
-          case 'PATCH' :
-            toast.text = 'User update complete';
-            break;
-          default :
-            console.warn('Wrong config notification', event)
-        }
-        break;
-      case 'nightclub' :
-        switch (event.detail.method.toUpperCase()) {
-          case 'POST' :
-            toast.text = 'Nightclub creation complete';
-            break;
-          case 'PATCH' :
-            toast.text = 'Nightclub update complete';
-            break;
-          default :
-            console.warn('Wrong config notification', event)
-        }
-        break;
-      default :
-        console.warn('Wrong config notification', event)
-    }
-    toast.open();
-  };
-
-  app.refresh = function () {
-    location.reload();
+    app.requestCurrentPosition();
   };
 
   /**

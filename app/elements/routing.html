@@ -12,25 +12,34 @@
      * Home
      */
     page('/', scrollToTop, function(ctx) {
-      console.log('ROUTING', 'home');
       app.route = ctx.routeName = 'dashboard';
       app.routeParams = ctx;
       app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
     });
 
     /**
      * Place
      */
     page('/place/:placeId', scrollToTop, function(ctx) {
-      console.log('ROUTING', 'place');
+
       app.route = ctx.routeName =  'place';
       app.routeParams = ctx;
       app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
     });
 
-    // add #! before urls
+    /**
+     * Settings Routing
+     */
     page({
-      hashbang: false
+      hashbang: false // Not insert # berfor sub route
     });
   });
 </script>

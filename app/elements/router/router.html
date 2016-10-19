@@ -22,7 +22,7 @@
     <iron-pages attr-for-selected="data-route" selected="{{route}}">
       <!-- Home page -->
       <section data-route="dashboard">
-        <apigility-rest-api-client collection-name="places" collection="{{places}}" page-size="300" page="1" auto-load>
+        <apigility-rest-api-client id="restPlaces" collection-name="places" collection="{{places}}" page-size="300" page="1">
           <apigility-resource resource-name="rest/place"></apigility-resource>
         </apigility-rest-api-client>
         <mission-section></mission-section>
@@ -57,6 +57,18 @@
             value: function () {return {};},
             observer: '_routeParamsChanged'
           }
+        },
+
+        ready: function () {
+
+          {}
+          var query = new Array();
+          query['hide'] = ['description', 'postal_address'];
+          this.querySelector('apigility-rest-api-client').getAll(query);
+        },
+
+        addQueryParmsHandler: function (e) {
+          console.log('PRESEND', e);
         },
 
         _routeParamsChanged:  function (value) {
