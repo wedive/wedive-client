@@ -1,0 +1,70 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-a11y-announcer/iron-a11y-announcer.html">
+<link rel="import" href="../../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+
+<dom-module id="cookie-consent2">
+  <template>
+
+    <style>
+
+
+      :host {
+
+        bottom: 0px;
+        right: 0px;
+        display: block;
+        position: fixed;
+        height: 200px;
+        width: 200px;
+        background-color: red !important;
+        color: black;
+        padding: 8px 24px;
+        box-sizing: border-box;
+        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+        border-radius: 2px;
+        margin: 12px;
+        font-size: 14px;
+        cursor: default;
+        -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+        transition: transform 0.3s, opacity 0.3s;
+        opacity: 0;
+      }
+
+    </style>
+
+    <div id="wrap-content">
+      <div id="content">
+        <span id="label">[[text]]</span>
+      </div>
+      <div id="action">
+fdsfsdfsdaf
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'cookie-consent2',
+
+      behaviors: [
+        Polymer.IronOverlayBehavior
+      ],
+
+      properties: {
+
+        /**
+         * The text to display.
+         */
+        text: {
+          type: String
+        }
+      }
+    });
+
+  </script>
+</dom-module>
