@@ -1,113 +1,57 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../../../bower_components/iron-a11y-announcer/iron-a11y-announcer.html">
-<link rel="import" href="../../../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="cookie-consent">
   <template>
 
     <style>
-      :root {
-        --paper-button: {
-          font-weight: 400;
-          font-size: 14px;
-          min-width: 5.14em;
-          margin: 0 8px;
-        }
+
+      paper-dialog.size-position {
+        font-size: 16px;
+        position: fixed;
+        top: 78px;
+        right: 0px;
+        width: 300px;
+        overflow: auto;
+        text-align: justify;
+        background-color: var(--primary-text-color);
+        color: var(--text-primary-color);
       }
 
       paper-button {
-        background-color: transparent;
-        color: var(--app-accent-color);
+        background-color: var(--text-primary-color);
+        color: var(--primary-text-color);
       }
 
-      a {
-        display: inline-block;
-        color: #fff;
-        text-decoration: none;
-        font-weight: 700;
-        cursor: pointer;
+      .content {
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
       }
 
-      a:hover {
-        color: var(--app-accent-color);
-      }
+      @media (max-width: 321px) {
 
-      :host {
-        display: block;
-        background-color: var(--early-cookie-consent-background-color, #323232);
-        color: var(--early-cookie-consent-color, #f1f1f1);
-        padding: 8px 24px;
-        box-sizing: border-box;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-        border-radius: 2px;
-        margin: 12px;
-        font-size: 14px;
-        cursor: default;
-        -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
-        transition: transform 0.3s, opacity 0.3s;
-        opacity: 0;
-      }
-
-      :host([fit]) {
-        margin: 0;
-        right: 0;
-        left: 0;
-      }
-
-      :host([bottom]) {
-        -webkit-transform: translateY(100px);
-        transform: translateY(100px);
-        @apply(--layout-fixed-bottom);
-      }
-
-      :host([top]) {
-        -webkit-transform: translateY(-100px);
-        transform: translateY(-100px);
-        @apply(--layout-fixed-top);
-      }
-
-      :host(.early-cookie-consent-open) {
-        opacity: 1;
-        -webkit-transform: translateY(0px);
-        transform: translateY(0px);
-      }
-
-      #c {
-        @apply(--layout-horizontal);
-        @apply(--layout-wrap);
-        @apply(--layout-center);
-      }
-
-      #l, #r {
-        @apply(--layout-flex-auto);
-        width: 50%;
-      }
-
-      #r {
-        text-align: right;
-      }
-
-      @media (max-width: 767px) {
-        #l, #r {
-          width: 100%;
-          text-align: center;
+        paper-dialog.size-position {
+          margin: 24px 20px;
         }
       }
 
+      @media (max-width: 481px) {
+
+        paper-dialog.size-position {
+          width: auto;
+        }
+      }
 
     </style>
 
-    <div id="c">
-      <div id="l">
-        <span id="label">[[text]]</span>
-        <a href$="[[infoHref]]" on-tap="infoHandler">[[infoLabel]]</a>.
+    <paper-dialog id="consentDialog" class="size-position">
+      <div class="content">
+        <div>{{text}}</div>
+        <paper-button on-tap="accept">{{textButton}}</paper-button>
       </div>
-      <div id="r">
-        <paper-button on-tap="close">[[buttonLabel]]</paper-button>
-      </div>
-    </div>
+    </paper-dialog>
 
   </template>
 
@@ -117,137 +61,45 @@
 
       is: 'cookie-consent',
 
-      behaviors: [
-        Polymer.IronOverlayBehavior
-      ],
-
       properties: {
 
         /**
          * The text to display.
          */
-        text: String,
-
-        infoHref: String,
-
-        infoLabel: String,
-
-        infoHandler: {
-          type: Function,
-          value: function() {}
+        text: {
+          type: String
         },
 
-        buttonLabel: {
-          type: String,
-          value: 'Accept'
-        },
-
-        expiresInDays: {
-          type: Number,
-          value: 365
-        },
-
-        cookiePath: {
-          type: String,
-          value: '/'
-        },
-
-        noCancelOnScroll: {
-          type: Boolean,
-          value: false
-        },
-
-        noCancelOnNavigation: {
-          type: Boolean,
-          value: false
-        }
-
-      },
-
-      listeners: {
-        'transitionend': '_onTransitionEnd'
-      },
-
-      created: function() {
-        Polymer.IronA11yAnnouncer.requestAvailability();
-      },
-
-      /**
-       * Overridden from `IronOverlayBehavior`.
-       * Called when the value of `opened` changes.
-       */
-      _openedChanged: function() {
-        this.text && this.fire('iron-announce', { text: this.text }, { bubbles: true });
-        !this.opened && this._readied && this._setCookie();
-
-        Polymer.IronOverlayBehaviorImpl._openedChanged.apply(this, arguments);
-      },
-
-      /**
-       * Overridden from `IronOverlayBehavior`.
-       */
-      _renderOpened: function() {
-        this.classList.add('early-cookie-consent-open');
-      },
-      /**
-       * Overridden from `IronOverlayBehavior`.
-       */
-      _renderClosed: function() {
-        this.classList.remove('early-cookie-consent-open');
-      },
-
-      /**
-       * Called on transitions, indicating a finished animation
-       * @private
-       */
-      _onTransitionEnd: function(e) {
-        // There are different transitions that are happening when opening and closing.
-        // The last one so far is for `opacity`.
-        // This marks the end of the transition, so we check for this to determine if this is the correct event.
-        if (e && e.target === this && e.propertyName === 'opacity') {
-          if (this.opened) {
-            this._finishRenderOpened();
-          } else {
-            this._finishRenderClosed();
-          }
+        buttonText: {
+          type: String
         }
       },
 
-      _cookieExists: function() {
-        return document.cookie.indexOf('acceptCookies') >= 0;
-      },
-
-      ready: function() {
-        if (this._cookieExists()) {
-          return;
+      ready: function () {
+        if (!this._hasCookie()) {
+          this.$.consentDialog.toggle();
         }
-
-        !this.noCancelOnNavigation && window.addEventListener('hashchange', this._onCaptureNavigation.bind(this), false);
-        !this.noCancelOnScroll && document.addEventListener('scroll', this._onCaptureScroll.bind(this), true);
-        this.opened = true;
       },
 
-      _onCaptureNavigation: function(event) {
-        !this.noCancelOnNavigation && this.cancel(event);
+      accept: function () {
+        this._writeCookie();
+        this.$.consentDialog.toggle();
       },
 
-      _onCaptureScroll: function(event) {
-        !this.noCancelOnScroll && this.cancel(event);
+      _hasCookie: function () {
+        var find = false;
+        if (document.cookie.indexOf("accept") != -1) {
+          find = true;
+        }
+        return find;
       },
 
-      _setCookie: function() {
-        var date = new Date();
-        date.setTime(+ date + (this.expiresInDays * 86400000));
-        document.cookie = 'acceptCookies=1; expires=' + date.toGMTString() + '; path=' + this.cookiePath;
+      _writeCookie: function () {
+        var name = 'accept';
+        var expire = 'Fri, 31 Dec 9999 23:59:59 GMT'; // Forever
+        document.cookie = name + '=1; expires=' + expire + '; path=/';
+
       }
-
-      /**
-       * Fired when `early-cookie-consent` is opened.
-       *
-       * @event 'iron-announce'
-       * @param {{text: string}} detail Contains text that will be announced.
-       */
-
     });
 
   </script>

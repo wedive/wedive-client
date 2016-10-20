@@ -35,6 +35,21 @@
       console.groupEnd();
     });
 
+
+      /**
+       * Place
+       */
+      page('/privacy', scrollToTop, function(ctx) {
+
+          app.route = ctx.routeName =  'privacy';
+          app.routeParams = ctx;
+          app.notifyPath('routeParams', ctx);
+          console.groupCollapsed('ROUTE');
+          console.log('NAME : ' + app.route);
+          console.log('PARAMS:',   app.routeParams);
+          console.groupEnd();
+      });
+
     /**
      * Settings Routing
      */
