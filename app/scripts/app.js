@@ -4,14 +4,6 @@
 (function(document) {
   'use strict';
 
-  // TODO move into another file
-  app.config = {
-    "client_id": "strapieno-admin",
-    "base-url-rest" : "http://127.0.0.72/rest",
-    "base-url" : "http://127.0.0.72",
-    "google-map-api-key": "AIzaSyAqDcu1vu9rj_Fj-3qCxFKbwdozZFGZOOE"
-  };
-
   /**
    * Notification handler to paper toast element
    */
