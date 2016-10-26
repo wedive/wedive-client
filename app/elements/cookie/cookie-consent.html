@@ -48,8 +48,8 @@
 
     <paper-dialog id="consentDialog" class="size-position">
       <div class="content">
-        <div>{{text}}</div>
-        <paper-button on-tap="accept">{{textButton}}</paper-button>
+        <div>{{text}} <a href="{{linkSrc}}">{{linkText}}</a></div>
+        <paper-button on-tap="accept">{{buttonText}}</paper-button>
       </div>
     </paper-dialog>
 
@@ -67,6 +67,14 @@
          * The text to display.
          */
         text: {
+          type: String
+        },
+
+        linkText: {
+          type: String
+        },
+
+        linkSrc: {
           type: String
         },
 
