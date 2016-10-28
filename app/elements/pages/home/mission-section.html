@@ -1,15 +1,98 @@
-<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="mission-section">
     <template>
         <style>
 
-        </style>
+            .content {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+            .lh-cj {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+            .lv {
+                @apply(--layout-vertical);
+            }
+
+            h1 {
+                font-weight: normal;
+                font-size: 26px;
+            }
+
+            h2 {
+                font-weight: normal;
+                text-align: center;
+                font-size: 20px;
+            }
+
+            @media (max-width: 841px) {
+
+                .content {
+                    text-align: center;
+                    @apply(--layout-vertical);
+                }
+            }
+
+            p {
+                font-weight: 300;
+                font-size: 16px;
+                line-height: 24px;
+                text-align: center;
+                letter-spacing: .1px;
+                max-width: 400px;
+            }
+
+            .mission-sectiop {
+                @apply(--layout-flex);
+                padding: 8px;
+            }
+        </style>p
         <section>
-            <div class="layout horizontal center-justified">
-                <div class="wrap-content">
-                    <div class="layout horizontal center-justified">
-                        <div>MISSION</div>
+            <div class="content">
+                <h1>Trova e condividi le tue immersioni</h1>
+            </div>
+            <div class="content">
+                <div class="mission-sectiop">
+                    <div class="lh-cj">
+                        <iron-image src="/images/avatar35x35.png" class="circle team-image" height="300" width="300"></iron-image>
+                    </div>
+                    <div class="lh-cj">
+                        <div>
+                            <div class="lv">
+                                <h2>Trova il sito di immersione più vicino</h2>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mission-sectiop">
+                    <div class="lh-cj">
+                        <iron-image src="/images/avatar35x35.png" class="circle team-image" height="300" width="300"></iron-image>
+                    </div>
+                    <div class="lh-cj">
+                        <div>
+                            <div class="lv">
+                                <h2>Trova il divig più vicino</h2>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mission-sectiop">
+                    <div class="lh-cj">
+                        <iron-image src="/images/avatar35x35.png" class="circle" height="300" width="300"></iron-image>
+                    </div>
+                    <div class="lh-cj">
+                        <div>
+                            <div class="lv">
+                                <h2>Condividi la tua immersione</h2>
+                                <p>Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

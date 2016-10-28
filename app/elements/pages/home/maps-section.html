@@ -1,6 +1,6 @@
-<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../../../../bower_components/google-map/google-map.html">
-<link rel="import" href="../../../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../../bower_components/google-map/google-map-marker.html">
 
 <dom-module id="maps-section">
     <template>
@@ -12,8 +12,33 @@
             .content-wrapper {
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
-                background-color: red;
+                background-color: var(--light-primary-color);
             }
+
+            .fl-9 {
+                @apply(--layout-flex-9);
+            }
+
+            .fl-3 {
+                @apply(--layout-flex-3);
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+            .text-content {
+                @apply(--layout-vertical);
+                @apply(--layout-center-justified);
+            }
+
+            p {
+                font-weight: 300;
+                font-size: 16px;
+                line-height: 24px;
+                text-align: center;
+                letter-spacing: .1px;
+                max-width: 250px;
+            }
+
 
             @media (max-width: 841px) {
 
@@ -24,7 +49,7 @@
         </style>
         <section>
             <div class="content-wrapper section-world">
-                <div class="flex-9">
+                <div class="fl-9">
                     <google-map
                       api-key="AIzaSyDqWIe-keAOSqpmBzxuGFw7NmewBDY22TE"
                       zoom="7"
@@ -39,11 +64,9 @@
                         </template>
                     </google-map>
                 </div>
-                <div class="flex-3">
-                    <div  class="layout horizontal center-justified" style="height: 100%">
-                        <div class="layout vertical center-justified">
-Contenuto
-                        </div>
+                <div class="fl-3">
+                    <div  class="text-content">
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
                     </div>
                 </div>
             </div>

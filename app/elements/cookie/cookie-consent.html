@@ -20,6 +20,10 @@
         color: var(--text-primary-color);
       }
 
+      div.content div {
+        margin-bottom: 24px;
+      }
+
       paper-button {
         background-color: var(--text-primary-color);
         color: var(--primary-text-color);
@@ -28,6 +32,11 @@
       .content {
         @apply(--layout-vertical);
         @apply(--layout-center-center);
+      }
+
+      a {
+        color: var(--accent-color);
+        text-decoration: none;
       }
 
       @media (max-width: 321px) {

@@ -1,5 +1,7 @@
-<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../paper-rating/paper-rating.html">
+<link rel="import" href="../../styles/colors.html">
 
 
 <dom-module id="grid-image">
@@ -8,48 +10,39 @@
     :host {
       background-size:cover;
       background-repeat: no-repeat;
+      @apply(--layout-horizontal);
+      @apply(--layout-flex);
+      @apply(--layout-end);
     }
 
-    .grid-image-class {
-      position: relative;
-      height: 100%;
+    .container {
+      padding: 16px;
+      color: white;
     }
 
-    .title {
-      text-align: right;
-      font-size: 20px;
+    .name {
+      font-size: 18px;
     }
 
-    .bottom {
-      color: #ffffff;
-      position: absolute;
-      bottom: 16px;
-      right: 0;
-      margin-bottom: 8px;
-      padding-right: 8px;
+    ::content .rating-wrapper > span.active {
+      color: var(--accent-color) !important;
     }
 
     .rating {
-      color: #ffffff;
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      margin-bottom: 8px;
-      padding-right: 8px;
+      height: 16px;
     }
+
   </style>
 
   <template>
     <a id="linkPlace" href="{{src}}" hidden$="1"></a>
-    <div id="gridImage" class="grid-image-class">
-      <div class="bottom">
-        <div class="title">{{place.name}}</div>
-      </div>
-      <template is="dom-if" if="{{rate}}">
-        <div class="rating">
+    <div class="container">
+      <div class="name">{{place.name}}</div>
+      <div class="rating">
+        <template is="dom-if" if="{{rate}}">
           <paper-rating rate="{{rate}}" readonly></paper-rating>
-        </div>
-      </template>
+        </template>
+      </div>
     </div>
   </template>
 </dom-module>
@@ -79,10 +72,7 @@
         },
 
         place: {
-          type: Object,
-          value: {
-            "id": 31
-          }
+          type: Object
         }
       },
 
@@ -91,6 +81,7 @@
       ],
 
       attached: function () {
+
         if (this.place) {
           this.style['cursor'] = 'pointer';
           this.updateStyles();
@@ -101,9 +92,11 @@
       },
 
       placeChanged: function (place) {
+
         if (place) {
           this._setSrc('/place/' + place.id);
           this._changeBackground(place);
+          this._calculateRating(place);
         }
       },
 
@@ -115,6 +108,13 @@
       _changeBackground: function (place) {
         if (place.cover) {
           this.style.backgroundImage = 'url(' + place.cover + ')';
+        }
+      },
+
+      _calculateRating: function(place) {
+
+        if (place.aggregate_rating && place.aggregate_rating.review_count != null && place.aggregate_rating.rating_count != null) {
+          this._setRate(place.aggregate_rating.rating_count / place.aggregate_rating.review_count);
         }
       }
 

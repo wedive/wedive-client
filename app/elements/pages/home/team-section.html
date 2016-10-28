@@ -1,9 +1,21 @@
-<link rel="import" href="../../../../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../social-icon/social-icons.html">
 
 <dom-module id="team-section">
     <template>
         <style>
+
+            .lh-cj {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+            .lv {
+                @apply(--layout-vertical);
+            }
+
             .wrap-content {
                 width: 1280px;
             }
@@ -14,10 +26,25 @@
 
             .work-team {
                 text-align: center;
+                font-size: 16px;
+                font-style: italic;
+                font-weight: 200;
+            }
+
+            h1 {
+                font-weight: normal;
+                font-size: 26px;
+            }
+
+            h2 {
+                font-weight: normal;
+                text-align: center;
+                font-size: 20px;
+                margin-bottom: 0
             }
 
             .team-profile {
-                @apply(--layout-flex-4);
+                @apply(--layout-flex);
             }
 
             @media (max-width: 841px) {
@@ -45,44 +72,34 @@
             }
         </style>
         <section>
-            <div class="layout horizontal center-justified">
+            <div class="lh-cj">
                 <div class="wrap-content">
-                    <div class="team-content section-padding">
+                    <div class="lh-cj">
+                        <h1>Il Team</h1>
+                    </div>
+                    <div class="team-content">
                         <div class="team-profile">
-                            <div class="layout horizontal center-justified team-image">
-                                <iron-image src="/images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
-                            </div>
-                            <div class="layout horizontal center-justified padding-top-20">
-                                <div>
-                                    <div class="layout vertical">
-                                        <span class="name-team">STO CAZZO</span>
-                                        <span class="work-team">proprio bello</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-profile">
-                            <div class="layout horizontal center-justified team-image">
-                                <iron-image src="/images/avatar.png" class="circle team-image" height="300" width="300"></iron-image>
-                            </div>
-                            <div class="layout horizontal center-justified padding-top-20">
-                                <div>
-                                    <div class="layout vertical">
-                                        <span class="name-team">EMANUELE CAMPANINI</span>
-                                        <span class="work-team">nadd istructor</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="team-profile">
-                            <div class="layout horizontal center-justified team-image">
+                            <div class="lh-cj">
                                 <iron-image src="/images/avatar.png" class="circle" height="300" width="300"></iron-image>
                             </div>
-                            <div class="layout horizontal center-justified padding-top-20">
+                            <div class="lh-cj">
                                 <div>
-                                    <div class="layout vertical">
-                                        <span class="name-team">ANTONINO VISALLI</span>
-                                        <span class="work-team">Software architect</span>
+                                    <div class="lv">
+                                        <h2 class="name-team">EMANUELE CAMPANINI</h2>
+                                        <span class="work-team">Istruttore NADD <paper-icon-button on-tap="openLinkedid" data-args="campa" icon="social-media:linkedin"></paper-icon-button></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-profile">
+                            <div class="lh-cj">
+                                <iron-image src="/images/avatar.png" class="circle" height="300" width="300"></iron-image>
+                            </div>
+                            <div class="lh-cj">
+                                <div>
+                                    <div class="lv">
+                                       <h2>ANTONINO VISALLI</h2>
+                                        <span class="work-team">Software Architect <paper-icon-button on-tap="openLinkedid" data-args="visa" icon="social-media:linkedin"></paper-icon-button></span>
                                     </div>
                                 </div>
                             </div>
@@ -97,7 +114,22 @@
             'use strict';
 
             Polymer({
-                is: 'team-section'
+                is: 'team-section',
+
+                openLinkedid: function (e) {
+                    var who = e.target.parentElement.getAttribute('data-args')
+                    console.log(who);
+                    switch (who) {
+                        case 'visa':
+                            window.open('https://www.linkedin.com/in/antonino-visalli-7996a4a2','_blank');
+                            break;
+                        case 'campa':
+                            window.open(url,'_blank');
+                            break;
+                        default:
+                            console.warn('Invalid user ' + who);
+                    }
+                }
             });
         })();
     </script>
