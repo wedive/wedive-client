@@ -1,65 +1,54 @@
-<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 
 <dom-module id="partial-footer">
     <template>
         <style>
-            .wrap-content {
-                width: 1280px;
+            .container {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+                background-color: var(--primary-text-color);
+                min-height: 64px;
+                width: 100%;
             }
 
-            span.title {
-                font-size: 20px;
+            .content {
+                width: var(--layout-width);
             }
 
-            .paragraph {
+            .line {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+            .flex {
                 @apply(--layout-flex);
+                @apply(--layout-center-justified);
+                text-align: left;
+                padding-top: 24px;
+                padding-bottom: 34px;
+                color: var(--text-primary-color);
+                font-size: 1.5em;
+                font-weight: 400;
+                letter-spacing: 4px;
             }
 
-            paper-toolbar {
-                background-color: var(--footer-background);
-                text-align: center;
-            }
-
-            @media (max-width: 1281px) {
-
-                .wrap-content {
-                    width: 1024px;
-                }
-            }
-
-            @media (max-width: 1025px) {
-
-                .wrap-content {
-                    width: 100%;
-                }
-            }
-
-
-            @media (max-width: 841px) {
-
-                .wrap-content {
-                    width: 100%;
-                }
-            }
-
-            @media (max-width: 481px) {
-
-                .wrap-content {
-                    width: 100%;
-                }
+            .contact {
+                font-size: 0.7em;
+                padding-top: 14px;
             }
         </style>
-        <paper-toolbar>
-            <div class="flex">
-                <div class="layout horizontal center-justified">
-                    <div class="wrap-content">
-                        <div class="layout horizontal center-justified">
-                            <div class="flex">Wedives</div>
-                        </div>
+        <div class="container">
+            <div class="content">
+                <div class="line">
+                    <div class="flex">Wedives</div>
+                    <div class="flex">
+                        <div>Contattaci</div>
+                        <div class="contact">wedives@wedives.com</div>
                     </div>
                 </div>
+
             </div>
-        </paper-toolbar>
+        </div>
     </template>
     <script>
         (function() {
