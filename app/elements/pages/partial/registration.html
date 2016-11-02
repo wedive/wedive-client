@@ -1,29 +1,54 @@
 <link rel="import" href="../../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
 <link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
 <link rel="import" href="../../../bower_components/polymer-apigility/rest/form/rest-form.html">
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../dropdown-menu/dropdown-menu-input.html">
 
 <dom-module id="registration-partial">
     <template>
         <style>
             :root {
-                padding:24px
+                padding-left: 24px;
+                padding-right: 24px;
+                width: 500px;
+            }
+
+            paper-button {
+                margin-top: 24px;
+                color: var(--accent-color);
+            }
+
+            .layout-center {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+
+            @media (max-width: 640px) {
+                :root {
+                    width: auto;
+                }
             }
         </style>
         <form id="registrationForm" is="apigility-rest-form">
+            <div class="layout-center">
+                logo
+            </div>
             <apigility-resource resource-name="rest/user"></apigility-resource>
             <paper-input name="email" label="Email"></paper-input>
-            <dropdown-menu-input  name="type" label="Type">
+            <dropdown-menu-input  name="type" label="Tipologia">
                 <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
                     <paper-item value="diver">Subacquo</paper-item>
                     <paper-item value="diverOwner">Proprietario di un diving</paper-item>
                 </paper-menu>
             </dropdown-menu-input>
-            <div class="buttons">
+            <paper-textarea name="comment" label="Lascia la tua opinione" rows="3"></paper-textarea>
+            <div class="layout-center">
                 <paper-button submit-button raised>Registrati</paper-button>
-                <paper-button dialog-confirm raised>Chiudi</paper-button>
             </div>
+
         </form>
     </template>
     <script>

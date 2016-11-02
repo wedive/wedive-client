@@ -13,6 +13,11 @@
     this.$.preregistration.toggle();
   };
 
+  app.closeNotififaction = function () {
+      var element = document.getElementById('notification');
+      element.toggle();
+  },
+
   /**
    * Load geolocation user information
    */

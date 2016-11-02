@@ -15,6 +15,11 @@
                 width: var(--layout-width);
             }
 
+            a {
+                text-decoration: none;
+                color: var(--accent-color);
+            }
+
             .line {
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
@@ -24,29 +29,46 @@
                 @apply(--layout-flex);
                 @apply(--layout-center-justified);
                 text-align: left;
-                padding-top: 24px;
-                padding-bottom: 34px;
                 color: var(--text-primary-color);
                 font-size: 1.5em;
                 font-weight: 400;
                 letter-spacing: 4px;
             }
 
-            .contact {
+            .padding {
+                padding: 24px;
+            }
+
+            .sub-information {
                 font-size: 0.7em;
                 padding-top: 14px;
+            }
+
+            @media (max-width: 1025px) {
+                .content {
+                    width: 100%;
+                }
+            }
+
+            @media (max-width: 841px) {
+
+                .line {
+                    @apply(--layout-vertical);
+                }
             }
         </style>
         <div class="container">
             <div class="content">
                 <div class="line">
-                    <div class="flex">Wedives</div>
-                    <div class="flex">
+                    <div class="flex padding">
+                        <div>Wedives</div>
+                        <div class="sub-information"><a href="/privacy">Privacy policy</a></div>
+                    </div>
+                    <div class="flex padding">
                         <div>Contattaci</div>
-                        <div class="contact">wedives@wedives.com</div>
+                        <div class="sub-information">wedives@wedives.com</div>
                     </div>
                 </div>
-
             </div>
         </div>
     </template>
