@@ -23,7 +23,7 @@
     <iron-pages attr-for-selected="data-route" selected="{{route}}">
       <!-- Home page -->
       <section data-route="dashboard">
-        <apigility-rest-api-client id="restPlaces" collection-name="places" collection="{{places}}" page-size="300" page="1">
+        <apigility-rest-api-client id="restPlaces" collection-name="places" collection="{{places}}" page-size="300" page="1" ready-path="{{readyPlaceClient}}">
           <apigility-resource resource-name="rest/place"></apigility-resource>
         </apigility-rest-api-client>
         <mission-section></mission-section>
@@ -64,16 +64,28 @@
           }
         },
 
-        ready: function () {
+        observers: [
+          'readyPlaceClientChanged(readyPlaceClient)'
+        ],
+
+        readyPlaceClientChanged: function (readyPlaceClient) {
+
+          var apiClient = null;
+          if (this.shadowRoot) {
+            apiClient = this.root.querySelector('section').querySelector('apigility-rest-api-client');
+          } else {
+            apiClient = this.querySelector('apigility-rest-api-client');
+          }
+
+          if (!apiClient) {
+            console.warn('apiClient not found')
+          }
 
           var query = new Array();
           query['hide'] = ['description', 'postal_address'];
-          this.querySelector('apigility-rest-api-client').getAll(query);
+          apiClient.getAll(query);
         },
 
-        addQueryParmsHandler: function (e) {
-          console.log('PRESEND', e);
-        },
 
         _routeParamsChanged:  function (value) {
 
