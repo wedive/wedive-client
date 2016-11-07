@@ -9,7 +9,8 @@
     "app-layout": "polymerelements/app-layout#^0.10.0",
     "iron-grid": "The5heepDev/iron-grid#master",
     "page": "page.js#~1.7.1",
-    "google-map": "GoogleWebComponents/google-map#~1.1.10"
+    "google-map": "GoogleWebComponents/google-map#~1.1.10",
+    "carousel": "git@github.com:Link2Twenty/l2t-paper-slider.git#~1.2"
   },
   "devDependencies": {
     "web-component-tester": "*",

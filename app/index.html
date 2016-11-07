@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="manifest" href="/manifest.json">
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-    <link rel="import" href="elements/elements.html">
+    <script src="/bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="/elements/elements.html">
     <style is="custom-style" include="iron-flex iron-flex-alignment iron-flex-factors"></style>
 </head>
 <body class="fullbleed" unresolved>
@@ -17,10 +17,10 @@
                 effects-config='{"resize-snapped-title": {"startsAt": 0.8, "duration": "100ms"}, "fade-background": {"startsAt": 0.8, "endsAt": 0.9}}'>
         <app-toolbar>
             <div condensed-title>
-                <iron-icon icon="icons:visibility"></iron-icon>
+                <a href="/"><iron-icon class="home-icon" icon="icons:home"></iron-icon></a>
             </div>
             <div main-title>
-                <iron-icon icon="icons:visibility"></iron-icon>
+                <a href="/"><iron-icon class="home-icon" icon="icons:home"></iron-icon></a>
             </div>
             <paper-button onclick="preregistration.open()">Pre registrazione</paper-button>
         </app-toolbar>
@@ -56,8 +56,8 @@
             text="I cookie ci aiutano a fornire i nostri servizi. Utilizzando tali servizi, accetti l'utilizzo dei cookie da parte nostra">
     </cookie-consent>
 </template>
-<script src="bower_components/page/page.js"></script>
-<script src="scripts/config.js"></script>
-<script src="scripts/app.js"></script>
+<script src="/bower_components/page/page.js"></script>
+<script src="/scripts/config.js"></script>
+<script src="/scripts/app.js"></script>
 </body>
 </html>

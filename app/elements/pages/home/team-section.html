@@ -43,6 +43,10 @@
                 margin-bottom: 0
             }
 
+            .circle {
+                border-radius: 50%;
+            }
+
             .team-profile {
                 @apply(--layout-flex);
             }
@@ -64,12 +68,6 @@
                     @apply(--layout-horizontal);
                 }
             }
-
-            @media (min-width: 640px) {
-                iron-pages {
-                    padding: 24px 36px 56px;
-                }
-            }
         </style>
         <section>
             <div class="lh-cj">
@@ -86,14 +84,14 @@
                                 <div>
                                     <div class="lv">
                                         <h2 class="name-team">EMANUELE CAMPANINI</h2>
-                                        <span class="work-team">Istruttore NADD</span>
+                                        <span class="work-team" style="padding-top: 10px">Istruttore NADD</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="team-profile">
                             <div class="lh-cj">
-                                <iron-image src="/images/avatar.png" class="circle" height="300" width="300"></iron-image>
+                                <iron-image src="/images/toni.png" class="circle" height="300" width="300"></iron-image>
                             </div>
                             <div class="lh-cj">
                                 <div>

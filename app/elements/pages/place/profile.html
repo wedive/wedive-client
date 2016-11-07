@@ -1,4 +1,6 @@
+<link rel="import" href="../../../bower_components/carousel/l2t-paper-slider.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-api-client.html">
@@ -7,36 +9,145 @@
 <dom-module id="place-profile">
     <template>
         <style>
-           .content-wrap {
-               @apply(--layout-horizontal);
-               @apply(--layout-center-justified);
-           }
 
-            .content {
-                width: var(--app-size-wrap-content);
+            :root {
+               --paper-slide-width: 500px;
+               --paper-slide-height: 500px;
+
+                --iron-image-width: 500px;
+                --iron-image-height	: 500px;:
             }
 
-            .section {
+
+            .lh-cj {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+            .lh {
+                @apply(--layout-horizontal);
+            }
+
+            .lv {
+                @apply(--layout-vertical);
+            }
+
+            .wrap-content {
+                width: 1280px;
+            }
+
+            .list-content {
+                @apply(--layout-horizontal);
+            }
+
+            .work-team {
+                text-align: center;
+                font-size: 16px;
+                font-style: italic;
+                font-weight: 200;
+            }
+
+            h1 {
+                font-size: 2em;
+                font-weight: 400;
+                line-height: 24px;
+                letter-spacing: 4px;
+
+            }
+
+            p {
+                font-weight: 300;
+                font-size: 16px;
+                line-height: 24px;
+                text-align: justify;
+                letter-spacing: .1px;
+            }
+
+            .map {
+                height: 250px;
+                background-color: red;
+            }
+
+            .right {
+                margin-top: 70px;
+            }
+
+            .item-content {
                 @apply(--layout-flex);
+                padding: 16px;
             }
 
+            @media  (max-width: 1281px) {
 
+                .wrap-content {
+                    width: 100%;
+                }
+            }
+
+            @media  (max-width: 1025px) {
+
+                .list-content {
+                    @apply(--layout-vertical);
+                }
+
+                .item-content {
+                    padding: 0;
+                }
+
+                p {
+                    padding: 8px;
+                    width: 500px;
+                }
+
+                div.item-content.right div.lv div.lh {
+                    @apply(--layout-center-justified);
+                }
+
+                div.item-content.right div.lv div.lh div {
+                    width: 500px;
+                }
+
+            }
         </style>
         <apigility-rest-api-client entity="{{entity}}" auto-load>
             <apigility-resource resource-name="rest/place" identifier="{{placeId}}" has-identifier></apigility-resource>
         </apigility-rest-api-client>
-        <div class="content-wrap">
-           <div class="content">
-               <div class="content-wrap">
-                    <div class="section">aaa</div>
-                    <div class="section">
-                        <h1>{{entity.name}}</h1>
-                        <p style="text-align: justify">{{entity.description}}</p>
-                        badge section
+
+        <div class="lh-cj">
+            <div class="wrap-content">
+                <div class="list-content">
+                    <div class="item-content">
+                        <div class="lh-cj">
+                            <h1>{{entity.name}}</h1>
+                        </div>
+                        <div class="lh-cj">
+                            <l2t-paper-slider total-slides="{{countImageGallery}}">
+                                <template is="dom-repeat" items="{{gallery}}">
+                                    <iron-image src="{{item.src}}"></iron-image>
+                                </template>
+                            </l2t-paper-slider>
+                        </div>
                     </div>
-               </div>
-           </div>
+                    <div class="item-content right">
+                        <div class="lv">
+                            <div class="lh">
+                                <div>Visibilità {{entity.visibility}}</div>
+                            </div>
+                            <div class="lh">
+                                <div> Massima profondità {{entity.max_depth}}</div>
+                            </div>
+                            <div class="map">
+
+                            </div>
+                            <div class="lh-cj">
+                                <p>{{entity.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </template>
     <script>
         (function() {
@@ -50,6 +161,44 @@
                     placeId :{
                         type: String,
                         notify: true
+                    },
+
+                    gallery: {
+                        type: Array
+                    },
+
+                    countImageGallery: {
+                        type: Number,
+                        readOnly: true,
+                        notify: true
+
+                    }
+                },
+
+                observers: [
+                    'entityChanged(entity)'
+                ],
+
+                entityChanged: function (entity) {
+
+                    if (!(Object.keys(entity).length === 0) || !(entity.constructor === Object)) {
+
+                        var gallery = new Array();
+
+                        if (entity.cover) {
+                            gallery.push({'src':entity.cover});
+                        }
+
+
+                        if (entity.collection && Object.keys(entity.collection).length > 0 && entity.collection.constructor === Array) {
+
+                            entity.collection.forEach(function(element) {
+                                gallery.push({'src':element.embed_url});
+                            });
+                        }
+
+                        this.gallery = gallery;
+                        this._setCountImageGallery(this.gallery.length);
                     }
                 }
             });
