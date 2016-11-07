@@ -5,8 +5,10 @@
 <dom-module id="maps-section">
     <template>
         <style>
-            .section-world {
-                min-height: 600px;
+
+            google-map {
+                height: 600px;
+
             }
 
             .content-wrapper {
@@ -50,19 +52,23 @@
         <section>
             <div class="content-wrapper section-world">
                 <div class="fl-9">
-                    <google-map
-                      api-key="AIzaSyDqWIe-keAOSqpmBzxuGFw7NmewBDY22TE"
-                      zoom="7"
-                      max-zoom="14"
-                      min-zoom="7"
-                      latitude="44.264879216821896"
-                      longitude="9.156107191162176">
-                        <template is="dom-repeat" items="{{places}}" as="place">
-                            <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}">
-                                <h2>{{place.name}}</h2>
-                            </google-map-marker>
-                        </template>
-                    </google-map>
+
+                    <template is="dom-if" if="{{apiKey}}">
+                        <google-map
+                          id="map"
+                          api-key="[[apiKey]]"
+                          zoom="7"
+                          max-zoom="14"
+                          min-zoom="7"
+                          latitude="44.264879216821896"
+                          longitude="9.156107191162176">
+                            <template is="dom-repeat" items="{{places}}" as="place">
+                                <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}">
+                                    <h2>{{place.name}}</h2>
+                                </google-map-marker>
+                            </template>
+                        </google-map>
+                    </template>
                 </div>
                 <div class="fl-3">
                     <div  class="text-content">
@@ -82,6 +88,18 @@
                 properties: {
                     places: {
                         type: Array
+                    },
+                    apiKey: {
+                        type: String
+                    }
+                },
+
+                ready: function () {
+                    var apikey = new Polymer.IronMetaQuery({type:'google-map', key: 'apikey'}).value;
+                    if (!apikey) {
+                        console.warn('Apikey not found');
+                    } else {
+                        this.apiKey = apikey;
                     }
                 },
 

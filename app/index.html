@@ -12,6 +12,7 @@
 <span id="browser-sync-binding"></span>
 <template is="dom-bind" id="app">
     <iron-meta type="apigility" key="base-url" value="{{config.base-url}}"></iron-meta>
+    <iron-meta type="google-map" key="apikey" value="{{config.google-map-api-key}}"></iron-meta>
     <app-header fixed condenses
                 effects="waterfall resize-snapped-title fade-background"
                 effects-config='{"resize-snapped-title": {"startsAt": 0.8, "duration": "100ms"}, "fade-background": {"startsAt": 0.8, "endsAt": 0.9}}'>
@@ -35,7 +36,6 @@
     <div class="content">
         <strapieno-router
                 auth="[[auth]]"
-                maps-api-key="{{cnf.google-map-api-key}}"
                 identity-object="[[identityObject]]"
                 route="{{route}}"
                 route-params="{{routeParams}}">
