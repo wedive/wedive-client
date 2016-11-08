@@ -11,6 +11,11 @@
 
             }
 
+
+            .lh {
+                @apply(--layout-horizontal);
+            }
+
             .content-wrapper {
                 @apply(--layout-horizontal);
                 @apply(--layout-center-justified);
@@ -41,6 +46,30 @@
                 max-width: 250px;
             }
 
+            h2 {
+                padding: 0 8px 0 8px;
+                font-weight: normal;
+                text-align: center;
+                font-size: 20px;
+                margin-bottom: 0
+            }
+
+            google-map a {
+                text-decoration: none;
+                color: var(--accent-color);
+            }
+
+            .padding {
+                padding: 4px;
+            }
+
+            .padding-circle {
+                padding-left: 68px;
+            }
+
+            .circle {
+                border-radius: 50%;
+            }
 
             @media (max-width: 841px) {
 
@@ -64,7 +93,14 @@
                           longitude="9.156107191162176">
                             <template is="dom-repeat" items="{{places}}" as="place">
                                 <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}">
-                                    <h2>{{place.name}}</h2>
+                                    <div class="lh padding">
+                                        <!--<img class="circle" src="{{place.cover}}&rendition=maxi-icon">-->
+                                        <img class="circle" src="{{place.cover}}" height="56" width="56">
+                                        <a href="/place/{{place.id}}"><h2>{{place.name}}</h2></a>
+                                    </div>
+                                    <div class="lh padding padding-circle">
+                                        badges
+                                    </div>
                                 </google-map-marker>
                             </template>
                         </google-map>
@@ -72,7 +108,7 @@
                 </div>
                 <div class="fl-3">
                     <div  class="text-content">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</p>
+                        <p>Diamo voce a chi ama la subacquea e le avventure sottomarine! Il nostro obiettivo è quello di far conoscere, per esperienza diretta, i siti di immersioni più intriganti, accattivanti e particolari, per poter indirizzare gli appassionati a quanto di più bello ci aspetta nel blu. Lascia il tuo ricordo e contribuisci a far vivere esperienze subacquee indimenticabili. Grazie per il tuo aiuto.</p>
                     </div>
                 </div>
             </div>

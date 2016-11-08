@@ -15,7 +15,7 @@
                --paper-slide-height: 500px;
 
                 --iron-image-width: 500px;
-                --iron-image-height	: 500px;:
+                --iron-image-height	: 500px;
             }
 
 
@@ -48,9 +48,10 @@
             }
 
             h1 {
+                text-align: center;
                 font-size: 2em;
                 font-weight: 400;
-                line-height: 24px;
+                line-height: 30px;
                 letter-spacing: 4px;
 
             }
@@ -64,8 +65,7 @@
             }
 
             .map {
-                height: 250px;
-                background-color: red;
+                height: 300px;
             }
 
             .right {
@@ -81,6 +81,32 @@
 
                 .wrap-content {
                     width: 100%;
+                }
+            }
+
+            @media  (max-width: 601px) {
+
+                l2t-paper-slider ::content div.slider {
+                    height: 400px;
+                    width: 400px;
+                }
+
+                iron-image ::content img.iron-image {
+                    height: 400px !important;
+                    width: 400px !important;
+                }
+            }
+
+            @media  (max-width: 401px) {
+
+                l2t-paper-slider ::content div.slider {
+                    height: 360px;
+                    width: 360px;
+                }
+
+                iron-image ::content img.iron-image {
+                    height: 360px !important;
+                    width: 360px !important;
                 }
             }
 
@@ -112,7 +138,6 @@
         <apigility-rest-api-client entity="{{entity}}" auto-load>
             <apigility-resource resource-name="rest/place" identifier="{{placeId}}" has-identifier></apigility-resource>
         </apigility-rest-api-client>
-
         <div class="lh-cj">
             <div class="wrap-content">
                 <div class="list-content">
@@ -137,7 +162,17 @@
                                 <div> Massima profondità {{entity.max_depth}}</div>
                             </div>
                             <div class="map">
-
+                                <google-map
+                                        map="{{map}}"
+                                        id="map"
+                                        api-key="AIzaSyAacdLcjhptOcr-sfCFfAnxirCk18GDxXQ"
+                                        zoom="10"
+                                        max-zoom="14"
+                                        min-zoom="9"
+                                        latitude="{{latMap}}"
+                                        longitude="{{longMap}}">
+                                    <google-map-marker map=[[map]] latitude="{{entity.geo_coordinate.latitude}}" longitude="{{entity.geo_coordinate.longitude}}"></google-map-marker>
+                                </google-map>
                             </div>
                             <div class="lh-cj">
                                 <p>{{entity.description}}</p>
@@ -172,6 +207,18 @@
                         readOnly: true,
                         notify: true
 
+                    },
+
+                    latMap: {
+                        type: Number,
+                        readOnly: true,
+                        notify: true
+                    },
+
+                    longMap: {
+                        type: Number,
+                        readOnly: true,
+                        notify: true
                     }
                 },
 
@@ -182,6 +229,9 @@
                 entityChanged: function (entity) {
 
                     if (!(Object.keys(entity).length === 0) || !(entity.constructor === Object)) {
+
+                        this._setLongMap(entity.geo_coordinate.longitude);
+                        this._setLatMap(entity.geo_coordinate.latitude);
 
                         var gallery = new Array();
 
@@ -204,5 +254,4 @@
             });
         })();
     </script>
-
 </dom-module>

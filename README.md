@@ -23,3 +23,4 @@ $ ./node_modules/.bin/bower install
 ```
 $ ./node_modules/.bin/gulp serve
 ```
+http://127.0.0.72/rest/place/57eb8593a5ef9a05008b4578/gallery/581cd71041fecd3e008b4569?lastUpdate=1478285072

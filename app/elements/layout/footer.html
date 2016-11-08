@@ -77,7 +77,27 @@
             'use strict';
 
             Polymer({
-                is: 'partial-footer'
+                is: 'partial-footer',
+
+                attached: function () {
+
+                    
+                    var body = document.body,
+                        html = document.documentElement;
+
+                    var heightPage = Math.max( body.scrollHeight, body.offsetHeight,
+                            html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+                    if (heightPage > (this.offsetTop + this.offsetHeight)) {
+
+                        var moreHeight = heightPage - (this.offsetTop + this.offsetHeight);
+                        console.log('heigth', heightPage);
+                        console.log('offsetTop', this.offsetTop );
+                        console.log('offsetHeight', this.offsetHeight );
+                        console.log('scrollHeight', this.scrollHeight );
+                        console.log('margin', moreHeight);
+                    }
+                }
             });
         })();
     </script>
