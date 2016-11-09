@@ -1,4 +1,5 @@
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
 
 <dom-module id="partial-footer">
     <template>
@@ -79,25 +80,42 @@
             Polymer({
                 is: 'partial-footer',
 
-                attached: function () {
+                behaviors: [
+                    Polymer.IronResizableBehavior
+                ],
 
-                    
+                listeners: {
+                    'iron-resize':'resizeChanged'
+                },
+
+                resizeChanged: function (e) {
+                    this.debounce(
+                            'checkResize',
+                            function () {
+                                this._rePosition();
+                            }.bind(this),
+                            500
+                    );
+
+                },
+
+                _rePosition: function () {
                     var body = document.body,
-                        html = document.documentElement;
+                            html = document.documentElement;
 
                     var heightPage = Math.max( body.scrollHeight, body.offsetHeight,
                             html.clientHeight, html.scrollHeight, html.offsetHeight );
 
                     if (heightPage > (this.offsetTop + this.offsetHeight)) {
-
-                        var moreHeight = heightPage - (this.offsetTop + this.offsetHeight);
                         console.log('heigth', heightPage);
-                        console.log('offsetTop', this.offsetTop );
-                        console.log('offsetHeight', this.offsetHeight );
-                        console.log('scrollHeight', this.scrollHeight );
-                        console.log('margin', moreHeight);
+                        console.log('offsetTop', this.offsetTop);
+                        console.log('offsetHeight', this.offsetHeight);
+                        console.log('scrollHeight', this.scrollHeight);
+                        var moreHeight = heightPage - (this.offsetTop + this.offsetHeight);
+                        this.style.marginTop = moreHeight + 'px';
                     }
                 }
+
             });
         })();
     </script>
