@@ -31,6 +31,8 @@
     navigator.geolocation.getCurrentPosition(
         function (pos) {
           this.currentPosition = pos.coords;
+          var event = new CustomEvent('load-position', { 'detail': pos.coords });
+          this.dispatchEvent(event);
           console.groupCollapsed('GEO');
           console.log('LATITUDE : ' + this.currentPosition.latitude);
           console.log('LONGITUDE: ' + this.currentPosition.longitude);
