@@ -5,7 +5,7 @@ deploy-npm:
 	npm update;
 
 # Deploy bower dependence
-deploy-bower: deploy-npm
+    deploy-bower: deploy-npm
 	./node_modules/.bin/bower update --allow-root;
 	rm -rf app/bower_components;
 	mv bower_components app;
