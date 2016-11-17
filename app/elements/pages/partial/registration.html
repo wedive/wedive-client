@@ -25,6 +25,13 @@
                 @apply(--layout-center-justified);
             }
 
+            h1 {
+                text-align: center;
+                font-size: 2em;
+                font-weight: 400;
+                line-height: 30px;
+                letter-spacing: 2px;
+            }
 
             @media (max-width: 640px) {
                 :root {
@@ -34,7 +41,7 @@
         </style>
         <form id="registrationForm" is="apigility-rest-form">
             <div class="layout-center">
-                logo
+                <h1>Preregistrazione</h1>
             </div>
             <apigility-resource resource-name="rest/user"></apigility-resource>
             <paper-input name="email" label="Email"></paper-input>
