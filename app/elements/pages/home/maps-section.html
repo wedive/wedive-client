@@ -81,11 +81,10 @@
         <section>
             <div class="content-wrapper section-world">
                 <div class="fl-9">
-
                     <template is="dom-if" if="{{apiKey}}">
                         <google-map
                           id="map"
-                          api-key="[[apiKey]]"
+                          api-key="{{apiKey}}"
                           zoom="7"
                           max-zoom="14"
                           min-zoom="7"
@@ -130,6 +129,11 @@
                     }
                 },
 
+
+                listeners: {
+                    'api-load': 'loadMap',
+                },
+
                 ready: function () {
                     var apikey = new Polymer.IronMetaQuery({type:'google-map', key: 'apikey'}).value;
                     if (!apikey) {
@@ -139,14 +143,14 @@
                     }
                 },
 
-                attached: function () {
+                loadMap: function (e) {
                     var maps = this.querySelector('google-map');
                     var marker = document.createElement('google-map-marker');
                     marker.setAttribute('latitude', 44.0645037);
                     marker.setAttribute('longitude', 9.6405873);
                     marker.setAttribute('title', "Dynamic marker");
                     Polymer.dom(maps).appendChild(marker);
-                }
+                },
             });
         })();
     </script>
