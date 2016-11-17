@@ -142,7 +142,6 @@
 
                 p {
                     padding: 8px;
-                    width: 500px;
                 }
 
                 div.item-content.right div.lv div.lh-cj div.lf {
@@ -178,11 +177,11 @@
                 }
 
                 div.item-content div.lh-cj div.rating {
-                    width: 400px;
+                    width: auto;
                 }
 
                 div#infos {
-                    width: 400px;
+                    width: auto;
                 }
             }
 
@@ -196,10 +195,6 @@
                 iron-image ::content img.iron-image {
                     height: 360px !important;
                     width: 360px !important;
-                }
-
-                div.item-content div.lh-cj div.rating {
-                    width: 360px;
                 }
             }
         </style>
@@ -236,9 +231,9 @@
                             <div class="lh-cj">
                                 <div class="lf">
                                     <div id="infos" class="lh-j">
-                                        <div ><p>Visibilità: {{entity.visibility}} / 10</p></div>
-                                        <div ><p>Corrente: {{entity.current}} / 10</p></div>
-                                        <div ><p>Prodondità: {{entity.max_depth}} m</p></div>
+                                        <div><p>Visibilità: {{entity.visibility}} / 10</p></div>
+                                        <div><p>Corrente: {{entity.current}} / 10</p></div>
+                                        <div><p>Prodondità: {{entity.max_depth}} m</p></div>
                                     </div>
                                 </div>
                             </div>
