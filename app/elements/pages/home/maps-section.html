@@ -1,6 +1,7 @@
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../bower_components/google-map/google-map.html">
 <link rel="import" href="../../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../../google-map/google-map-autocomplete.html">
 
 <dom-module id="maps-section">
     <template>
@@ -14,6 +15,10 @@
 
             .lh {
                 @apply(--layout-horizontal);
+            }
+
+            .lv {
+                @apply(--layout-vertical);
             }
 
             .content-wrapper {
@@ -54,9 +59,22 @@
                 margin-bottom: 0
             }
 
+            .lv-marker-content {
+                margin: 0;
+                padding: 0px 8px 8px 8px;
+            }
+
             google-map a {
                 text-decoration: none;
                 color: var(--accent-color);
+                padding: 0 8px 0 8px;
+                font-weight: normal;
+                text-align: center;
+                font-size: 20px;
+            }
+
+            google-map ::content paper-input {
+                padding-left: 24px;
             }
 
             .padding {
@@ -82,23 +100,30 @@
             <div class="content-wrapper section-world">
                 <div class="fl-9">
                     <template is="dom-if" if="{{apiKey}}">
+                        <google-map-autocomplete class="autocomple-map" api-key="{{apiKey}}"></google-map-autocomplete>
                         <google-map
                           id="map"
                           api-key="{{apiKey}}"
-                          zoom="7"
+                          zoom="9"
                           max-zoom="14"
-                          min-zoom="7"
-                          latitude="44.264879216821896"
-                          longitude="9.156107191162176">
+                          min-zoom="3"
+                          latitude="{{latMap}}"
+                          longitude="{{longMap}}"
+                          disable-default-ui>
                             <template is="dom-repeat" items="{{places}}" as="place">
                                 <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}">
                                     <div class="lh padding">
-                                        <!--<img class="circle" src="{{place.cover}}&rendition=maxi-icon">-->
-                                        <img class="circle" src="{{place.cover}}" height="56" width="56">
-                                        <a href="/place/{{place.id}}"><h2>{{place.name}}</h2></a>
-                                    </div>
-                                    <div class="lh padding padding-circle">
-                                        badges
+                                        <div>
+                                            <img class="circle" src="{{place.cover}}&rendition=maxi-icon">
+                                        </div>
+                                        <div class="lv">
+                                            <h2 class="lv-marker-content"><a href="/place/{{place.id}}">{{place.name}}</a></h2>
+                                            <div class="lv-marker-content">
+                                                <template is="dom-repeat" items="{{place.badges}}" as="badge">
+                                                    <img src="/images/badge/{{badge}}.png" height="40" width="28">
+                                                </template>
+                                            </div>
+                                        </div>
                                     </div>
                                 </google-map-marker>
                             </template>
@@ -124,14 +149,26 @@
                     places: {
                         type: Array
                     },
+
                     apiKey: {
                         type: String
-                    }
+                    },
+
+                    latMap: {
+                        type: Number,
+                        value: 44.264879216821896
+                    },
+
+                    longMap: {
+                        type: Number,
+                        value: 9.156107191162176
+                    },
                 },
 
 
                 listeners: {
                     'api-load': 'loadMap',
+                    'place_loaded': 'loadPlace'
                 },
 
                 ready: function () {
@@ -143,13 +180,20 @@
                     }
                 },
 
+                loadPlace: function (e) {
+                    this.latMap = e.target.latitude;
+                    this.longMap = e.target.longitude;
+                },
+
                 loadMap: function (e) {
+                    /*
                     var maps = this.querySelector('google-map');
                     var marker = document.createElement('google-map-marker');
                     marker.setAttribute('latitude', 44.0645037);
                     marker.setAttribute('longitude', 9.6405873);
                     marker.setAttribute('title', "Dynamic marker");
                     Polymer.dom(maps).appendChild(marker);
+                    */
                 },
             });
         })();

@@ -88,48 +88,68 @@
               }
           },
 
+         attached: function () {
+
+             var map = Polymer.dom(this.parentElement).querySelector('google-map');
+             if (map) {
+                 map.addEventListener('google-map-ready', this._addInput.bind(this));
+             }
+         },
+
+          _addInput: function (e) {
+              e.target.map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.$.autocomplete);
+          },
+
         _mapApiLoaded: function (e) {
 
             var input = this.$.autocomplete.$.input;
             var options = { types: ['address'] };
-            this.autocomplete = new e.target.api.places.Autocomplete(input, options);
-            e.target.api.event.addListener(this.autocomplete, 'place_changed', this._resultApiSearch.bind(this));
+            this.autocomplete = new e.target.api.places.SearchBox(input, options);
+            this.autocomplete.addListener('places_changed', this._searchResult.bind(this));
         },
 
-        _resultApiSearch: function (e) {
+        _searchResult: function () {
+            var places = this.autocomplete.getPlaces();
 
-          var place = this.autocomplete.getPlace();
-          this._setLatitude(place.geometry.location.lat());
-          this._setLongitude(place.geometry.location.lng());
-
-          // TODO clear data address
-          if (place.address_components) {
-            for (var i = 0; i < place.address_components.length; i++) {
-              var componentType = place.address_components[i].types[0];
-              switch(componentType) {
-                case 'locality':
-                  this._setCity(place.address_components[i]['short_name']);
-                  break;
-                case 'administrative_area_level_1':
-                    this._setRegion(place.address_components[i]['short_name']);
-                  break;
-                case 'postal_code':
-                  this._setPostalCode(place.address_components[i]['short_name']);
-                  break;
-                case 'country':
-                  // TODO locale country?
-                  this._setCountry(place.address_components[i]['long_name']);
-                  break;
-                case 'route':
-                  this._setStreet(place.address_components[i]['short_name']);
-                  break;
-                case 'street_number':
-                  this._setStreet(place.address_components[i]['short_name']);
-                  break;
-              }
+            if (places.length == 0) {
+                return;
             }
-          }
 
+            var place = places[0];
+            this.__setPlace(place);
+        },
+
+        __setPlace: function (place) {
+            this._setLatitude(place.geometry.location.lat());
+            this._setLongitude(place.geometry.location.lng());
+
+            // TODO clear data address
+            if (place.address_components) {
+                for (var i = 0; i < place.address_components.length; i++) {
+                    var componentType = place.address_components[i].types[0];
+                    switch(componentType) {
+                        case 'locality':
+                            this._setCity(place.address_components[i]['short_name']);
+                            break;
+                        case 'administrative_area_level_1':
+                            this._setRegion(place.address_components[i]['short_name']);
+                            break;
+                        case 'postal_code':
+                            this._setPostalCode(place.address_components[i]['short_name']);
+                            break;
+                        case 'country':
+                            // TODO locale country?
+                            this._setCountry(place.address_components[i]['long_name']);
+                            break;
+                        case 'route':
+                            this._setStreet(place.address_components[i]['short_name']);
+                            break;
+                        case 'street_number':
+                            this._setStreet(place.address_components[i]['short_name']);
+                            break;
+                    }
+                }
+            }
             this.fire('place_loaded');
         }
       });
