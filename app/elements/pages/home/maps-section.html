@@ -62,7 +62,7 @@
             .lv-marker-content {
                 margin: 0;
                 padding: 0px 8px 8px 8px;
-            }
+            }--paper-input-container-label
 
             google-map a {
                 text-decoration: none;
@@ -111,7 +111,7 @@
                           longitude="{{longMap}}"
                           disable-default-ui>
                             <template is="dom-repeat" items="{{places}}" as="place">
-                                <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}" icon="/images/map-dive.png">
+                                <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}" icon="/images/mask-icon.png">
                                     <div class="lh padding">
                                         <div>
                                             <img class="circle" src="{{place.cover}}&rendition=maxi-icon">

@@ -237,7 +237,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="map">
                                 <google-map
                                         map="{{map}}"
@@ -248,7 +247,7 @@
                                         min-zoom="9"
                                         latitude="{{latMap}}"
                                         longitude="{{longMap}}">
-                                    <google-map-marker map=[[map]] latitude="{{entity.geo_coordinate.latitude}}" longitude="{{entity.geo_coordinate.longitude}}"></google-map-marker>
+                                    <google-map-marker map=[[map]] latitude="{{entity.geo_coordinate.latitude}}" longitude="{{entity.geo_coordinate.longitude}}" icon="/images/mask-icon.png"></google-map-marker>
                                 </google-map>
                             </div>
                             <div class="lh-cj">
@@ -312,6 +311,10 @@
                 created: function () {
                     var app = document.getElementById('app');
                     app.addEventListener('load-position', this.loadCurrentPosition.bind(this));
+                },
+
+                attached: function() {
+                  console.log('ttttttttttttttttttttttttttttttttt');
                 },
 
                 loadCurrentPosition: function (e) {

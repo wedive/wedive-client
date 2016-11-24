@@ -2,6 +2,21 @@
 <link rel="import" href="../../bower_components/google-apis/google-maps-api.html">
 
 <dom-module id="google-map-autocomplete">
+    <style>
+        :root {
+            --paper-input-container-color: var(--gogole-map-color, #F44336);
+            --paper-input-container-label: var(--gogole-map-color, #F44336);
+
+            --paper-input-container-focus-color: var(--gogole-map-focus-color, #F44336);
+            --paper-input-container-label-focus: var(--gogole-map-focus-color, #F44336);
+
+            --paper-input-container-label: {
+                font-size: 20px;
+                font-weight: 800;
+            }
+        }
+
+    </style>
     <template>
         <google-maps-api id="api"
                          api-key="[[apiKey]]"
