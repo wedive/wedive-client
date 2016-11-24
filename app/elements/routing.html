@@ -4,9 +4,24 @@
   window.addEventListener('WebComponentsReady', function() {
 
     function scrollToTop(ctx, next) {
-      app.scrollPageToTop();
+      console.log('test');
+      switch (true) {
+        case ctx.params.placeId != undefined:
+          window.scrollTo(0, 360);
+          break;
+        default:
+          window.scrollTo(0, 0);
+      }
       next();
-    }
+    };
+
+    function openHeader() {
+
+    };
+
+    function closeHeader() {
+
+    };
 
     /**
      * Home
@@ -36,19 +51,19 @@
     });
 
 
-      /**
-       * Place
-       */
-      page('/privacy', scrollToTop, function(ctx) {
+    /**
+     * Place
+     */
+    page('/privacy', scrollToTop, function(ctx) {
 
-          app.route = ctx.routeName =  'privacy';
-          app.routeParams = ctx;
-          app.notifyPath('routeParams', ctx);
-          console.groupCollapsed('ROUTE');
-          console.log('NAME : ' + app.route);
-          console.log('PARAMS:',   app.routeParams);
-          console.groupEnd();
-      });
+      app.route = ctx.routeName =  'privacy';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
 
     /**
      * Settings Routing

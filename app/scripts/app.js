@@ -45,11 +45,6 @@
     );
   };
 
-  // Scroll page to top and expand header
-  app.scrollPageToTop = function() {
-    // TODO understand
-  };
-
   /**
    * Set of function for the boot of the application
    */
