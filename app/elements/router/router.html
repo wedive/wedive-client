@@ -7,6 +7,8 @@
 
 <link rel="import" href="../pages/place/profile.html">
 <link rel="import" href="../pages/privacy/privacy.html">
+<link rel="import" href="../pages/confirm-email/confirm-email.html">
+<link rel="import" href="../pages/not-found/not-found.html">
 
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
@@ -36,11 +38,17 @@
         <place-profile place-id="{{placeId}}"></place-profile>
       </section>
 
+      <section data-route="confirm-email">
+        <confirm-email route-params="{{routeParams}}" ro></confirm-email>
+      </section>
+
       <section data-route="privacy">
         <privacy-section></privacy-section>
       </section>
 
-
+      <section data-route="not-found">
+        <not-found></not-found>
+      </section>
     </iron-pages>
   </template>
 
@@ -59,6 +67,7 @@
 
           routeParams: {
             type: Object,
+            notify: true,
             value: function () {return {};},
             observer: '_routeParamsChanged'
           }

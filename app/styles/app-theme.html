@@ -29,7 +29,6 @@
     background-position: bottom center;
     background-size: cover;
     background-attachment: fixed;
-    z-index: 1;
     --app-header-background-front-layer: {
       background: -webkit-linear-gradient(top, transparent 0%, transparent 50%, rgba(0,0,0,0.5) 100%);
     };
@@ -117,8 +116,23 @@
     cursor: pointer;
   }
 
-  paper-dialog#preregistration {
+  div.content.router {
+    z-index: -2;
+  }
 
+  .drawer-contents {
+    padding: 16px;
+  }
+  .menu-item {
+    cursor: pointer;
+    color: var(--accent-color);
+  }
+
+  .drawer-contents div {
+
+    text-align: left;
+    font-size: 20px;
+    padding: 0 0 16px 0;
   }
 
   @media (max-width: 1240px) {

@@ -13,6 +13,11 @@
 <template is="dom-bind" id="app">
     <iron-meta type="apigility" key="base-url" value="{{config.base-url}}"></iron-meta>
     <iron-meta type="google-map" key="apikey" value="{{config.google-map-api-key}}"></iron-meta>
+    <apigility-auth-service
+            oauth-service="oauth"
+            identity-service="rest/user"
+            client-id="open-wedive" >
+    </apigility-auth-service>
     <app-header fixed condenses
                 effects="waterfall resize-snapped-title fade-background"
                 effects-config='{"resize-snapped-title": {"startsAt": 0.8, "duration": "100ms"}, "fade-background": {"startsAt": 0.8, "endsAt": 0.9}}'>
@@ -23,7 +28,7 @@
             <div main-title>
                 <a href="/"><iron-icon class="home-icon" icon="icons:home"></iron-icon></a>
             </div>
-            <paper-button onclick="preregistration.open()">Pre registrazione</paper-button>
+           <paper-icon-button on-tap="openDrawer" class="home-icon" icon="icons:menu"></paper-icon-button>
         </app-toolbar>
         <div class="header-content">
             <div class="header-body">
@@ -32,21 +37,35 @@
             </div>
          </div>
     </app-header>
-    <div class="content">
+    <div class="content router">
         <strapieno-router
                 auth="[[auth]]"
                 identity-object="[[identityObject]]"
                 route="{{route}}"
                 route-params="{{routeParams}}">
         </strapieno-router>
+        <partial-footer></partial-footer>
     </div>
-    <partial-footer></partial-footer>
+
+    <app-drawer id="drawer" align="right" swipe-open>
+        <div class="drawer-contents">
+            <div class="menu-item" on-tap="openLogin">Login</div>
+            <div class="menu-item" on-tap="openRegistration">Registrati</div>
+        </div>
+    </app-drawer>
     <iron-signals on-iron-signal-toast-notification="notificationHandler"></iron-signals>
     <paper-toast id="notification" duration="0">
         <paper-icon-button on-tap="closeNotififaction" icon="icons:close"></paper-icon-button>
     </paper-toast>
-    <paper-dialog id="preregistration" with-backdrop>
-        <registration-partial></registration-partial>
+    <paper-dialog id="registrationDialog" with-backdrop>
+        <paper-dialog-scrollable>
+            <registration-partial></registration-partial>
+        </paper-dialog-scrollable>
+    </paper-dialog>
+    <paper-dialog id="loginDialog" with-backdrop>
+        <paper-dialog-scrollable>
+            <login-partial></login-partial>
+        </paper-dialog-scrollable>
     </paper-dialog>
     <cookie-consent
             button-text="Accetta"

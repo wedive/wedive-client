@@ -1,0 +1,33 @@
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rpc/rpc-api-client.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
+
+<dom-module id="not-found">
+    <style>
+
+        .content {
+            @apply(--layout-horizontal);
+            @apply(--layout-center-justified);
+        }
+
+    </style>
+    <template>
+        <div class="content">
+           pagina non trovata
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'not-found',
+
+
+                attached: function () {
+                    console.log('test', document.height);
+                }
+            });
+        })();
+    </script>
+</dom-module>

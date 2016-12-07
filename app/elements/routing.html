@@ -4,23 +4,18 @@
   window.addEventListener('WebComponentsReady', function() {
 
     function scrollToTop(ctx, next) {
-      console.log('test');
       switch (true) {
         case ctx.params.placeId != undefined:
-          window.scrollTo(0, 360);
+          scrollManager(ctx, 0, 360);
           break;
-        default:
-          window.scrollTo(0, 0);
       }
       next();
     };
 
-    function openHeader() {
-
-    };
-
-    function closeHeader() {
-
+    function scrollManager(ctx, startIndex, endIndex) {
+      if (ctx.path != window.location.pathname) {
+        window.scrollTo(startIndex, endIndex);
+      }
     };
 
     /**
@@ -63,6 +58,26 @@
       console.log('NAME : ' + app.route);
       console.log('PARAMS:',   app.routeParams);
       console.groupEnd();
+    });
+
+    /**
+     * Validate mail
+     */
+    page('/confirm-email/:token', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName =  'confirm-email';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
+    page('*', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName =  'not-found';
+
     });
 
     /**

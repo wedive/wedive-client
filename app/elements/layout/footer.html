@@ -58,7 +58,7 @@
                 }
             }
         </style>
-        <div class="container">
+        <div id="box" class="container">
             <div class="content">
                 <div class="line">
                     <div class="flex padding">
@@ -106,13 +106,13 @@
                     var heightPage = Math.max( body.scrollHeight, body.offsetHeight,
                             html.clientHeight, html.scrollHeight, html.offsetHeight );
 
-                    if (heightPage > (this.offsetTop + this.offsetHeight)) {
+                    if (heightPage > (this.offsetTop + this.$.box.offsetHeight)) {
                         console.log('heigth', heightPage);
                         console.log('offsetTop', this.offsetTop);
-                        console.log('offsetHeight', this.offsetHeight);
+                        console.log('offsetHeight', this.$.box.offsetHeight);
                         console.log('scrollHeight', this.scrollHeight);
-                        var moreHeight = heightPage - (this.offsetTop + this.offsetHeight);
-                        this.style.marginTop = moreHeight + 'px';
+                        var moreHeight = heightPage - (this.offsetTop + this.$.box.offsetHeight);
+                        this.$.box.style.marginTop = moreHeight + 'px';
                     }
                 }
 

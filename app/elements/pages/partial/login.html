@@ -4,9 +4,10 @@
 <link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
 <link rel="import" href="../../../bower_components/polymer-apigility/rest/form/rest-form.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/auth/form/auth-form.html">
 <link rel="import" href="../../dropdown-menu/dropdown-menu-input.html">
 
-<dom-module id="registration-partial">
+<dom-module id="login-partial">
     <template>
         <style>
             :root {
@@ -21,6 +22,15 @@
                 }
             }
 
+            h1 {
+                text-align: center;
+                font-size: 2em;
+                font-weight: 400;
+                line-height: 30px;
+                letter-spacing: 2px;
+                margin: 0;
+            }
+
             paper-button {
                 margin-top: 24px;
                 font-weight: 800;
@@ -32,13 +42,11 @@
                 @apply(--layout-center-justified);
             }
 
-            h1 {
+            .errorMessage {
+                color: var(--error-color);
+                padding-top: 16px;
                 text-align: center;
-                font-size: 2em;
-                font-weight: 400;
-                line-height: 30px;
-                letter-spacing: 2px;
-                margin: 0;
+                width: 100%;
             }
 
             @media (max-width: 640px) {
@@ -46,21 +54,19 @@
                     width: auto;
                 }
             }
-        </style>
-        <form id="registrationForm" is="apigility-rest-form">
-            <div class="layout-center">
-                <h1>Registrati</h1>
-            </div>
-            <apigility-resource resource-name="rest/user"></apigility-resource>
-            <paper-input name="email" label="Email"></paper-input>
-            <paper-input name="user_name" label="User name"></paper-input>
-            <paper-input name="password" label="Password" type="password"></paper-input>
-            <paper-input name="repeat_password" label="Ripeti password" type="password" ></paper-input>
-            <paper-textarea name="comment" label="Vuoi lasciare la tua opinione?" rows="3"></paper-textarea>
-            <div class="layout-center">
-                <paper-button submit-button raised>registrati</paper-button>
-            </div>
 
+        </style>
+        <form id="loginForm" is="apigility-auth-form" error-message="{{error}}" loading="{{_logging}}">
+            <div class="layout-center">
+                <h1>Login</h1>
+            </div>
+            <div class="errorMessage">{{error}}</div>
+            <apigility-resource resource-name="rest/user"></apigility-resource>
+            <paper-input name="username" label="Email"></paper-input>
+            <paper-input name="password" label="Password" type="password"></paper-input>
+            <div class="layout-center">
+                <paper-button submit-button raised>Login</paper-button>
+            </div>
         </form>
     </template>
     <script>
@@ -68,11 +74,16 @@
             'use strict';
 
             Polymer({
-                is: 'registration-partial',
+                is: 'login-partial',
 
                 properties: {
                     placeId :{
                         type: String
+                    },
+
+                    error: {
+                        type: String,
+                        observer: '_errorChanged'
                     }
                 },
 
@@ -80,13 +91,19 @@
                     'rest-form-response': 'restFormRegistrationHandler',
                 },
 
-                ready: function () {
-                    var formUserAdd = this.$.registrationForm;
-                    formUserAdd.addEventListener('rest-form-presubmit', this.userPostValidation);
+                _errorChanged: function(newValue, oldValue) {
+                    switch(newValue) {
+                        case 'Invalid username and password combination':
+                            this.error = 'La combinazione di mail e password è sbagliata';
+                            break;
+                        case 'User email has been not validated':
+                            this.error = 'La mail non è stata validata, se non è stata ricevuta nessuna mail di validazione effettuare il recupero password';
+                            break;
+                    }
                 },
 
                 restFormRegistrationHandler: function (e) {
-                    var MESSAGE = "Grazie per aver effetuato la registrazione, ti verrà inviata una mail all'indirizzo %EMAIL%";
+                    var MESSAGE = "Bentornato %EMAIL%";
                     this.fire(
                       'iron-signal',
                       {
@@ -94,23 +111,6 @@
                           data: {text: MESSAGE.replace('%EMAIL%', e.target.querySelector('paper-input[name="email"]').value)}
                       }
                     );
-                },
-
-                userPostValidation : function (e) {
-                    var valid = true;
-                    var paperInputPassword = Polymer.dom(e.target).querySelector('paper-input[name=password]');
-                    var paperInputRepeatPassword = Polymer.dom(e.target).querySelector('paper-input[name=repeat_password]');
-
-                    if ((!paperInputPassword || !paperInputRepeatPassword)
-                            || (!paperInputPassword.value || !paperInputRepeatPassword.value)
-                            || (paperInputPassword.value === paperInputRepeatPassword.value)
-
-                    ) {
-                        return valid;
-                    }
-                    paperInputRepeatPassword.invalid = true;
-                    paperInputRepeatPassword.errorMessage = 'Le 2 pasword non sono uguali';
-                    e.preventDefault();
                 }
             });
         })();

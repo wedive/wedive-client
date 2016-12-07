@@ -1,0 +1,53 @@
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rpc/rpc-api-client.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
+
+<dom-module id="confirm-email">
+    <style>
+
+        .content {
+            @apply(--layout-horizontal);
+            @apply(--layout-center-justified);
+        }
+
+    </style>
+    <template>
+        <div class="content">
+            <span>La tua mail è stata validata</span>
+            <apigility-rpc-api-client id="rpcClient">
+                <apigility-resource resource-name="rpc/validate-identity"></apigility-resource>
+            </apigility-rpc-api-client>
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'confirm-email',
+
+                properties : {
+                    routeParams : {
+                        type: Object,
+                        observer: '_routeParamsChanged'
+                    }
+                },
+
+                listeners: {
+                    'rpc-error': 'errorResponseHandler'
+                },
+
+                _routeParamsChanged: function (value) {
+                    if (value && value.routeName == 'confirm-email' && value.params.token) {
+
+                        this.$.rpcClient.createRequest('POST', {"token": value.params.token}, {"Content-Type": "application/json"});
+                    }
+                },
+
+                errorResponseHandler: function (event) {
+                    page.redirect('/not-found');
+                },
+            });
+        })();
+    </script>
+</dom-module>
