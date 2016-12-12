@@ -74,6 +74,20 @@
       console.groupEnd();
     });
 
+    /**
+     * Reset password
+     */
+    page('/reset-password/:token', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName =  'reset-password';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
     page('*', scrollToTop, function(ctx) {
 
       app.route = ctx.routeName =  'not-found';

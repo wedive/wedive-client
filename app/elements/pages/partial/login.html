@@ -5,6 +5,8 @@
 <link rel="import" href="../../../bower_components/polymer-apigility/rest/form/rest-form.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../../bower_components/polymer-apigility/auth/form/auth-form.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rpc/form/rpc-form.html">
+<link rel="import" href="../../../bower_components/iron-signal/iron-signals.html">
 <link rel="import" href="../../dropdown-menu/dropdown-menu-input.html">
 
 <dom-module id="login-partial">
@@ -42,6 +44,16 @@
                 @apply(--layout-center-justified);
             }
 
+            .recover {
+                color: var(--accent-color);
+                text-align: center;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 30px;
+                margin: 0;
+                cursor: pointer;
+            }
+
             .errorMessage {
                 color: var(--error-color);
                 padding-top: 16px;
@@ -56,18 +68,41 @@
             }
 
         </style>
-        <form id="loginForm" is="apigility-auth-form" error-message="{{error}}" loading="{{_logging}}">
-            <div class="layout-center">
-                <h1>Login</h1>
-            </div>
-            <div class="errorMessage">{{error}}</div>
-            <apigility-resource resource-name="rest/user"></apigility-resource>
-            <paper-input name="username" label="Email"></paper-input>
-            <paper-input name="password" label="Password" type="password"></paper-input>
-            <div class="layout-center">
-                <paper-button submit-button raised>Login</paper-button>
-            </div>
-        </form>
+        <iron-signals on-iron-signal-authentication="loginHandler"></iron-signals>
+        <template is="dom-if" if="{{!showRoverPassword}}">
+            <form id="loginForm" is="apigility-auth-form" error-message="{{error}}" loading="{{loadingLogin}}">
+                <div class="layout-center">
+                    <h1>Login</h1>
+                </div>
+                <div class="errorMessage">{{error}}</div>
+                <apigility-resource resource-name="rest/user"></apigility-resource>
+                <paper-input name="username" label="Email"></paper-input>
+                <paper-input name="password" label="Password" type="password"></paper-input>
+                <div class="layout-center">
+                    <span hidden$="{{loadingLogin}}" class="recover" on-tap="changeVisibility">Recupera password</span>
+                </div>
+                <div class="layout-center">
+                    <paper-button hidden$="{{loadingLogin}}" submit-button raised>Login</paper-button>
+                    <paper-spinner hidden$="{{!loadingLogin}}" active></paper-spinner>
+                </div>
+            </form>
+        </template>
+        <template is="dom-if" if="{{showRoverPassword}}">
+            <form id="loginForm" is="apigility-rpc-form" error-message="{{error}}" loading="{{loadingRecover}}">
+                <apigility-resource resource-name="rpc/recover-password"></apigility-resource>
+                <div class="layout-center">
+                    <h1>Recupera password</h1>
+                </div>
+                <paper-input name="identity" label="Email"></paper-input>
+                <div class="layout-center">
+                    <span  hidden$="{{loadingRecover}}" class="recover" on-tap="changeVisibility">Torna alla login</span>
+                </div>
+                <div class="layout-center">
+                    <paper-button  hidden$="{{loadingRecover}}" submit-button raised>Recuperala</paper-button>
+                    <paper-spinner hidden$="{{!loadingRecover}}" active></paper-spinner>
+                </div>
+            </form>
+        </template>
     </template>
     <script>
         (function() {
@@ -84,11 +119,53 @@
                     error: {
                         type: String,
                         observer: '_errorChanged'
+                    },
+
+                    showRoverPassword: {
+                        type: Boolean,
+                        readOnly: true,
+                        notify: true,
+                        value: false
+                    },
+
+                    loadingLogin: {
+                        type: Boolean,
+                        notify: true,
+                        value:false
+                    },
+
+                    loadingRecover: {
+                        type: Boolean,
+                        notify: true,
+                        value:false
                     }
                 },
 
                 listeners: {
-                    'rest-form-response': 'restFormRegistrationHandler',
+                    'rpc-response': 'responseHandler',
+                },
+
+                loginHandler: function (event) {
+                    this.fire(
+                        'iron-signal',
+                        {
+                            name: 'toast-notification',
+                            data: {text: 'Bentornato su WEDIVES'}
+                        }
+                    );
+                    this.parentElement.parentElement.parentElement.toggle();
+                },
+
+                responseHandler: function (event) {
+                    var TEMPLATE = "Ti è stata inviata una mail all'indirizzo %MAIL%";
+                    this.fire(
+                        'iron-signal',
+                        {
+                            name: 'toast-notification',
+                            data: {text: TEMPLATE.replace("%MAIL%", event.detail.rpcClient.$.ironAjax.body.identity)}
+                        }
+                    );
+                    this.parentElement.parentElement.parentElement.toggle();
                 },
 
                 _errorChanged: function(newValue, oldValue) {
@@ -102,15 +179,8 @@
                     }
                 },
 
-                restFormRegistrationHandler: function (e) {
-                    var MESSAGE = "Bentornato %EMAIL%";
-                    this.fire(
-                      'iron-signal',
-                      {
-                          name: 'toast-notification',
-                          data: {text: MESSAGE.replace('%EMAIL%', e.target.querySelector('paper-input[name="email"]').value)}
-                      }
-                    );
+                changeVisibility: function () {
+                    this._setShowRoverPassword(!this.showRoverPassword);
                 }
             });
         })();

@@ -4,6 +4,7 @@
 <link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
 <link rel="import" href="../../../bower_components/polymer-apigility/rest/form/rest-form.html">
 <link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../../dropdown-menu/dropdown-menu-input.html">
 
 <dom-module id="registration-partial">
@@ -41,13 +42,14 @@
                 margin: 0;
             }
 
+
             @media (max-width: 640px) {
                 :root {
                     width: auto;
                 }
             }
         </style>
-        <form id="registrationForm" is="apigility-rest-form">
+        <form id="registrationForm" is="apigility-rest-form" loading="{{loading}}">
             <div class="layout-center">
                 <h1>Registrati</h1>
             </div>
@@ -58,7 +60,8 @@
             <paper-input name="repeat_password" label="Ripeti password" type="password" ></paper-input>
             <paper-textarea name="comment" label="Vuoi lasciare la tua opinione?" rows="3"></paper-textarea>
             <div class="layout-center">
-                <paper-button submit-button raised>registrati</paper-button>
+                <paper-button hidden$="{{loading}}" submit-button raised>registrati</paper-button>
+                <paper-spinner hidden$="{{!loading}}" active></paper-spinner>
             </div>
 
         </form>
@@ -73,6 +76,12 @@
                 properties: {
                     placeId :{
                         type: String
+                    },
+
+                    loading: {
+                        type: Boolean,
+                        notify: true,
+                        value:false
                     }
                 },
 
@@ -94,6 +103,7 @@
                           data: {text: MESSAGE.replace('%EMAIL%', e.target.querySelector('paper-input[name="email"]').value)}
                       }
                     );
+                    this.parentElement.parentElement.parentElement.toggle();
                 },
 
                 userPostValidation : function (e) {

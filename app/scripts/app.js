@@ -10,7 +10,6 @@
     app.notificationHandler = function (e) {
         this.$.notification.text = e.detail.text;
         this.$.notification.show();
-        this.$.registrationDialog.toggle();
     };
 
     app.closeNotififaction = function () {
