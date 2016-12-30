@@ -96,15 +96,11 @@
                             }.bind(this),
                             800
                     );
-
                 },
 
                 _rePosition: function () {
-                    var body = document.body,
-                            html = document.documentElement;
-
-                    var heightPage = Math.max( body.scrollHeight, body.offsetHeight,
-                            html.clientHeight, html.scrollHeight, html.offsetHeight );
+                    var body = document.body;
+                    var heightPage = body.offsetHeight;
 
                     if (heightPage > (this.offsetTop + this.$.box.offsetHeight)) {
                         console.log('heigth', heightPage);

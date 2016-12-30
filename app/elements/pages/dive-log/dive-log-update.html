@@ -1,0 +1,359 @@
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-api-client.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-paginator.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/form/rest-form.html">
+<link rel="import" href="../../../bower_components/datepicker/paper-input-date-picker.html">
+<link rel="import" href="../../../bower_components/timepicker/paper-time-picker.html">
+
+<link rel="import" href="../../dropdown-menu/dropdown-menu-input.html">
+
+<dom-module id="dive-log-update">
+    <style>
+        :host {
+
+            border: 1px solid blue;
+        }
+
+        .lh-cj {
+            @apply(--layout-horizontal);
+            @apply(--layout-center-justified);
+        }
+
+        .lh {
+            @apply(--layout-horizontal);
+        }
+
+        .fl {
+            @apply(--layout-flex);
+        }
+
+        .columns2 {
+            @apply(--layout-flex-2);
+            padding-right: 8px;
+            padding-left: 8px;
+        }
+
+        .wrap-content {
+            width: 1280px;
+        }
+
+        .marginTop {
+            margin-top: 16px;
+        }
+
+        paper-button {
+            background-color: var(--default-primary-color);
+            color: var(--accent-color);
+        }
+
+        paper-icon-button {
+            background-color: var(--default-primary-color);
+            color: var(--accent-color);
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        paper-dialog ::content paper-time-picker {
+            padding: 0;
+            margin: 0;
+        }
+
+        paper-dialog ::content paper-time-picker div#heading {
+            margin-bottom: -48px;
+        }
+
+        paper-dialog ::content paper-time-picker div#clockArea {
+            background-color: white;
+        }
+
+        paper-dialog ::content paper-button {
+            padding: 0;
+            margin: 0;
+            margin-left: 8px;
+            margin-right: 8px;
+            min-width: 0;
+            background-color: transparent;
+        }
+
+        paper-input-date-picker ::content  paper-button {
+            width: 100%;
+        }
+
+        paper-input-date-picker ::content paper-dialog ::content paper-button {
+            width: auto;
+        }
+
+        paper-input-date-picker ::content paper-button paper-input {
+            width: 100%;
+        }
+
+        paper-input-date-picker ::content paper-button paper-input paper-input-container {
+            line-height: 0px;
+        }
+
+        paper-input-date-picker ::content paper-dialog ::content paper-button {
+
+            padding: 0;
+            margin: 0;
+            min-width: 0;
+            margin-left: 8px;
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        paper-input-date-picker ::content paper-dialog ::content paper-date-picker div#heading {
+            margin-bottom: -48px;
+        }
+
+        paper-dialog ::content paper-time-picker div#heading {
+            z-index: 1;
+        }
+
+        paper-dialog ::content div.buttons {
+            width: 480px;
+            background-color: white;
+        }
+
+
+        @media (max-width: 1281px) {
+
+            .wrap-content {
+                width: 1024px;
+            }
+
+            paper-icon-button {
+                margin-right: 16px;
+            }
+        }
+
+        @media (max-width: 839px) {
+            .columns2 {
+                @apply(--layout-flex);
+            }
+
+            #diveLogEdit div.lh {
+                @apply(--layout-vertical);
+            }
+        }
+
+        @media (max-width: 560px) {
+            paper-dialog ::content paper-time-picker div#heading {
+                margin-bottom: 0px;
+            }
+
+            paper-dialog ::content div.buttons {
+                width: 296px;
+            }
+        }
+
+    </style>
+    <template>
+        <div class="lh-cj">
+            <div class="wrap-content">
+                <form id="diveLogEdit" is="apigility-rest-form" service-name="rest/dive-log" auth="[[auth]]" entity="{{entity}}" auto-load>
+                    <apigility-resource resource-name="rest/dive-log" identifier="[[diveLogId]]"  has-identifier i-am-entity></apigility-resource>
+                    <div class="lh">
+                        <div class="columns2">
+                            <paper-input name="place_reference" label="Nome sito di immersione" on-tap=""></paper-input>
+                        </div>
+                        <div class="columns2">
+                            <paper-input name="depth" label="Profondità (metri)"></paper-input>
+                        </div>
+                    </div>
+                    <div class="lh">
+                        <div class="columns2">
+                            <paper-textarea name="note" label="Note"></paper-textarea>
+                        </div>
+                    </div>
+                    <div class="lh">
+                        <div class="columns2">
+                            <input type="hidden" name="date_when" value="{{date}}">
+                            <paper-input-date-picker id="dateInput" label="Data" no-prefix-icon="true" locale="it-IT" input-display-format="YYYY-MM-DD" modal></paper-input-date-picker>
+                        </div>
+                        <div class="columns2">
+                            <dropdown-menu-input name="visibility" label="Visibilità">
+                                <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                                    <paper-item value="1">1</paper-item>
+                                    <paper-item value="2">2</paper-item>
+                                    <paper-item value="3">3</paper-item>
+                                    <paper-item value="4">4</paper-item>
+                                    <paper-item value="5">5</paper-item>
+                                </paper-menu>
+                            </dropdown-menu-input>
+                        </div>
+                    </div>
+                    <div class="lh">
+                        <div class="columns2">
+                            <paper-input id="timeInput" label="Ora" on-tap="tapTime" value="{{time}}"></paper-input>
+                            <paper-dialog id="dialogTime" modal class="paper-time-picker-dialog">
+                                <paper-time-picker id="timePicker" time="{{time}}"></paper-time-picker>
+                                <div class="buttons">
+                                    <paper-button dialog-dismiss>Chiudi</paper-button>
+                                </div>
+                            </paper-dialog>
+                        </div>
+                        <div class="columns2">
+                            <dropdown-menu-input name="current" label="Corrente">
+                                <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                                    <paper-item value="1">1</paper-item>
+                                    <paper-item value="2">2</paper-item>
+                                    <paper-item value="3">3</paper-item>
+                                    <paper-item value="4">4</paper-item>
+                                    <paper-item value="5">5</paper-item>
+                                </paper-menu>
+                            </dropdown-menu-input>
+                        </div>
+                    </div>
+                    <div class="lh">
+                        <div class="columns2">
+                            <paper-input name="duration_dive" label="Durata (minuti)"></paper-input>
+                        </div>
+                        <div class="columns2">
+                            <dropdown-menu-input name="start_point_dive" label="Punto di immersione">
+                                <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                                    <paper-item value="beach">Spiaggia</paper-item>
+                                    <paper-item value="sea">Mare</paper-item>
+                                </paper-menu>
+                            </dropdown-menu-input>
+                        </div>
+                    </div>
+                    <div class="lh">
+                        <div class="columns2">
+                            <paper-input name="temperature" label="Temperatura"></paper-input>
+                        </div>
+                        <div class="columns2">
+
+                        </div>
+                    </div>
+                    <div class="lh-cj marginTop">
+                        <paper-button submit-button raised>SAVE</paper-button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'dive-log-update',
+                properties: {
+
+                    routeParams: {
+                        type: Object,
+                        notify: true,
+                        observer: '_routeParamsChanged'
+                    },
+
+                    entity: {
+                        type: Object,
+                        notify: true,
+                        observer: '_entityChanged'
+                    },
+
+                    diveLogId: {
+                        type: String,
+                        notify: true,
+                    }
+                },
+
+                listeners: {
+                    'rest-error': 'errorHandler',
+                },
+
+                ready: function () {
+                    this.$.diveLogEdit.addEventListener('rest-form-presubmit', this._validateValue.bind(this));
+                },
+
+                _routeParamsChanged: function (routeParams) {
+
+                    if (routeParams.routeName == 'diary-edit') {
+                        this.diveLogId = routeParams.params.id;
+                    }
+                },
+
+                _entityChanged: function (entity) {
+
+                    if (entity) {
+                        var arrayDate = entity.date_when.split(" ");
+                        var time = arrayDate[1].split(":");
+
+                        var date = new Date(arrayDate[0]);
+                        this.$.dateInput.value = date;
+
+                        time = parseInt(time);
+                        if (time[0] > 12) {
+                            arrayDate[1] = arrayDate[1] + " PM";
+                        }  else {
+                            arrayDate[1] = arrayDate[1] + " AM";
+                        }
+                        this.$.timePicker.time = arrayDate[1];
+                        this.date = entity.date_when;
+                    }
+                },
+
+                errorHandler: function (e) {
+                    if (e.detail.restClient.$.ironAjax.lastRequest.status == 403) {
+                        page('/forbidden');
+                    }
+                    if (e.detail.restClient.$.ironAjax.lastRequest.status == 404) {
+                        page('/not-found');
+                    }
+                },
+
+                openCalendar: function () {
+                    this.$.calendar.toggle();
+                },
+
+                tapTime: function () {
+                    this.$.dialogTime.toggle();
+                },
+
+                _validateValue: function (e) {
+                    var valid = true;
+                    var inputTime = Polymer.dom(e.target).querySelector('#timeInput');
+                    var inputDate = Polymer.dom(e.target).querySelector('#dateInput');
+
+                    if (!inputDate.value) {
+                        inputDate.invalid = true;
+                        inputDate.errorMessage = "Il dato è richiesto e non può essere vuoto";
+                        valid = false;
+                    } else {
+                        inputDate.invalid = false;
+                        inputDate.errorMessage = null;
+                    }
+
+                    if (!inputTime.value) {
+                        inputTime.invalid = true;
+                        inputTime.errorMessage = "Il dato è richiesto e non può essere vuoto";
+                        valid = false;
+                    } else {
+                        inputTime.invalid = false;
+                        inputTime.errorMessage = null;
+                    }
+
+                    if (!valid) {
+                        e.preventDefault();
+                    } else {
+                        var timePicker = Polymer.dom(e.target).querySelector('#timePicker');
+                        var hour = (timePicker.hour < 10) ? '0'+timePicker.hour : timePicker.hour;
+                        var minute = (timePicker.minute < 10) ? '0'+timePicker.minute : timePicker.minute;
+                        var time = hour + ':' + minute;
+
+                        var date = inputDate.$.picker.dateFormat(inputDate.value, inputDate.inputDisplayFormat);
+                        this.date = date + ' ' + time;
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>

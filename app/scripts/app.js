@@ -27,6 +27,11 @@
         dialog.toggle();
     },
 
+    app.logout = function () {
+        var authService = document.querySelector('apigility-auth-service');
+        authService.logout();
+    },
+
     /**
      * Load geolocation user information
      */

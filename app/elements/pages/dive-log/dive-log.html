@@ -1,0 +1,139 @@
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-api-client.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-paginator.html">
+<link rel="import" href="../../../bower_components/iron-data-table/iron-data-table.html">
+<link rel="import" href="../../../bower_components/iron-data-table/data-table-column.html">
+
+<dom-module id="dive-log">
+    <style>
+
+        .lh-cj {
+            @apply(--layout-horizontal);
+            @apply(--layout-center-justified);
+        }
+
+        .lh-ej {
+            @apply(--layout-horizontal);
+            @apply(--layout-end-justified);
+        }
+
+        .fl {
+            @apply(--layout-flex);
+        }
+
+        .wrap-content {
+            width: 1280px;
+        }
+
+        iron-icon {
+            color:  var(--accent-color);
+        }
+
+        paper-icon-button {
+            background-color: var(--default-primary-color);
+            color: var(--accent-color);
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        #table {
+            font-family: 'Roboto', 'Noto', sans-serif;
+            margin-bottom: 24px;
+        }
+
+        @media  (max-width: 1281px) {
+
+            .wrap-content {
+                width: 1024px;
+            }
+
+            paper-icon-button {
+                margin-right: 16px;
+            }
+        }
+
+    </style>
+    <template>
+        <iron-signals on-iron-signal-logout="__logout"></iron-signals>
+        <apigility-rest-api-client id="diveLogs" collection-name="dive-logs" collection="{{diveLogs}}" auth="{{auth}}" page-count="{{pageCount}}" page-size="[[pageSize]]" page="[[page]]">
+            <apigility-resource resource-name="rest/dive-log"></apigility-resource>
+        </apigility-rest-api-client>
+        <div class="lh-cj" style="margin-top: 24px;">
+            <div class="wrap-content">
+                <div class="lh-ej">
+                    <a href="/diary/add"><paper-icon-button icon="add"></paper-icon-button></a>
+                </div>
+            </div>
+        </div>
+        <div class="lh-cj">
+            <div class="wrap-content">
+                <iron-data-table id="table" items="{{diveLogs}}">
+                    <data-table-column name="Nome">
+                        <template>[[item.name]]</template>
+                    </data-table-column>
+                    <data-table-column name="Profondità">
+                        <template>[[item.depth]] metri</template>
+                    </data-table-column>
+                    <data-table-column name="Data">
+                        <template>[[item.date_when]]</template>
+                    </data-table-column>
+                    <data-table-column name="Durata">
+                        <template>[[item.duration_dive]] minuti</template>
+                    </data-table-column>
+                    <data-table-column name="Action">
+                        <template><a href="/diary/edit/[[item.id]]"><iron-icon icon="create"></iron-icon></a></template>
+                    </data-table-column>
+                </iron-data-table>
+            </div>
+        </div>
+        <div class="lh-cj" style="margin-bottom: 24px;">
+            <div class="wrap-content">
+                <div class="lh-ej">
+                    <apigility-rest-paginator page-count="{{pageCount}}" page="{{page}}" page-size="{{pageSize}}"></apigility-rest-paginator>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'dive-log',
+                properties: {
+
+                    routeParams: {
+                        type: Object,
+                        notify: true,
+                        observer: '_routeParamsChanged'
+                    },
+                },
+
+                listeners: {
+                    'rest-error': 'errorHandler',
+                },
+
+                __logout: function () {
+                    page('/');
+                },
+
+                errorHandler: function (e) {
+                    if (e.detail.restClient.$.ironAjax.lastRequest.status == 403) {
+                        page('/forbidden');
+                    }
+                },
+
+                _routeParamsChanged: function (routeParams) {
+                    if (routeParams.routeName == 'diary') {
+                        this.$.diveLogs.getAll();
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>

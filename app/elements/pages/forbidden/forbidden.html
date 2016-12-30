@@ -1,0 +1,56 @@
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rpc/rpc-api-client.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
+<link rel="import" href="../../../bower_components/iron-signal/iron-signals.html">
+
+<dom-module id="forbidden-page">
+    <style>
+
+        .content {
+            @apply(--layout-horizontal);
+            @apply(--layout-center-justified);
+            margin-top: 24px;
+        }
+
+        .text {
+            position: absolute;
+            top: 100px;
+            text-align: center;
+            width: 100%;
+            color: white;
+            letter-spacing: 5px;
+            font-size: 16px;
+        }
+
+        .text h1 {
+            font-size: 50px;
+            margin: 0;
+        }
+
+    </style>
+    <template>
+        <div class="content">
+            <span>Effetua il login per accedere ai cotenuti</span>
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'forbidden-page',
+
+                observers: [
+                    '_checkChanged(auth, routeParams)'
+                ],
+
+                _checkChanged : function (auth, routeParams) {
+                    if (auth && routeParams && routeParams.routeName == 'forbidden') {
+                        page('/');
+                    }
+                }
+            });
+        })();
+    </script>
+</dom-module>

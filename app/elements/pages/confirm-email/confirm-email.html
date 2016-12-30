@@ -13,7 +13,6 @@
     </style>
     <template>
         <div class="content">
-            <span>La tua mail è stata validata</span>
             <apigility-rpc-api-client id="rpcClient">
                 <apigility-resource resource-name="rpc/validate-identity"></apigility-resource>
             </apigility-rpc-api-client>
@@ -34,7 +33,8 @@
                 },
 
                 listeners: {
-                    'rpc-error': 'errorResponseHandler'
+                    'rpc-error': 'errorResponseHandler',
+                    'rpc-response': 'responseHandler',
                 },
 
                 _routeParamsChanged: function (value) {
@@ -44,9 +44,21 @@
                     }
                 },
 
+                responseHandler: function (event) {
+                    var MESSAGE = "La mail è stata validata, adesso puoi loggarti";
+                    this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE}});
+
+                    page('/');
+
+                    var dialog = document.getElementById('loginDialog');
+                    if (dialog) {
+                        dialog.toggle();
+                    }
+                },
+
                 errorResponseHandler: function (event) {
                     page.redirect('/not-found');
-                },
+                }
             });
         })();
     </script>

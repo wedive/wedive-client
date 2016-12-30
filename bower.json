@@ -10,7 +10,10 @@
     "iron-grid": "The5heepDev/iron-grid#master",
     "page": "page.js#~1.7.1",
     "google-map": "GoogleWebComponents/google-map#~1.1.10",
-    "carousel": "git@github.com:Link2Twenty/l2t-paper-slider.git#~1.2"
+    "carousel": "git@github.com:Link2Twenty/l2t-paper-slider.git#~1.2",
+    "iron-data-table": "~1.0.6",
+    "datepicker": "git@github.com:WebPaperElements/paper-input-date-picker.git#~0.22.0",
+    "timepicker": "git@github.com:bendavis78/paper-time-picker.git#~1.1.4"
   },
   "devDependencies": {
     "web-component-tester": "*",

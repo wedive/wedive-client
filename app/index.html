@@ -14,6 +14,8 @@
     <iron-meta type="apigility" key="base-url" value="{{config.base-url}}"></iron-meta>
     <iron-meta type="google-map" key="apikey" value="{{config.google-map-api-key}}"></iron-meta>
     <apigility-auth-service
+            auth="{{auth}}"
+            identity-object="{{identityObject}}"
             oauth-service="oauth"
             identity-service="rest/user"
             client-id="open-wedive" >
@@ -49,8 +51,10 @@
 
     <app-drawer id="drawer" align="right" swipe-open>
         <div class="drawer-contents">
-            <div class="menu-item" on-tap="openLogin">Login</div>
-            <div class="menu-item" on-tap="openRegistration">Registrati</div>
+            <div class="menu-item" on-tap="openLogin" hidden$="{{auth}}">Login</div>
+            <div class="menu-item" on-tap="openRegistration" hidden$="{{auth}}">Registrati</div>
+            <div class="menu-item" hidden$="{{!auth}}"><a href="/diary">Diario</a></div>
+            <div class="menu-item" on-tap="logout" hidden$="{{!auth}}">Logout</div>
         </div>
     </app-drawer>
     <iron-signals on-iron-signal-toast-notification="notificationHandler"></iron-signals>

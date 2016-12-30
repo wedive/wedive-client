@@ -111,9 +111,9 @@
                     var paperInputPassword = Polymer.dom(e.target).querySelector('paper-input[name=password]');
                     var paperInputRepeatPassword = Polymer.dom(e.target).querySelector('paper-input[name=repeat_password]');
 
-                    if ((!paperInputPassword || !paperInputRepeatPassword)
-                            || (!paperInputPassword.value || !paperInputRepeatPassword.value)
-                            || (paperInputPassword.value === paperInputRepeatPassword.value)
+                    if ((paperInputPassword && paperInputRepeatPassword)
+                            && (paperInputPassword.value && paperInputRepeatPassword.value)
+                            && (paperInputPassword.value === paperInputRepeatPassword.value)
 
                     ) {
                         return valid;

@@ -8,6 +8,10 @@
         case ctx.params.placeId != undefined:
           scrollManager(ctx, 0, 360);
           break;
+        default:
+          element = document.querySelector('partial-footer');
+          element._rePosition();
+
       }
       next();
     };
@@ -88,8 +92,60 @@
       console.groupEnd();
     });
 
-    page('*', scrollToTop, function(ctx) {
+    /**
+     * Diary
+     */
+    page('/diary', scrollToTop, function(ctx) {
 
+      app.route = ctx.routeName =  'diary';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
+    /**
+     * Diary edit
+     */
+    page('/diary/edit/:id', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName =  'diary-edit';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
+    /**
+     * Diary add
+     */
+    page('/diary/add', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName =  'diary-add';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
+    page('/forbidden', scrollToTop, function(ctx) {
+      app.route = ctx.routeName =  'forbidden';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+
+    });
+
+    page('*', scrollToTop, function(ctx) {
       app.route = ctx.routeName =  'not-found';
 
     });
