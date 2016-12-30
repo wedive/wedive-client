@@ -103,10 +103,12 @@
                     var heightPage = body.offsetHeight;
 
                     if (heightPage > (this.offsetTop + this.$.box.offsetHeight)) {
+                        console.groupCollapsed('OFFSET FOOTER');
                         console.log('heigth', heightPage);
                         console.log('offsetTop', this.offsetTop);
                         console.log('offsetHeight', this.$.box.offsetHeight);
                         console.log('scrollHeight', this.scrollHeight);
+                        console.groupEnd();
                         var moreHeight = heightPage - (this.offsetTop + this.$.box.offsetHeight);
                         this.$.box.style.marginTop = moreHeight + 'px';
                     }
