@@ -4,16 +4,25 @@
   window.addEventListener('WebComponentsReady', function() {
 
     function scrollToTop(ctx, next) {
+      var path = '';
+      if (ctx) {
+        path = ctx.pathname.split("/");
+      }
       switch (true) {
         case ctx.params.placeId != undefined:
           scrollManager(ctx, 0, 360);
           break;
-        default:
-          element = document.querySelector('partial-footer');
-          element._rePosition();
-
+        case path[1] == 'not-found':
+        case path[1] == 'forbidden':
+          scrollFooter();
+          break;
       }
       next();
+    };
+
+    function scrollFooter() {
+      element = document.querySelector('partial-footer');
+      element._rePosition();
     };
 
     function scrollManager(ctx, startIndex, endIndex) {
