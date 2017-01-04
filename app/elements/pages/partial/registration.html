@@ -47,6 +47,15 @@
                 :root {
                     width: auto;
                 }
+
+                paper-input {
+                    height: 72px;
+                }
+
+                paper-input ::content paper-input-error {
+                    white-space: normal;
+                    line-height: 14px;;
+                }
             }
         </style>
         <form id="registrationForm" is="apigility-rest-form" loading="{{loading}}">
