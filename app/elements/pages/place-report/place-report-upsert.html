@@ -1,0 +1,314 @@
+<link rel="import" href="../../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-api-client.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/form/rest-form.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/api-resource.html">
+<link rel="import" href="../../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-paginator.html">
+<link rel="import" href="../../../bower_components/iron-data-table/iron-data-table.html">
+<link rel="import" href="../../../bower_components/iron-data-table/data-table-column.html">
+<link rel="import" href="../../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../../google-map/google-map-autocomplete.html">
+<link rel="import" href="../../file-input/file-input.html">
+<link rel="import" href="../../entity-image/entity-image.html">
+<link rel="import" href="../../pages/place-gallery/partial/crud.html">
+
+<dom-module id="place-report-upsert">
+    <style>
+
+        :root {
+            padding-top: 24px;
+        }
+
+        .lh-cj {
+            @apply(--layout-horizontal);
+            @apply(--layout-center-justified);
+        }
+
+        .lh {
+            @apply(--layout-horizontal);
+        }
+
+        .lh-ej {
+            @apply(--layout-horizontal);
+            @apply(--layout-end-justified);
+        }
+
+        .fl {
+            @apply(--layout-flex);
+        }
+
+        .wrap-content {
+            width: 1280px;
+        }
+
+        iron-icon {
+            color:  var(--accent-color);
+        }
+
+        paper-button {
+            background-color: var(--default-primary-color);
+            color: var(--accent-color);
+        }
+
+        place-gallery-crud {
+            margin-right: 16pX;
+        }
+
+        google-map {
+            margin-top: 40px;
+            height: 400px;
+        }
+
+        google-map ::content paper-input {
+            padding-left: 24px;
+        }
+
+        paper-icon-button {
+            background-color: var(--default-primary-color);
+            color: var(--accent-color);
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
+        #table {
+            font-family: 'Roboto', 'Noto', sans-serif;
+            margin-bottom: 24px;
+        }
+
+        @media  (max-width: 1281px) {
+
+            .wrap-content {
+                width: 1024px;
+            }
+
+            paper-icon-button {
+                margin-right: 16px;
+            }
+        }
+
+        @media  (max-width: 1023px) {
+
+            .wrap-content {
+                width: 100%;
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            paper-icon-button {
+                margin-right: 16px;
+            }
+        }
+
+    </style>
+    <template>
+        <div class="lh-cj">
+            <div class="wrap-content">
+                <template is="dom-if" if="{{placeId}}">
+                    <entity-image entity="{{entity}}" image-field="cover" sizing="cover"></entity-image>
+                    <form id="placeCover" is="apigility-rest-form" content-type="multipart/form-data" auth="{{auth}}">
+                        <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier i-am-entity>
+                            <apigility-resource resource-name="cover">
+                            </apigility-resource>
+                        </apigility-resource>
+                        <file-input label="Upload cover" name="blob" auto-send></file-input>
+                    </form>
+
+                    <div class="lh">
+                        <template is="dom-repeat" items="{{entity.collection}}">
+                            <place-gallery-crud entity="{{item}}" sizing="cover" place-id={{entity.id}}  auth="[[auth]]"></place-gallery-crud>
+                        </template>
+                    </div>
+                    <form id="placeGallery" is="apigility-rest-form" content-type="multipart/form-data" auth="{{auth}}">
+                        <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier>
+                            <apigility-resource resource-name="gallery">
+                            </apigility-resource>
+                        </apigility-resource>
+                        <file-input label="Upload gallery" name="blob" auto-send></file-input>
+                    </form>
+                </template>
+                <form id="placeUpsert"
+                      is="apigility-rest-form"
+                      entity="{{entity}}"
+                      auth="{{auth}}">
+                    <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier></apigility-resource>
+                    <paper-input name="name" label="Nome"></paper-input>
+                    <paper-input name="max_depth" label="Profodità"></paper-input>
+                    <dropdown-menu-input name="visibility" label="Visibilità">
+                        <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                            <paper-item value="1">1</paper-item>
+                            <paper-item value="2">2</paper-item>
+                            <paper-item value="3">3</paper-item>
+                            <paper-item value="4">4</paper-item>
+                            <paper-item value="5">5</paper-item>
+                        </paper-menu>
+                    </dropdown-menu-input>
+                    <dropdown-menu-input name="current" label="Corrente">
+                        <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                            <paper-item value="0">0</paper-item>
+                            <paper-item value="1">1</paper-item>
+                            <paper-item value="2">2</paper-item>
+                            <paper-item value="3">3</paper-item>
+                            <paper-item value="4">4</paper-item>
+                            <paper-item value="5">5</paper-item>
+                        </paper-menu>
+                    </dropdown-menu-input>
+                    <paper-textarea name="description" label="Descrizione"></paper-textarea>
+                    <template is="dom-if" if="{{apiKey}}">
+                        <google-map-autocomplete class="autocomple-map" api-key="{{apiKey}}"></google-map-autocomplete>
+                        <google-map
+                                map="{{map}}"
+                                id="map"
+                                api-key="{{apiKey}}"
+                                zoom="13"
+                                max-zoom="17"
+                                min-zoom="0"
+                                latitude="{{latMap}}"
+                                longitude="{{longMap}}"
+                                disable-default-ui>
+                            <google-map-marker map="[[map]]" latitude="{{marker.latitude}}" longitude="{{marker.longitude}}" draggable="true"></google-map-marker>
+                        </google-map>
+                        <paper-input  name="geo_coordinate[longitude]" label="Longitudine"  value="{{marker.longitude}}"></paper-input>
+                        <paper-input  name="geo_coordinate[latitude]" label="Latitudine" value="{{marker.latitude}}"></paper-input>
+                    </template>
+                    <div class="lh-cj marginTop">
+                        <paper-button submit-button raised>SAVE</paper-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'place-report-upsert',
+                properties: {
+
+                    marker: {
+                        type: Object,
+                        readOnly: true,
+                        notify: true,
+                        value: {},
+                    },
+
+                    routeParams: {
+                        type: Object,
+                        notify: true,
+                        observer: '_routeParamsChanged'
+                    },
+
+                    entity: {
+                        type: Object,
+                        notify: true,
+                    },
+
+                    placeId: {
+                        type: String,
+                        readOnly: true,
+                        notify: true
+                    }
+                },
+
+                observers: [
+                    'entityChanged(entity)',
+                    'markerChanged(marker.*)'
+                ],
+
+                listeners: {
+                    'api-load': 'loadMap',
+                    'place_loaded': 'loadPlace',
+                    'rest-put-response': 'postCoverResponseHandler'
+                },
+
+                ready: function() {
+                    this.$.placeUpsert.addEventListener('rest-post-response', this.postResponseHandler.bind(this));
+                    this.apiKey = new Polymer.IronMetaQuery({type:'google-map', key: 'apikey'}).value;
+                },
+
+                postResponseHandler: function (e) {
+                    var MESSAGE = "Il sito di immersione %NAME% è stato segnalato con successo";
+                    this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.name)}});
+
+                    page('/place/report/edit/' + e.detail.response.id);
+                },
+
+                postCoverResponseHandler: function (e) {
+
+                    if (e.detail.response.blob) {
+                        var entity = this.entity;
+                        entity.cover = e.detail.response._links.self.href + '?lastUpdate=' + Date.now();
+                        this.entity = null;
+                        this.entity = entity;
+                    }
+                },
+
+                entityChanged: function(entity) {
+                    if (entity) {
+                        this.__setMarker(entity.geo_coordinate.latitude, entity.geo_coordinate.longitude);
+                        this.latMap = entity.geo_coordinate.latitude;
+                        this.longMap = entity.geo_coordinate.longitude;
+                    }
+                },
+
+
+                markerChanged: function(marker) {
+                    var oldMarker = this.marker;
+                    if (marker.path == "marker.longitude") {
+                        this.longMap = marker.value;
+                        this.__setMarker(oldMarker.latitude, marker.value);
+                    }
+                    if (marker.path == "marker.latitude") {
+                        this.latMap = marker.value;
+                        this.__setMarker(marker.value, oldMarker.longitude);
+                    }
+                },
+
+                _routeParamsChanged: function (routeParams) {
+                    if (routeParams.routeName == 'place-report-edit' && routeParams.params.placeId) {
+                        this._setPlaceId(routeParams.params.placeId);
+                        this.$.placeUpsert.$.restClient.get();
+                    }
+
+                    if (routeParams.routeName == 'place-report-add') {
+                        this._setPlaceId(null);
+                        this.$.placeUpsert.reset()
+                    }
+
+                    if (routeParams.routeName == 'place-report-add'
+                        || routeParams.routeName == 'place-report-edit'
+                    ) {
+
+                        if (!this.auth) {
+                            page('/forbidden');
+                        }
+                    }
+                },
+
+                loadMap: function (e) {
+
+                    if (e.target.parentElement.latitude && e.target.parentElement.longitude) {
+                        this.__setMarker(e.target.parentElement.latitude, e.target.parentElement.longitude);
+                    }
+                },
+
+                loadPlace: function (e) {
+                    this.__setMarker(e.target.latitude, e.target.longitude);
+                    this.latMap = e.target.latitude;
+                    this.longMap = e.target.longitude;
+                },
+
+                __setMarker: function (latitude, longitude) {
+                    var marker = {};
+                    marker.latitude = latitude;
+                    marker.longitude = longitude;
+                    this._setMarker(marker);
+                }
+            });
+        })();
+    </script>
+</dom-module>

@@ -17,7 +17,7 @@
             auth="{{auth}}"
             identity-object="{{identityObject}}"
             oauth-service="oauth"
-            identity-service="rest/user"
+            identity-service="rpc/identity"
             client-id="open-wedive" >
     </apigility-auth-service>
     <app-header fixed condenses
@@ -54,6 +54,7 @@
             <div class="menu-item" on-tap="openLogin" hidden$="{{auth}}">Login</div>
             <div class="menu-item" on-tap="openRegistration" hidden$="{{auth}}">Registrati</div>
             <div class="menu-item" hidden$="{{!auth}}"><a href="/diary">Diario</a></div>
+            <div class="menu-item" hidden$="{{!auth}}"><a href="/place/report">Segnala</a></div>
             <div class="menu-item" on-tap="logout" hidden$="{{!auth}}">Logout</div>
         </div>
     </app-drawer>

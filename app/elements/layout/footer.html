@@ -96,23 +96,27 @@
                             function () {
                                 this._rePosition();
                             }.bind(this),
-                            800
+                            1200
                     );
                 },
 
                 _rePosition: function () {
-                    var body = document.body;
-                    var heightPage = body.offsetHeight;
+                    var body = document.body,
+                        html = document.documentElement;
+
+                    var heightPage = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 
                     if (heightPage > (this.offsetTop + this.$.box.offsetHeight)) {
+                        var moreHeight = heightPage - (this.offsetTop + this.$.box.offsetHeight);
+                        this.$.box.style.marginTop = moreHeight + 'px';
+
                         console.groupCollapsed('OFFSET FOOTER');
                         console.log('heigth', heightPage);
                         console.log('offsetTop', this.offsetTop);
                         console.log('offsetHeight', this.$.box.offsetHeight);
                         console.log('scrollHeight', this.scrollHeight);
+                        console.log('moreHeight', moreHeight);
                         console.groupEnd();
-                        var moreHeight = heightPage - (this.offsetTop + this.$.box.offsetHeight);
-                        this.$.box.style.marginTop = moreHeight + 'px';
                     }
                 }
 

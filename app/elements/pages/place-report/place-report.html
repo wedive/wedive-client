@@ -8,7 +8,7 @@
 <link rel="import" href="../../../bower_components/iron-data-table/iron-data-table.html">
 <link rel="import" href="../../../bower_components/iron-data-table/data-table-column.html">
 
-<dom-module id="dive-log">
+<dom-module id="place-report">
     <style>
 
         .lh-cj {
@@ -29,6 +29,18 @@
             width: 1280px;
         }
 
+        iron-icon {
+            color:  var(--accent-color);
+        }
+
+        paper-icon-button {
+            background-color: var(--default-primary-color);
+            color: var(--accent-color);
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+        }
+
         .circle {
             border-radius: 50%;
         }
@@ -45,6 +57,14 @@
             cursor: pointer;
         }
 
+        .paddingTop {
+            padding-top: 24px;
+        }
+
+        .marginBottom {
+            margin-bottom: 24px;
+        }
+
         .content-image {
             position: absolute;
             top: 130px;
@@ -58,18 +78,6 @@
             text-align: center;
             letter-spacing: .1px;
             color:  var(--accent-color);
-        }
-
-        iron-icon {
-            color:  var(--accent-color);
-        }
-
-        paper-icon-button {
-            background-color: var(--default-primary-color);
-            color: var(--accent-color);
-            -webkit-border-radius: 50%;
-            -moz-border-radius: 50%;
-            border-radius: 50%;
         }
 
         #table {
@@ -90,52 +98,48 @@
 
     </style>
     <template>
-        <iron-signals on-iron-signal-logout="__logout"></iron-signals>
-        <apigility-rest-api-client id="diveLogs" collection-name="dive-logs" collection="{{diveLogs}}" auth="{{auth}}" page-count="{{pageCount}}" page-size="[[pageSize]]" page="[[page]]">
-            <apigility-resource resource-name="rest/dive-log"></apigility-resource>
+        <apigility-rest-api-client id="places" collection-name="places" collection="{{places}}" auth="{{auth}}" page-count="{{pageCount}}" page-size="[[pageSize]]" page="[[page]]">
+            <apigility-resource resource-name="rest/place"></apigility-resource>
         </apigility-rest-api-client>
-        <div hidden$="{{!hasDiveLogs(diveLogs)}}">
-            <div class="lh-cj" style="margin-top: 24px;">
+        <div hidden$="{{!hasDives(places)}}">
+            <div class="lh-cj paddingTop">
                 <div class="wrap-content">
                     <div class="lh-ej">
-                        <a href="/diary/add"><paper-icon-button icon="add" title="Aggiungi un immersione al tuo log"></paper-icon-button></a>
+                        <a href="/place/report/add"><paper-icon-button icon="add"></paper-icon-button></a>
                     </div>
                 </div>
             </div>
             <div class="lh-cj">
                 <div class="wrap-content">
-                    <iron-data-table id="table" items="{{diveLogs}}">
+                    <iron-data-table id="table" items="{{places}}">
                         <data-table-column name="Nome">
-                            <template>[[item.place_reference]]</template>
+                            <template>[[item.name]]</template>
                         </data-table-column>
-                        <data-table-column name="Profondità">
-                            <template>[[item.depth]] metri</template>
+                        <data-table-column name="Stato">
+                            <template>[[item.state]]</template>
                         </data-table-column>
-                        <data-table-column name="Data">
-                            <template>[[item.date_when]]</template>
-                        </data-table-column>
-                        <data-table-column name="Durata">
-                            <template>[[item.duration_dive]] minuti</template>
+                        <data-table-column name="Data ultima modifica">
+                            <template>[[_computeDate(item.date_modified)]]</template>
                         </data-table-column>
                         <data-table-column name="Action">
-                            <template><a href="/diary/edit/[[item.id]]"><iron-icon icon="create"></iron-icon></a></template>
+                            <template><a href="/place/report/edit/[[item.id]]"><iron-icon icon="create"></iron-icon></a></template>
                         </data-table-column>
                     </iron-data-table>
                 </div>
             </div>
-            <div class="lh-cj" style="margin-bottom: 24px;">
+            <div class="lh-cj">
                 <div class="wrap-content">
-                    <div class="lh-ej">
+                    <div class="lh-ej paddingTop">
                         <apigility-rest-paginator page-count="{{pageCount}}" page="{{page}}" page-size="{{pageSize}}"></apigility-rest-paginator>
                     </div>
                 </div>
             </div>
         </div>
-        <div hidden$="{{hasDiveLogs(diveLogs)}}">
+        <div hidden$="{{hasDives(places)}}">
             <div class="lh-cj">
-                <div class="image" on-tap="openAddDiveLog">
-                    <iron-image src="/images/dive-log.png" class="circle circle-border" height="300" width="300"></iron-image>
-                    <div class="content-image">Aggiungi la tua immersione</div>
+                <div class="image" on-tap="openAddDive">
+                    <iron-image src="/images/sea.png" class="circle circle-border" height="300" width="300"></iron-image>
+                    <div class="content-image">Sengnala un punto di immersione</div>
                 </div>
             </div>
         </div>
@@ -145,7 +149,7 @@
             'use strict';
 
             Polymer({
-                is: 'dive-log',
+                is: 'place-report',
                 properties: {
 
                     routeParams: {
@@ -159,31 +163,43 @@
                     'rest-error': 'errorHandler',
                 },
 
-                __logout: function () {
-                    page('/');
-                },
-
                 errorHandler: function (e) {
                     if (e.detail.restClient.$.ironAjax.lastRequest.status == 403) {
                         page('/forbidden');
                     }
                 },
 
-                _routeParamsChanged: function (routeParams) {
-                    if (routeParams.routeName == 'diary') {
-                        this.$.diveLogs.getAll();
+                _computeDate: function (date) {
+
+                    if (date) {
+                        var dateObject = new Date(date);
+                        return dateObject.getUTCDate()
+                                + '/' + (dateObject.getUTCMonth()+1)
+                                + '/' + dateObject.getUTCFullYear()
+                                + ' ' + dateObject.getUTCHours()
+                                + ':' + dateObject.getUTCMinutes();
                     }
                 },
 
-                openAddDiveLog: function() {
-                    page('/diary/add');
+                _routeParamsChanged: function (routeParams) {
+                    if (routeParams.routeName == 'place-report') {
+                        this.$.places.getAll();
+
+                        if (!this.auth) {
+                            page('/forbidden');
+                        }
+                    }
                 },
 
-                hasDiveLogs: function(diveLogs) {
-                    if (diveLogs.length) {
+                hasDives: function(places) {
+                    if (places.length) {
                         return true;
                     }
                     return false;
+                },
+
+                openAddDive: function() {
+                    page('/place/report/add');
                 }
             });
         })();

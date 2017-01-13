@@ -204,6 +204,7 @@
                         <div class="columns2">
                             <dropdown-menu-input name="current" label="Corrente">
                                 <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                                    <paper-item value="0">0</paper-item>
                                     <paper-item value="1">1</paper-item>
                                     <paper-item value="2">2</paper-item>
                                     <paper-item value="3">3</paper-item>
@@ -268,7 +269,7 @@
 
                 errorHandler: function (e) {
                     if (e.detail.restClient.$.ironAjax.lastRequest.status == 403) {
-                        page('/forbidden');
+                        //page('/forbidden');
                     }
                 },
 

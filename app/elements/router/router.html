@@ -6,6 +6,8 @@
 <link rel="import" href="../pages/home/grid-section.html">
 
 <link rel="import" href="../pages/place/profile.html">
+<link rel="import" href="../pages/place-report/place-report.html">
+<link rel="import" href="../pages/place-report/place-report-upsert.html">
 <link rel="import" href="../pages/dive-log/dive-log.html">
 <link rel="import" href="../pages/dive-log/dive-log-post.html">
 <link rel="import" href="../pages/dive-log/dive-log-update.html">
@@ -41,6 +43,18 @@
 
       <section data-route="place">
         <place-profile place-id="{{placeId}}"></place-profile>
+      </section>
+
+      <section data-route="place-report">
+        <place-report auth="{{auth}}" route-params="{{routeParams}}"></place-report>
+      </section>
+
+      <section data-route="place-report-add">
+        <place-report-upsert auth="{{auth}}" route-params="{{routeParams}}"></place-report-upsert>
+      </section>
+
+      <section data-route="place-report-edit">
+        <place-report-upsert auth="{{auth}}" route-params="{{routeParams}}"></place-report-upsert>
       </section>
 
       <section data-route="diary">

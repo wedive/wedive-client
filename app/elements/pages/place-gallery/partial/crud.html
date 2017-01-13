@@ -1,0 +1,107 @@
+<link rel="import" href="../../../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../../../bower_components/polymer-apigility/rest/form/rest-form.html">
+<link rel="import" href="../../../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="place-gallery-crud">
+    <style>
+
+        :root {
+            /* Label and underline color when the input is not focused */
+            --paper-input-container-color: var(--accent-color);
+        }
+
+        ::content {
+            --paper-input-container-input-color: red;
+        }
+
+        .container: {
+            position: relative;
+        }
+
+        #delete-action {
+            z-index: 1;
+            position: absolute;
+            float: right;
+            color: var(--accent-color);
+        }
+
+        #modify-action {
+            position: absolute;
+            z-index: 1;
+            padding-right: 8px;
+            padding-left: 8px;
+        }
+
+        file-input {
+
+            color:red !important;
+        }
+    </style>
+    <template>
+        <div id="container" class="container">
+            <div id="delete-action" on-click="deleteImage"><paper-icon-button icon="delete" ></paper-icon-button></div>
+            <iron-image id="img" src="[[entity.embed_url]]" width="{{imageWidth}}" height="{{imageHeight}}" sizing="{{sizing}}"></iron-image>
+            <div id="modify-action">
+                <form
+                        id="placeGallery"
+                        is="apigility-rest-form"
+                        content-type="multipart/form-data"
+                        auth="[[auth]]">
+                    <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier>
+                        <apigility-resource resource-name="gallery" identifier="[[entity.entity_reference]]" has-identifier>
+                        </apigility-resource>
+                    </apigility-resource>
+                    <file-input id="fileInput" label="Modifica" name="blob" auto-send></file-input>
+                </form>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function() {
+            'use strict';
+
+            Polymer({
+                is: 'place-gallery-crud',
+
+                properties: {
+
+                    entity: {
+                        type: Object,
+                        value: {}
+                    },
+
+                    imageHeight: {
+                        type: Number,
+                        value: 140
+                    },
+
+                    imageWidth: {
+                        type: Number,
+                        value: 140
+                    }
+                },
+
+                attached : function () {
+                    var img = Polymer.dom(this.root).querySelector('#img');
+
+                    var fileInput =  Polymer.dom(this.root).querySelector('#modify-action');
+                    fileInput.style.marginTop = (- 70) +'px';
+                    fileInput.style.width = (img.width - 16) +'px';
+
+                    var container = Polymer.dom(this.root).querySelector('#container');
+                    container.style.width = (img.width) +'px';
+                    container.style.height = (img.height) +'px';
+                },
+
+                deleteImage: function () {
+                    var client = Polymer.dom(this.root).querySelector('form').$.restClient;
+                    var tmpContentType = client.contentType;
+                    client.contentType = 'application/json'
+                    client.delete();
+                    client.contentType = tmpContentType;
+                }
+            });
+        })();
+    </script>
+
+</dom-module>

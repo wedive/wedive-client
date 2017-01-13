@@ -45,6 +45,48 @@
     });
 
     /**
+     * Place add
+     */
+    page('/place/report/add', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName =  'place-report-add';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
+    /**
+     * Place edit
+     */
+    page('/place/report/edit/:placeId', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName = 'place-report-edit';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
+    /**
+     * Place
+     */
+    page('/place/report', scrollToTop, function(ctx) {
+
+      app.route = ctx.routeName =  'place-report';
+      app.routeParams = ctx;
+      app.notifyPath('routeParams', ctx);
+      console.groupCollapsed('ROUTE');
+      console.log('NAME : ' + app.route);
+      console.log('PARAMS:',   app.routeParams);
+      console.groupEnd();
+    });
+
+    /**
      * Place
      */
     page('/place/:placeId', scrollToTop, function(ctx) {
@@ -60,7 +102,7 @@
 
 
     /**
-     * Place
+     * Privacy
      */
     page('/privacy', scrollToTop, function(ctx) {
 

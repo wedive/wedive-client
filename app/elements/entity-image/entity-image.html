@@ -1,0 +1,90 @@
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
+<dom-module id="entity-image">
+  <style>
+    iron-image {
+      display: inline-block;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+  </style>
+  <template>
+    <iron-image
+            id="image"
+            width="[[width]]"
+            height="[[height]]"
+            sizing="[[sizing]]"
+            src="[[url]]"
+            placeholder="[[placeholder]]"
+            preload
+            fade>
+    </iron-image>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'entity-image',
+
+        properties: {
+          entity: {
+            type: Object,
+            value: {}
+          },
+
+          imageField: {
+            type: String,
+          },
+
+          url: {
+            type: String,
+            readOnly: true,
+            notify: true
+          },
+
+          placeholder: {
+            type: String
+          },
+
+          width: {
+            type: Number,
+            notify: true,
+            value: 84
+          },
+
+          sizing: {
+            type: String,
+            notify: true,
+            value: null
+          },
+
+          height: {
+            type: Number,
+            notify: true,
+            value: 84
+          }
+        },
+
+        observers: [
+          'entityChanged(entity)'
+        ],
+
+        entityChanged: function (entity) {
+          if ((entity !== null && entity !== undefined)
+              && !(Object.keys(entity).length === 0)
+              && (entity.constructor === Object)
+              && this.imageField
+              && entity[this.imageField])
+          {
+            this.$.image.src = entity[this.imageField];
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
