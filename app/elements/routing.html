@@ -12,6 +12,7 @@
         case ctx.params.placeId != undefined:
           scrollManager(ctx, 0, 360);
           break;
+        case path[1] == 'diary':
         case path[1] == 'not-found':
         case path[1] == 'forbidden':
           scrollFooter();
