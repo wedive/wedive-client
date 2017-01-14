@@ -66,6 +66,11 @@
             padding-left: 24px;
         }
 
+        .test {
+            @apply(--layout-horizontal);
+            @apply(--layout-wrap);
+        }
+
         paper-icon-button {
             background-color: var(--default-primary-color);
             color: var(--accent-color);
@@ -108,24 +113,22 @@
         <div class="lh-cj">
             <div class="wrap-content">
                 <template is="dom-if" if="{{placeId}}">
-                    <entity-image entity="{{entity}}" image-field="cover" sizing="cover"></entity-image>
+                    <entity-image entity="{{entity}}" image-field="cover" sizing="cover"  width="140"  height="140"></entity-image>
                     <form id="placeCover" is="apigility-rest-form" content-type="multipart/form-data" auth="{{auth}}">
                         <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier i-am-entity>
-                            <apigility-resource resource-name="cover">
-                            </apigility-resource>
+                            <apigility-resource resource-name="cover"></apigility-resource>
                         </apigility-resource>
                         <file-input label="Upload cover" name="blob" auto-send></file-input>
                     </form>
 
-                    <div class="lh">
+                    <div class="test">
                         <template is="dom-repeat" items="{{entity.collection}}">
                             <place-gallery-crud entity="{{item}}" sizing="cover" place-id={{entity.id}}  auth="[[auth]]"></place-gallery-crud>
                         </template>
                     </div>
                     <form id="placeGallery" is="apigility-rest-form" content-type="multipart/form-data" auth="{{auth}}">
                         <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier>
-                            <apigility-resource resource-name="gallery">
-                            </apigility-resource>
+                            <apigility-resource resource-name="gallery"></apigility-resource>
                         </apigility-resource>
                         <file-input label="Upload gallery" name="blob" auto-send></file-input>
                     </form>
@@ -222,12 +225,21 @@
                 listeners: {
                     'api-load': 'loadMap',
                     'place_loaded': 'loadPlace',
-                    'rest-put-response': 'postCoverResponseHandler'
+                    'rest-put-response': 'putImageResponseHandler',
+                    'rest-post-response': 'postImageResponseHandler',
+                    'rest-delete-response': 'deleteImageResponseHandler'
                 },
 
                 ready: function() {
                     this.$.placeUpsert.addEventListener('rest-post-response', this.postResponseHandler.bind(this));
                     this.apiKey = new Polymer.IronMetaQuery({type:'google-map', key: 'apikey'}).value;
+                },
+
+                deleteImageResponseHandler: function (e) {
+                    if (e.target.getResource().getFullPath().search('gallery') > 0) {
+                        this.fire('iron-signal', {name: 'toast-notification', data: {text: "L'immagine è stata cancellata correttamente"}});
+                        this.$.placeUpsert.$.restClient.get();
+                    }
                 },
 
                 postResponseHandler: function (e) {
@@ -237,13 +249,32 @@
                     page('/place/report/edit/' + e.detail.response.id);
                 },
 
-                postCoverResponseHandler: function (e) {
+                putImageResponseHandler: function (e) {
 
                     if (e.detail.response.blob) {
                         var entity = this.entity;
                         entity.cover = e.detail.response._links.self.href + '?lastUpdate=' + Date.now();
                         this.entity = null;
                         this.entity = entity;
+
+                        if (e.target.getResource().getFullPath().search('gallery') > 0) {
+                            this.fire('iron-signal', {name: 'toast-notification', data: {text: "L'immagine è stata modificata correttamente"}});
+                            this.$.placeUpsert.$.restClient.get();
+                        }
+
+                        if (e.target.getResource().getFullPath().search('cover') > 0) {
+                            this.fire('iron-signal', {name: 'toast-notification', data: {text: "L'immagine di cover è stata caricata correttamente"}});
+                            this.$.placeUpsert.$.restClient.get();
+                        }
+                    }
+                },
+
+                postImageResponseHandler: function(e) {
+                    if (e.detail.response.blob) {
+                        if (e.target.getResource().getFullPath().search('gallery') > 0) {
+                            this.fire('iron-signal', {name: 'toast-notification', data: {text: "L'immagine è stata inserita correttamente"}});
+                            this.$.placeUpsert.$.restClient.get();
+                        }
                     }
                 },
 

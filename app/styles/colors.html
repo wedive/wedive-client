@@ -5,6 +5,8 @@
 
 
   * {
+      --paper-input-container-focus-color: #2196F3;
+
       --dark-primary-color:       #1976D2;
       --default-primary-color:    #2196F3;
       --light-primary-color:      #BBDEFB;
@@ -16,13 +18,6 @@
       --disabled-text-color:      #BDBDBD;
       --divider-color:            #BDBDBD;
 
-      --paper-button: {
-          font-size: 18px;
-          font-weight: 500;
-          line-height: 32px;
-          min-width: 210px;
-          margin: 8px;
-      };
       /* Components */
 
       /* paper-drawer-panel */
@@ -42,9 +37,23 @@
       --layout-width: 1280px;
 
       --paper-spinner-stroke-width: 5px;
+
+      --paper-input-container-label: red;
+      --paper-input-container-label-focus: red;
+
+      --paper-button: {
+          font-size: 18px;
+          font-weight: 500;
+          line-height: 32px;
+          min-width: 210px;
+          margin: 8px;
+      };
   }
 
   :root {
+
+      --paper-input-container-focus-color: #2196F3;
+
       --dark-primary-color:       #1976D2;
       --default-primary-color:    #2196F3;
       --light-primary-color:      #BBDEFB;
@@ -55,15 +64,6 @@
       --secondary-text-color:     #757575;
       --disabled-text-color:      #BDBDBD;
       --divider-color:            #BDBDBD;
-
-      --paper-button: {
-          font-size: 18px;
-          font-weight: 500;
-          line-height: 32px;
-          min-width: 210px;
-          margin: 8px;
-      };
-      /* Components */
 
       /* paper-drawer-panel */
       --drawer-menu-color:           #212121;
@@ -82,6 +82,14 @@
       --paper-spinner-layer-3-color: var(--default-primary-color);
       --paper-spinner-layer-4-color: var(--default-primary-color);
       --paper-spinner-stroke-width: 5px;
+
+      --paper-button: {
+          font-size: 18px;
+          font-weight: 500;
+          line-height: 32px;
+          min-width: 210px;
+          margin: 8px;
+      };
   }
 
 </style>
