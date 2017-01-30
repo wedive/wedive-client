@@ -95,6 +95,14 @@
                 margin-top: 70px;
             }
 
+            .badges {
+                margin-bottom: 8px;
+            }
+
+            div#infos img {
+                padding-right: 8px;
+            }
+
             .item-content {
                 @apply(--layout-flex);
                 padding: 16px;
@@ -237,6 +245,17 @@
                                     </div>
                                 </div>
                             </div>
+                            <template is="dom-if" if="{{hasBadges(entity.badges)}}">
+                                <div class="lh">
+                                    <div class="lf">
+                                        <div id="infos" class="lh badges">
+                                            <template is="dom-repeat" items="{{entity.badges}}" as="badge">
+                                                <img src="/images/badge/{{badge}}.png" title="{{titleBadge(badge)}}" height="40" width="28">
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
                             <div class="map">
                                 <google-map
                                         map="{{map}}"
@@ -360,6 +379,34 @@
 
                     this.gallery = gallery;
                     this._setCountImageGallery(this.gallery.length);
+                },
+
+                hasBadges: function (badges) {
+                    if (Array.isArray(badges) && badges.length) {
+                        return true;
+                    }
+                    return false;
+                },
+
+                titleBadge: function (badge) {
+                    var value = "";
+                    switch (badge) {
+                        case "cave":
+                            value = "Grotta";
+                            break;
+                        case "wall":
+                            value = "In parete";
+                            break;
+                        case "fish":
+                            value = "Ricca fauna";
+                            break;
+                        case "wreck":
+                            value = "Relitto";
+                            break;
+                        default:
+                            console.error('Invalid badge value '+badge);
+                    }
+                    return value;
                 }
             });
         })();

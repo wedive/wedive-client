@@ -269,10 +269,16 @@
 
                 listeners: {
                     'rest-error': 'errorHandler',
+                    'rest-put-response': 'putResponseHandler',
                 },
 
                 ready: function () {
                     this.$.diveLogEdit.addEventListener('rest-form-presubmit', this._validateValue.bind(this));
+                },
+
+                putResponseHandler: function (e) {
+                    var MESSAGE = "L'immersione %NAME% è stata modificata con successo";
+                    this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.name)}});
                 },
 
                 _routeParamsChanged: function (routeParams) {

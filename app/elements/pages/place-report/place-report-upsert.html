@@ -10,10 +10,12 @@
 <link rel="import" href="../../../bower_components/iron-data-table/data-table-column.html">
 <link rel="import" href="../../../bower_components/google-map/google-map.html">
 <link rel="import" href="../../../bower_components/google-map/google-map-marker.html">
+<link rel="import" href="../../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../google-map/google-map-autocomplete.html">
 <link rel="import" href="../../file-input/file-input.html">
 <link rel="import" href="../../entity-image/entity-image.html">
 <link rel="import" href="../../pages/place-gallery/partial/crud.html">
+<link rel="import" href="../../paper-multicheckbox/paper-multicheckbox.html">
 
 <dom-module id="place-report-upsert">
     <style>
@@ -77,6 +79,15 @@
             -webkit-border-radius: 50%;
             -moz-border-radius: 50%;
             border-radius: 50%;
+        }
+
+        paper-multicheckbox {
+            display: block;
+            padding-top: 16px;
+        }
+
+        paper-checkbox {
+            padding-bottom: 8px;
         }
 
         #table {
@@ -160,6 +171,11 @@
                         </paper-menu>
                     </dropdown-menu-input>
                     <paper-textarea name="description" label="Descrizione"></paper-textarea>
+                    <paper-multicheckbox name="badges">
+                        <template is="dom-repeat" items="[[badges]]" as="badge">
+                            <paper-checkbox class="flex" value="[[badge.value]]" name="badges[]">[[badge.label]]</paper-checkbox>
+                        </template>
+                    </paper-multicheckbox>
                     <template is="dom-if" if="{{apiKey}}">
                         <google-map-autocomplete class="autocomple-map" api-key="{{apiKey}}"></google-map-autocomplete>
                         <google-map
@@ -214,6 +230,15 @@
                         type: String,
                         readOnly: true,
                         notify: true
+                    },
+
+                    badges : {
+                        value: [
+                            {"value": "cave", "label" : "Grotta"},
+                            {"value": "wall", "label" : "In parete"},
+                            {"value": "fish", "label" : "Fauna ricca"},
+                            {"value": "wreck", "label" : "Relitto"}
+                        ]
                     }
                 },
 
@@ -266,6 +291,10 @@
                             this.fire('iron-signal', {name: 'toast-notification', data: {text: "L'immagine di cover è stata caricata correttamente"}});
                             this.$.placeUpsert.$.restClient.get();
                         }
+                    } else {
+                        var MESSAGE = "Il punto d'immersione \"%NAME%\" è stato modificato con successo";
+                        this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.name)}});
+
                     }
                 },
 

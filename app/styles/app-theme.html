@@ -7,6 +7,10 @@
     --iron-image-height: 100%;
 
     --app-size-wrap-content: 1280px;
+
+    --paper-input-error: {
+      white-space: nowrap !important;
+    }
   }
 
   /* General styles */
@@ -80,15 +84,21 @@
   paper-toast {
     background-color: var(--default-primary-color);
     color:var(--accent-color);
+    @apply(--layout-horizontal);
+    @apply(--layout-center);
   }
 
-  paper-toast ::content paper-icon-button {
+  paper-toast ::content div {
     float: right;
+    height: 100%;
   }
 
   paper-toast ::content span {
     float: left;
-    padding-top: 10px;;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: .1px;
     width: 200px;
   }
 

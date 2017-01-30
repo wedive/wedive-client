@@ -1,0 +1,114 @@
+<dom-module id="paper-multicheckbox">
+  <template>
+    <content></content>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'paper-multicheckbox',
+
+    properties: {
+      bindValue: {
+        notify: true,
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+
+      /**
+       * Override the Polymer.IronFormElementBehavior property
+       */
+      value: {
+        type: Array,
+        notify: true,
+        computed: '_computeValue(bindValue.*)'
+      }
+    },
+
+    listeners: {
+      'iron-form-element-register': '_registerElement',
+      'iron-form-element-unregister': '_unregisterElement',
+      'iron-change': '_onElementChanged'
+    },
+
+    observers: [
+      '_bindValueChanged(bindValue.*)'
+    ],
+
+    behaviors: [
+      Polymer.IronFormElementBehavior
+    ],
+
+    ready: function() {
+      // Holds all the custom elements registered with this element
+      this._checkboxElements = [];
+    },
+
+    /**
+     * Returns whether the given element is a checkbox.
+     * @return {boolean} True if the element has a `checked` property.
+     */
+    _isCheckbox: function(el) {
+      if (el.type == 'checkbox' || el.getAttribute('role') == 'checkbox') {
+        return true;
+      }
+      return false;
+    },
+
+    _updateValuesByTarget: function(target) {
+      var valueIndex = this.bindValue.indexOf(target.value);
+      if (target.checked) {
+        if (valueIndex < 0) {
+          this.push('bindValue', target.value);
+        }
+      } else {
+        if (valueIndex >= 0) {
+          this.splice('bindValue', valueIndex, 1);
+        }
+      }
+    },
+
+    _registerElement: function(e) {
+      var element = e.target;
+      if (this._isCheckbox(element)) {
+        element._parentForm = this;
+        this._checkboxElements.push(element);
+        this._updateValuesByTarget(element);
+        e.stopPropagation();
+      }
+    },
+
+    _unregisterElement: function(e) {
+      var target = e.detail.target;
+      if (target) {
+        var index = this._checkboxElements.indexOf(target);
+        if (index > -1) {
+          this._checkboxElements.splice(index, 1);
+        }
+      }
+    },
+
+    _onElementChanged: function(e) {
+      var target = e.target;
+      if (target && this._checkboxElements.indexOf(target) >= 0) {
+        this._updateValuesByTarget(target);
+      }
+    },
+
+    _computeValue: function() {
+      return this.bindValue.slice(); // clones the array and returns the reference to the new array
+    },
+
+    _bindValueChanged: function() {
+      var bindValue = this.bindValue;
+      if (this._checkboxElements instanceof Array && bindValue instanceof Array) {
+        for (var i = 0; i < this._checkboxElements.length; i++) {
+          var element = this._checkboxElements[i];
+          element.checked = bindValue.indexOf(element.value) >= 0;
+        }
+      }
+    }
+
+  });
+</script>

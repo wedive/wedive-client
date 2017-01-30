@@ -60,7 +60,9 @@
     </app-drawer>
     <iron-signals on-iron-signal-toast-notification="notificationHandler"></iron-signals>
     <paper-toast id="notification" duration="0">
-        <paper-icon-button on-tap="closeNotififaction" icon="icons:close"></paper-icon-button>
+        <div>
+            <paper-icon-button on-tap="closeNotififaction" icon="icons:close"></paper-icon-button>
+        </div>
     </paper-toast>
     <paper-dialog id="registrationDialog" with-backdrop>
         <paper-dialog-scrollable>

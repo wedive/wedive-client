@@ -22,8 +22,13 @@
     };
 
     function scrollFooter() {
-      element = document.querySelector('partial-footer');
-      element._rePosition();
+      setTimeout(
+        function(){
+          element = document.querySelector('partial-footer');
+          element._rePosition();
+        },
+        1000
+      );
     };
 
     function scrollManager(ctx, startIndex, endIndex) {

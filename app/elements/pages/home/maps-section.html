@@ -58,9 +58,10 @@
             }
 
             .lv-marker-content {
+                text-align: left;
                 margin: 0;
                 padding: 0px 8px 8px 8px;
-            }--paper-input-container-label
+            }
 
             google-map a {
                 text-decoration: none;
@@ -118,7 +119,7 @@
                                             <h2 class="lv-marker-content"><a href="/place/{{place.id}}">{{place.name}}</a></h2>
                                             <div class="lv-marker-content">
                                                 <template is="dom-repeat" items="{{place.badges}}" as="badge">
-                                                    <img src="/images/badge/{{badge}}.png" height="40" width="28">
+                                                    <img src="/images/badge/{{badge}}.png" title="test" height="40" width="28">
                                                 </template>
                                             </div>
                                         </div>
