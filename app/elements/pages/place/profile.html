@@ -121,6 +121,17 @@
                 font-weight: 400;
             }
 
+            .badge-content div#infos {
+
+                @apply(--layout-horizontal);
+                @apply(--layout-wrap);
+            }
+
+            .badge-content div#infos img {
+                padding-bottom: 8px;
+            }
+
+
             @media  (max-width: 1281px) {
 
                 .wrap-content {
@@ -154,6 +165,18 @@
 
                 div.item-content.right div.lv div.lh-cj div.lf {
                     @apply(--layout-flex-none);
+                }
+
+                .badge-content {
+                    @apply(--layout-horizontal);
+                    @apply(--layout-center-justified);
+                }
+
+                .badge-content div#infos {
+
+                    @apply(--layout-horizontal);
+                    @apply(--layout-start-justified);
+                    @apply(--layout-wrap);
                 }
 
                 div.item-content.right div.lv div.lh-cj div.lf p {
@@ -247,10 +270,10 @@
                             </div>
                             <template is="dom-if" if="{{hasBadges(entity.badges)}}">
                                 <div class="lh">
-                                    <div class="lf">
+                                    <div class="lf badge-content">
                                         <div id="infos" class="lh badges">
                                             <template is="dom-repeat" items="{{entity.badges}}" as="badge">
-                                                <img src="/images/badge/{{badge}}.png" title="{{titleBadge(badge)}}" height="40" width="28">
+                                                <img src="/images/badge/{{badge}}.jpeg" title="{{titleBadge(badge)}}" height="40" width="40">
                                             </template>
                                         </div>
                                     </div>

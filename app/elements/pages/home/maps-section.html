@@ -15,6 +15,11 @@
                 @apply(--layout-horizontal);
             }
 
+            .lh-c {
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+            }
+
             .lv {
                 @apply(--layout-vertical);
             }
@@ -111,7 +116,7 @@
                           disable-default-ui>
                             <template is="dom-repeat" items="{{places}}" as="place">
                                 <google-map-marker map={{map}} latitude="{{place.geo_coordinate.latitude}}" longitude="{{place.geo_coordinate.longitude}}" icon="/images/mask-icon.png">
-                                    <div class="lh padding">
+                                    <div class="lh-c padding">
                                         <div>
                                             <img class="circle" src="{{place.cover}}&rendition=maxi-icon">
                                         </div>
@@ -119,7 +124,7 @@
                                             <h2 class="lv-marker-content"><a href="/place/{{place.id}}">{{place.name}}</a></h2>
                                             <div class="lv-marker-content">
                                                 <template is="dom-repeat" items="{{place.badges}}" as="badge">
-                                                    <img src="/images/badge/{{badge}}.png" title="test" height="40" width="28">
+                                                    <img src="/images/badge/{{badge}}.jpeg" title="{{titleBadge(badge)}}" height="30" width="30">
                                                 </template>
                                             </div>
                                         </div>
@@ -182,6 +187,27 @@
                 loadPlace: function (e) {
                     this.latMap = e.target.latitude;
                     this.longMap = e.target.longitude;
+                },
+
+                titleBadge: function (badge) {
+                    var value = "";
+                    switch (badge) {
+                        case "cave":
+                            value = "Grotta";
+                            break;
+                        case "wall":
+                            value = "In parete";
+                            break;
+                        case "fish":
+                            value = "Ricca fauna";
+                            break;
+                        case "wreck":
+                            value = "Relitto";
+                            break;
+                        default:
+                            console.error('Invalid badge value '+badge);
+                    }
+                    return value;
                 },
 
                 loadMap: function (e) {

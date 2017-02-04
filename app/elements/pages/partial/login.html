@@ -33,6 +33,10 @@
                 margin: 0;
             }
 
+            .marginTop {
+                margin-top: 16px;
+            }
+
             paper-button {
                 margin-top: 24px;
                 font-weight: 800;
@@ -88,13 +92,13 @@
             </form>
         </template>
         <template is="dom-if" if="{{showRoverPassword}}">
-            <form id="loginForm" is="apigility-rpc-form" error-message="{{error}}" loading="{{loadingRecover}}">
+            <form id="recoverPassword" is="apigility-rpc-form" error-message="{{error}}" loading="{{loadingRecover}}">
                 <apigility-resource resource-name="rpc/recover-password"></apigility-resource>
                 <div class="layout-center">
                     <h1>Recupera password</h1>
                 </div>
                 <paper-input name="identity" label="Email"></paper-input>
-                <div class="layout-center">
+                <div class="layout-center marginTop">
                     <span  hidden$="{{loadingRecover}}" class="recover" on-tap="changeVisibility">Torna alla login</span>
                 </div>
                 <div class="layout-center">
@@ -143,6 +147,23 @@
 
                 listeners: {
                     'rpc-response': 'responseHandler',
+                    'rpc-error': 'errorResponseHandler',
+                },
+
+                errorResponseHandler: function (e) {
+                    if (e.target.getResource().getFullPath() == '/rpc/recover-password') {
+                        if (e.detail.response.status == 422) {
+                            if (e.detail.response.validation_messages.identity) {
+                                var paperInputEmail = this.querySelector('paper-input[name=identity]');
+                                for (var prop in  e.detail.response.validation_messages.identity) {
+
+                                    paperInputEmail.invalid = true;
+                                    paperInputEmail.errorMessage = e.detail.response.validation_messages.identity[prop];
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 },
 
                 loginHandler: function (event) {
