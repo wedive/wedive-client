@@ -278,7 +278,7 @@
 
                 putResponseHandler: function (e) {
                     var MESSAGE = "L'immersione %NAME% è stata modificata con successo";
-                    this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.name)}});
+                    this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.place_reference)}});
                 },
 
                 _routeParamsChanged: function (routeParams) {

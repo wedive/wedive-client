@@ -176,8 +176,13 @@
                     </div>
                     <div class="lh">
                         <div class="columns2">
-                            <input type="hidden" name="date_when" value="{{date}}">
-                            <paper-input-date-picker id="dateInput" label="Data" no-prefix-icon="true" locale="it-IT" input-display-format="YYYY-MM-DD" modal></paper-input-date-picker>
+                            <paper-input id="timeInput" label="Ora" on-tap="tapTime" value="{{time}}"></paper-input>
+                            <paper-dialog id="dialogTime" modal class="paper-time-picker-dialog">
+                                <paper-time-picker id="timePicker" time="{{time}}"></paper-time-picker>
+                                <div class="buttons">
+                                    <paper-button dialog-dismiss>Chiudi</paper-button>
+                                </div>
+                            </paper-dialog>
                         </div>
                         <div class="columns2">
                             <dropdown-menu-input name="visibility" label="Visibilità">
@@ -193,13 +198,8 @@
                     </div>
                     <div class="lh">
                         <div class="columns2">
-                            <paper-input id="timeInput" label="Ora" on-tap="tapTime" value="{{time}}"></paper-input>
-                            <paper-dialog id="dialogTime" modal class="paper-time-picker-dialog">
-                                <paper-time-picker id="timePicker" time="{{time}}"></paper-time-picker>
-                                <div class="buttons">
-                                    <paper-button dialog-dismiss>Chiudi</paper-button>
-                                </div>
-                            </paper-dialog>
+                            <input type="hidden" name="date_when" value="{{date}}">
+                            <paper-input-date-picker id="dateInput" label="Data" no-prefix-icon="true" locale="it-IT" input-display-format="YYYY-MM-DD" modal></paper-input-date-picker>
                         </div>
                         <div class="columns2">
                             <dropdown-menu-input name="current" label="Corrente">
@@ -286,7 +286,7 @@
 
                 postResponseHandler: function (e) {
                     var MESSAGE = "L'immersione %NAME% è stata inserita con successo";
-                    this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.name)}});
+                    this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.place_reference)}});
 
                     page('/diary/edit/' + e.detail.response.id);
                 },
