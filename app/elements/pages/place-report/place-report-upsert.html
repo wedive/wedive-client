@@ -268,7 +268,7 @@
                 },
 
                 postResponseHandler: function (e) {
-                    var MESSAGE = "Il sito di immersione %NAME% è stato segnalato con successo";
+                    var MESSAGE = "Il sito di immersione \"%NAME%\" è stato segnalato con successo";
                     this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.name)}});
 
                     page('/place/report/edit/' + e.detail.response.id);

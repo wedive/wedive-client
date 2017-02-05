@@ -285,7 +285,7 @@
                 },
 
                 postResponseHandler: function (e) {
-                    var MESSAGE = "L'immersione %NAME% è stata inserita con successo";
+                    var MESSAGE = "L'immersione \"%NAME%\" è stata inserita con successo";
                     this.fire('iron-signal', {name: 'toast-notification', data: {text: MESSAGE.replace('%NAME%', e.detail.restClient.$.ironAjax.body.place_reference)}});
 
                     page('/diary/edit/' + e.detail.response.id);
