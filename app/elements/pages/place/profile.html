@@ -131,7 +131,6 @@
                 padding-bottom: 8px;
             }
 
-
             @media  (max-width: 1281px) {
 
                 .wrap-content {
@@ -273,7 +272,7 @@
                                     <div class="lf badge-content">
                                         <div id="infos" class="lh badges">
                                             <template is="dom-repeat" items="{{entity.badges}}" as="badge">
-                                                <img src="/images/badge/{{badge}}.jpeg" title="{{titleBadge(badge)}}" height="40" width="40">
+                                                <img src="/images/badge/{{badge}}.png" title="{{titleBadge(badge)}}" height="40" width="40">
                                             </template>
                                         </div>
                                     </div>
@@ -284,11 +283,13 @@
                                         map="{{map}}"
                                         id="map"
                                         api-key="AIzaSyAacdLcjhptOcr-sfCFfAnxirCk18GDxXQ"
-                                        zoom="11"
+                                        zoom="12"
                                         max-zoom="17"
                                         min-zoom="9"
                                         latitude="{{latMap}}"
-                                        longitude="{{longMap}}">
+                                        longitude="{{longMap}}"
+                                        draggable="false"
+                                        disable-default-ui>
                                     <google-map-marker map=[[map]] latitude="{{entity.geo_coordinate.latitude}}" longitude="{{entity.geo_coordinate.longitude}}" icon="/images/mask-icon.png"></google-map-marker>
                                 </google-map>
                             </div>

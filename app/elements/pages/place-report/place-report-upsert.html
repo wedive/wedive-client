@@ -50,11 +50,6 @@
             color:  var(--accent-color);
         }
 
-        paper-button {
-            background-color: var(--default-primary-color);
-            color: var(--accent-color);
-        }
-
         place-gallery-crud {
             margin-right: 16pX;
         }
@@ -68,7 +63,7 @@
             padding-left: 24px;
         }
 
-        .test {
+        .cover {
             @apply(--layout-horizontal);
             @apply(--layout-wrap);
         }
@@ -124,7 +119,7 @@
         <div class="lh-cj">
             <div class="wrap-content">
                 <template is="dom-if" if="{{placeId}}">
-                    <entity-image entity="{{entity}}" image-field="cover" sizing="cover"  width="140"  height="140"></entity-image>
+                    <entity-image entity="{{entity}}" image-field="cover" sizing="cover"  width="140"  height="140" hidden$="{{!entity.cover}}"></entity-image>
                     <form id="placeCover" is="apigility-rest-form" content-type="multipart/form-data" auth="{{auth}}">
                         <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier i-am-entity>
                             <apigility-resource resource-name="cover"></apigility-resource>
@@ -132,7 +127,7 @@
                         <file-input label="Upload cover" name="blob" auto-send></file-input>
                     </form>
 
-                    <div class="test">
+                    <div class="cover">
                         <template is="dom-repeat" items="{{entity.collection}}">
                             <place-gallery-crud entity="{{item}}" sizing="cover" place-id={{entity.id}}  auth="[[auth]]"></place-gallery-crud>
                         </template>
@@ -312,9 +307,14 @@
                         this.__setMarker(entity.geo_coordinate.latitude, entity.geo_coordinate.longitude);
                         this.latMap = entity.geo_coordinate.latitude;
                         this.longMap = entity.geo_coordinate.longitude;
+
+                        if (entity.state  == 'active') {
+                            this._disableAttribute(true);
+                        } else {
+                            this._disableAttribute(false);
+                        }
                     }
                 },
-
 
                 markerChanged: function(marker) {
                     var oldMarker = this.marker;
@@ -367,6 +367,55 @@
                     marker.latitude = latitude;
                     marker.longitude = longitude;
                     this._setMarker(marker);
+                },
+
+                _disableAttribute: function (flag) {
+
+                    this._disableInput('paper-input', flag);
+                    this._disableInput('dropdown-menu-input', flag);
+                    this._disableInput('paper-textarea', flag);
+                    this._disableInput('paper-checkbox', flag);
+                    this._disableInput('paper-button', flag);
+
+                    var inputs = this.querySelectorAll('file-input');
+                    if (inputs && inputs.length > 0) {
+                        for (var i = 0; i < inputs.length; i++) {
+                            if (flag) {
+                                inputs[i].disabled = true;
+                            } else {
+                                inputs[i].disabled = false;
+                            }
+                        }
+                    }
+
+                    var map = this.querySelector('google-map');
+                    var markes = this.querySelectorAll('google-map-marker');
+                    if (flag) {
+                        map.draggable = false;
+                        map.disableZoom = false;
+                        for (var i = 0; i < markes.length; i++) {
+                            markes[i].draggable = false;
+                        }
+                    } else {
+                        map.draggable = true;
+                        map.disableZoom = true;
+                        for (var i = 0; i < markes.length; i++) {
+                            markes[i].draggable = true;
+                        }
+                    }
+                },
+
+                _disableInput: function (name, flag) {
+                    var inputs = this.querySelectorAll(name);
+                    if (inputs && inputs.length > 0) {
+                        for (var i = 0; i < inputs.length; i++) {
+                            if (flag) {
+                                inputs[i].setAttribute("disabled", flag);
+                            } else {
+                                inputs[i].removeAttribute("disabled");
+                            }
+                        }
+                    }
                 }
             });
         })();

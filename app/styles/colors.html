@@ -47,7 +47,22 @@
           line-height: 32px;
           min-width: 210px;
           margin: 8px;
-      };
+      }
+
+      --paper-button-disabled: {
+          background-color: var(--disabled-text-color);
+          color: var(--accent-color);
+      }
+
+      --paper-button : {
+          font-size: 18px;
+          font-weight: 500;
+          line-height: 32px;
+          min-width: 210px;
+          margin: 8px;
+          background-color: var(--default-primary-color);
+          color: var(--accent-color);
+      }
   }
 
   :root {
@@ -84,13 +99,19 @@
       --paper-spinner-layer-4-color: #2196F3;
       --paper-spinner-stroke-width: 5px;
 
-      --paper-button: {
+      --paper-button :{
           font-size: 18px;
           font-weight: 500;
           line-height: 32px;
           min-width: 210px;
           margin: 8px;
-      };
+          background-color: var(--default-primary-color);
+          color: var(--accent-color);
+      }
+
+      --paper-button-disabled: {
+          background-color: var(--disabled-text-color);
+      }
   }
 
 </style>

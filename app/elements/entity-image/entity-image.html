@@ -81,6 +81,8 @@
               && entity[this.imageField])
           {
             this.$.image.src = entity[this.imageField];
+          } else {
+            this.$.image.src = '';
           }
         }
       });

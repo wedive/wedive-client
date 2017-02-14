@@ -7,6 +7,7 @@
 <link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-paginator.html">
 <link rel="import" href="../../../bower_components/iron-data-table/iron-data-table.html">
 <link rel="import" href="../../../bower_components/iron-data-table/data-table-column.html">
+<link rel="import" href="../../../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
 
 <dom-module id="dive-log">
     <style>
@@ -60,6 +61,8 @@
             color:  var(--accent-color);
         }
 
+
+
         iron-icon {
             color:  var(--accent-color);
         }
@@ -87,7 +90,6 @@
                 margin-right: 16px;
             }
         }
-
     </style>
     <template>
         <iron-signals on-iron-signal-logout="__logout"></iron-signals>
@@ -108,14 +110,18 @@
                         <data-table-column name="Nome">
                             <template>[[item.place_reference]]</template>
                         </data-table-column>
-                        <data-table-column name="Profondità">
-                            <template>[[item.depth]] metri</template>
-                        </data-table-column>
-                        <data-table-column name="Data">
+                        <data-table-column name="Data" hidden="[[checked]]">
                             <template>[[item.date_when]]</template>
                         </data-table-column>
-                        <data-table-column name="Durata">
-                            <template>[[item.duration_dive]] minuti</template>
+                        <data-table-column name="Profondità" hidden="[[checked]]">
+                            <template>
+                                <span>[[item.depth]] m</span>
+                            </template>
+                        </data-table-column>
+                        <data-table-column name="Durata" hidden="[[checked]]">
+                            <template>
+                                <span>[[item.duration_dive]] min</span>
+                            </template>
                         </data-table-column>
                         <data-table-column name="Action">
                             <template><a href="/diary/edit/[[item.id]]"><iron-icon icon="create"></iron-icon></a></template>
@@ -153,11 +159,35 @@
                         notify: true,
                         observer: '_routeParamsChanged'
                     },
+
+                    checked: {
+                        type: Boolean,
+                        notify: true,
+                        value: true
+                    }
                 },
 
                 listeners: {
+                    'iron-resize': '_resize',
                     'rest-error': 'errorHandler',
                 },
+
+                behaviors: [
+                    Polymer.IronResizableBehavior
+                ],
+
+                _resize: function (e) {
+                    var width = window.innerWidth;
+                    switch (true) {
+                        case width >= 841:
+                            this.checked = false;
+                            break;
+                        case width < 841:
+                            this.checked = true;
+                            break;
+                    }
+                },
+
 
                 __logout: function () {
                     page('/');

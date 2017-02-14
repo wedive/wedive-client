@@ -12,7 +12,9 @@ deploy-npm:
 
 # Sync prod 
 sync-prod:
-	 rsync -avh ./ ../${PROD_SYNC_FOLDER}/ --delete
+	 rsync -avh ./ ../${PROD_SYNC_FOLDER}/ --delete \
+	 --exclude 'node_modules' \
+	 --exclude '.git'
 
 # TODO deploy tag
 

@@ -7,6 +7,7 @@
 <link rel="import" href="../../../bower_components/polymer-apigility/rest/rest-paginator.html">
 <link rel="import" href="../../../bower_components/iron-data-table/iron-data-table.html">
 <link rel="import" href="../../../bower_components/iron-data-table/data-table-column.html">
+<link rel="import" href="../../../bower_components/iron-resizable-behavior/iron-resizable-behavior.html">
 
 <dom-module id="place-report">
     <style>
@@ -65,6 +66,22 @@
             margin-bottom: 24px;
         }
 
+        span.status {
+            padding: 8px;
+            text-align: center;
+            width: 90px;
+            border-radius: 10px;
+            color: var(--secondary-text-color);
+        }
+
+        span.active {
+            background-color: #00b359;
+        }
+
+        span.validating {
+            background-color: #e6e600;
+        }
+
         .content-image {
             position: absolute;
             top: 130px;
@@ -116,10 +133,12 @@
                         <data-table-column name="Nome">
                             <template>[[item.name]]</template>
                         </data-table-column>
-                        <data-table-column name="Stato">
-                            <template>[[item.state]]</template>
+                        <data-table-column name="Stato" hidden="[[checked]]">
+                            <template>
+                                <span class$="status [[item.state]]">[[_computeState(item.state)]]</span>
+                            </template>
                         </data-table-column>
-                        <data-table-column name="Data ultima modifica">
+                        <data-table-column name="Data ultima modifica" hidden="[[checked]]">
                             <template>[[_computeDate(item.date_modified)]]</template>
                         </data-table-column>
                         <data-table-column name="Action">
@@ -162,15 +181,38 @@
                         notify: true,
                         observer: '_routeParamsChanged'
                     },
+
+                    checked: {
+                        type: Boolean,
+                        notify: true,
+                        value: false
+                    }
                 },
 
                 listeners: {
+                    'iron-resize': '_resize',
                     'rest-error': 'errorHandler',
                 },
+
+                behaviors: [
+                    Polymer.IronResizableBehavior
+                ],
 
                 errorHandler: function (e) {
                     if (e.detail.restClient.$.ironAjax.lastRequest.status == 403) {
                         page('/forbidden');
+                    }
+                },
+
+                _resize: function (e) {
+                    var width = window.innerWidth;
+                    switch (true) {
+                        case width >= 841:
+                            this.checked = false;
+                            break;
+                        case width < 841:
+                            this.checked = true;
+                            break;
                     }
                 },
 
@@ -184,6 +226,24 @@
                                 + ' ' + dateObject.getUTCHours()
                                 + ':' + dateObject.getUTCMinutes();
                     }
+                },
+
+                _computeState: function (state) {
+                    var value;
+                    switch(state) {
+                        case 'active':
+                            value = 'Attivo';
+                            break;
+                        case 'validating':
+                            value = 'Da attivare';
+                            break;
+                        case 'stuck':
+                            value = 'Bloccato';
+                            break;
+                        default:
+                            value = 'Indefinito';
+                    }
+                    return value;
                 },
 
                 _routeParamsChanged: function (routeParams) {
