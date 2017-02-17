@@ -261,11 +261,19 @@
                             <div class="lh-cj">
                                 <div class="lf">
                                     <div id="infos" class="lh-j">
+                                        <div><p>Difficoltà: </p></div>
+                                        <div><p>Punto di accesso: {{entity.start_point_dive}}</p></div>
+                                    </div>
+                                    <div id="infos" class="lh-j">
+                                        <div><p>Prodondità min: {{entity.min_depth}} 0 m</p></div>
+                                        <div><p>Prodondità max: {{entity.max_depth}} m</p></div>
+                                    </div>
+                                    <div id="infos" class="lh-j">
                                         <div><p>Visibilità: {{entity.visibility}} / 10</p></div>
                                         <div><p>Corrente: {{entity.current}} / 10</p></div>
-                                        <div><p>Prodondità: {{entity.max_depth}} m</p></div>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                             <template is="dom-if" if="{{hasBadges(entity.badges)}}">
                                 <div class="lh">

@@ -90,6 +90,22 @@
             margin-bottom: 24px;
         }
 
+        paper-multicheckbox ::content div.label {
+            color: #757575;
+            -webkit-transition: -webkit-transform 0.25s, width 0.25s;
+            transition: transform 0.25s, width 0.25s;
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: 'Roboto', 'Noto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 24px;
+        }
+
         @media  (max-width: 1281px) {
 
             .wrap-content {
@@ -145,7 +161,9 @@
                       auth="{{auth}}">
                     <apigility-resource resource-name="rest/place" identifier="[[placeId]]" has-identifier></apigility-resource>
                     <paper-input name="name" label="Nome" disabled?="{{0}}"></paper-input>
-                    <paper-input name="max_depth" label="Profodità"></paper-input>
+                    <paper-textarea name="description" label="Descrizione"></paper-textarea>
+                    <paper-input name="max_depth" label="Profodità massima (Metri)"></paper-input>
+                    <paper-input name="min_depth" label="Profodità minima (Metri)"></paper-input>
                     <dropdown-menu-input name="visibility" label="Visibilità">
                         <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
                             <paper-item value="1">1</paper-item>
@@ -165,8 +183,20 @@
                             <paper-item value="5">5</paper-item>
                         </paper-menu>
                     </dropdown-menu-input>
-                    <paper-textarea name="description" label="Descrizione"></paper-textarea>
+                    <dropdown-menu-input name="start_point_dive" label="Come raggiungere il punto di immersione">
+                        <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
+                            <paper-item value="beach">Da riva</paper-item>
+                            <paper-item value="sea">Da barca</paper-item>
+                        </paper-menu>
+                    </dropdown-menu-input>
+                    <paper-multicheckbox name="dive_type">
+                        <div class="label">Brevetto</div>
+                        <template is="dom-repeat" items="[[typeDive]]" as="type">
+                            <paper-checkbox class="flex" value="[[type.value]]" name="dive_type[]">[[type.label]]</paper-checkbox>
+                        </template>
+                    </paper-multicheckbox>
                     <paper-multicheckbox name="badges">
+                        <div class="label">Badges</div>
                         <template is="dom-repeat" items="[[badges]]" as="badge">
                             <paper-checkbox class="flex" value="[[badge.value]]" name="badges[]">[[badge.label]]</paper-checkbox>
                         </template>
@@ -232,7 +262,18 @@
                             {"value": "cave", "label" : "Grotta"},
                             {"value": "wall", "label" : "In parete"},
                             {"value": "fish", "label" : "Fauna ricca"},
-                            {"value": "wreck", "label" : "Relitto"}
+                            {"value": "wreck", "label" : "Relitto"},
+                            {"value": "archeological", "label" : "Archeologico"},
+                            {"value": "psa", "label" : "Area protetta"}
+                        ]
+                    },
+
+                    typeDive : {
+                        value: [
+                            {"value": "open", "label" : "Open"},
+                            {"value": "advance", "label" : "Advance"},
+                            {"value": "deep", "label" : "Deep"},
+                            {"value": "expert", "label" : "Esperto"}
                         ]
                     }
                 },
@@ -248,6 +289,10 @@
                     'rest-put-response': 'putImageResponseHandler',
                     'rest-post-response': 'postImageResponseHandler',
                     'rest-delete-response': 'deleteImageResponseHandler'
+                },
+
+                attached: function () {
+                    console.log('attached');
                 },
 
                 ready: function() {
