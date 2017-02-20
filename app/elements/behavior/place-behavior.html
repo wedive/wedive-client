@@ -1,0 +1,134 @@
+<script>
+
+    window.EntityUtility = window.EntityUtility || {};
+
+    EntityUtility.Place = {
+
+        properties: {
+            badges : {
+                value: [
+                    {"value": "cave", "label" : "Grotta"},
+                    {"value": "wall", "label" : "In parete"},
+                    {"value": "fish", "label" : "Fauna ricca"},
+                    {"value": "wreck", "label" : "Relitto"},
+                    {"value": "archeological", "label" : "Archeologico"},
+                    {"value": "psa", "label" : "Area protetta"}
+                ]
+            },
+
+            typeDive : {
+                value: [
+                    {"value": "open", "label" : "Open"},
+                    {"value": "advance", "label" : "Advance"},
+                    {"value": "deep", "label" : "Deep"},
+                    {"value": "expert", "label" : "Esperto"}
+                ]
+            }
+        },
+
+        hasBadges: function (value) {
+            if (Array.isArray(value) && value.length) {
+                return true;
+            }
+            return false;
+        },
+
+        /**
+         * @param value
+         * @returns {string}
+         */
+        __computeStartPointDiveLabel: function (value) {
+            var returnValue = '';
+            switch (value) {
+                case 'sea':
+                    returnValue = "Mare";
+                    break;
+                case 'beach':
+                    returnValue = "Spiaggia";
+                    break;
+            }
+            return returnValue;
+        },
+
+        /**
+         * @param value
+         * @returns {string}
+         */
+        __computeCurrentLabel: function (value) {
+            var returnValue = '';
+            switch (value) {
+                case 0:
+                    returnValue = "Assente";
+                    break;
+                case 1:
+                    returnValue = "Molto leggera";
+                    break;
+                case 2:
+                    returnValue = "Leggera";
+                    break;
+                case 3:
+                    returnValue = "Moderata";
+                    break;
+                case 4:
+                    returnValue = "Intensa";
+                    break;
+                case 5:
+                    returnValue = "Molto intesa";
+                    break;
+            }
+            return returnValue;
+        },
+
+        /**
+         * @param value
+         * @returns {string}
+         */
+        __computeVisibilityLabel: function (value) {
+            var returnValue = '';
+            switch (value) {
+                case 0:
+                    returnValue = "Nulla";
+                    break;
+                case 1:
+                    returnValue = "Molto scarsa";
+                    break;
+                case 2:
+                    returnValue = "Scarsa";
+                    break;
+                case 3:
+                    returnValue = "Moderata";
+                    break;
+                case 4:
+                    returnValue = "Buona";
+                    break;
+                case 5:
+                    returnValue = "Ottima";
+                    break;
+            }
+            return returnValue;
+        },
+
+        /**
+         * @param value
+         * @returns {string}
+         */
+        __computeBadgeLabel: function (value) {
+            var returnValue = '';
+            switch (value) {
+                case "cave":
+                    returnValue = "Grotta";
+                    break;
+                case "wall":
+                    returnValue = "In parete";
+                    break;
+                case "fish":
+                    returnValue = "Ricca fauna";
+                    break;
+                case "wreck":
+                    returnValue = "Relitto";
+                    break;
+            }
+            return returnValue;
+        }
+    };
+</script>

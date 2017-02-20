@@ -16,6 +16,7 @@
 <link rel="import" href="../../entity-image/entity-image.html">
 <link rel="import" href="../../pages/place-gallery/partial/crud.html">
 <link rel="import" href="../../paper-multicheckbox/paper-multicheckbox.html">
+<link rel="import" href="../../behavior/place-behavior.html">
 
 <dom-module id="place-report-upsert">
     <style>
@@ -145,7 +146,7 @@
 
                     <div class="cover">
                         <template is="dom-repeat" items="{{entity.collection}}">
-                            <place-gallery-crud entity="{{item}}" sizing="cover" place-id={{entity.id}}  auth="[[auth]]"></place-gallery-crud>
+                            <place-gallery-crud entity="{{item}}" sizing="cover" place-id={{entity.id}} place="{{entity}}"  auth="[[auth]]"></place-gallery-crud>
                         </template>
                     </div>
                     <form id="placeGallery" is="apigility-rest-form" content-type="multipart/form-data" auth="{{auth}}">
@@ -255,28 +256,12 @@
                         type: String,
                         readOnly: true,
                         notify: true
-                    },
-
-                    badges : {
-                        value: [
-                            {"value": "cave", "label" : "Grotta"},
-                            {"value": "wall", "label" : "In parete"},
-                            {"value": "fish", "label" : "Fauna ricca"},
-                            {"value": "wreck", "label" : "Relitto"},
-                            {"value": "archeological", "label" : "Archeologico"},
-                            {"value": "psa", "label" : "Area protetta"}
-                        ]
-                    },
-
-                    typeDive : {
-                        value: [
-                            {"value": "open", "label" : "Open"},
-                            {"value": "advance", "label" : "Advance"},
-                            {"value": "deep", "label" : "Deep"},
-                            {"value": "expert", "label" : "Esperto"}
-                        ]
                     }
                 },
+
+                behaviors: [
+                    EntityUtility.Place
+                ],
 
                 observers: [
                     'entityChanged(entity)',

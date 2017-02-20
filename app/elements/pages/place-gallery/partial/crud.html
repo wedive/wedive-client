@@ -39,7 +39,7 @@
     </style>
     <template>
         <div id="container" class="container">
-            <div id="delete-action" on-click="deleteImage"><paper-icon-button icon="delete" ></paper-icon-button></div>
+            <div id="delete-action" on-click="deleteImage" hidden="{{hide}}"><paper-icon-button icon="delete" ></paper-icon-button></div>
             <iron-image id="img" src="[[entity.embed_url]]" width="{{imageWidth}}" height="{{imageHeight}}" sizing="{{sizing}}"></iron-image>
             <div id="modify-action">
                 <form
@@ -51,7 +51,7 @@
                         <apigility-resource resource-name="gallery" identifier="[[entity.entity_reference]]" has-identifier>
                         </apigility-resource>
                     </apigility-resource>
-                    <file-input id="fileInput" label="Modifica" name="blob" auto-send></file-input>
+                    <file-input id="fileInput" label="Modifica" name="blob" auto-send hidden="{{hide}}"></file-input>
                 </form>
             </div>
         </div>
@@ -64,6 +64,11 @@
                 is: 'place-gallery-crud',
 
                 properties: {
+
+                    place: {
+                        type: Object,
+                        value: {}
+                    },
 
                     entity: {
                         type: Object,
@@ -78,8 +83,17 @@
                     imageWidth: {
                         type: Number,
                         value: 140
+                    },
+
+                    hide: {
+                        type: Boolean,
+                        value: false
                     }
                 },
+
+                observers: [
+                    'placeChanged(place)'
+                ],
 
                 attached : function () {
                     var img = Polymer.dom(this.root).querySelector('#img');
@@ -99,7 +113,17 @@
                     client.contentType = 'application/json'
                     client.delete();
                     client.contentType = tmpContentType;
-                }
+                },
+
+                placeChanged: function(place) {
+                    if (place) {
+                        if (place.state  == 'active') {
+                            this.hide = true;
+                        } else {
+                            this.hide = false;
+                        }
+                    }
+                },
             });
         })();
     </script>

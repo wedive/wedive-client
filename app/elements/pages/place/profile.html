@@ -8,6 +8,8 @@
 <link rel="import" href="../../../bower_components/google-map/google-map.html">
 <link rel="import" href="../../../bower_components/google-map/google-map-marker.html">
 <link rel="import" href="../../paper-rating/paper-rating.html">
+<link rel="import" href="../../behavior/place-behavior.html">
+
 
 <dom-module id="place-profile">
     <template>
@@ -262,15 +264,15 @@
                                 <div class="lf">
                                     <div id="infos" class="lh-j">
                                         <div><p>Difficoltà: </p></div>
-                                        <div><p>Punto di accesso: {{entity.start_point_dive}}</p></div>
+                                        <div><p>Punto di accesso: {{__computeStartPointDiveLabel(entity.start_point_dive)}}</p></div>
                                     </div>
                                     <div id="infos" class="lh-j">
                                         <div><p>Prodondità min: {{entity.min_depth}} 0 m</p></div>
                                         <div><p>Prodondità max: {{entity.max_depth}} m</p></div>
                                     </div>
                                     <div id="infos" class="lh-j">
-                                        <div><p>Visibilità: {{entity.visibility}} / 10</p></div>
-                                        <div><p>Corrente: {{entity.current}} / 10</p></div>
+                                        <div><p>Visibilità: {{__computeVisibilityLabel(entity.visibility)}} / 10</p></div>
+                                        <div><p>Corrente: {{__computeCurrentLabel(entity.current)}} / 10</p></div>
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +282,7 @@
                                     <div class="lf badge-content">
                                         <div id="infos" class="lh badges">
                                             <template is="dom-repeat" items="{{entity.badges}}" as="badge">
-                                                <img src="/images/badge/{{badge}}.png" title="{{titleBadge(badge)}}" height="40" width="40">
+                                                <img src="/images/badge/{{badge}}.png" title="{{__computeBadgeLabel(badge)}}" height="40" width="40">
                                             </template>
                                         </div>
                                     </div>
@@ -355,6 +357,10 @@
                     }
                 },
 
+                behaviors: [
+                    EntityUtility.Place
+                ],
+
                 observers: [
                     'entityChanged(entity)'
                 ],
@@ -411,34 +417,6 @@
 
                     this.gallery = gallery;
                     this._setCountImageGallery(this.gallery.length);
-                },
-
-                hasBadges: function (badges) {
-                    if (Array.isArray(badges) && badges.length) {
-                        return true;
-                    }
-                    return false;
-                },
-
-                titleBadge: function (badge) {
-                    var value = "";
-                    switch (badge) {
-                        case "cave":
-                            value = "Grotta";
-                            break;
-                        case "wall":
-                            value = "In parete";
-                            break;
-                        case "fish":
-                            value = "Ricca fauna";
-                            break;
-                        case "wreck":
-                            value = "Relitto";
-                            break;
-                        default:
-                            console.error('Invalid badge value '+badge);
-                    }
-                    return value;
                 }
             });
         })();
