@@ -1,0 +1,5 @@
+WORKING_PATH = $(shell pwd)/..
+WORKING_DIR = api-prod
+# Dev mod
+COMPOSER_DEV =
+COMPOSER_IGNORE_REQ = --ignore-platform-reqs

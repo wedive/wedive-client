@@ -16,3 +16,4 @@ node_modules
 dist
 app/scripts/config.js
 app/robots.txt
+config.mk

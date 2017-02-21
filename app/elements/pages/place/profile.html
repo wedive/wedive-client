@@ -101,7 +101,7 @@
                 margin-bottom: 8px;
             }
 
-            div#infos img {
+            div.infos img {
                 padding-right: 8px;
             }
 
@@ -123,13 +123,21 @@
                 font-weight: 400;
             }
 
-            .badge-content div#infos {
+            div.infos span {
+
+                font-size: 18px;
+                letter-spacing: 1px;
+                font-style: italic;
+                color: var(--secondary-text-color);
+            }
+
+            .badge-content div.infos {
 
                 @apply(--layout-horizontal);
                 @apply(--layout-wrap);
             }
 
-            .badge-content div#infos img {
+            .badge-content div.infos img {
                 padding-bottom: 8px;
             }
 
@@ -147,9 +155,8 @@
                     @apply(--layout-vertical);
                 }
 
-                div#infos {
+                div.infos {
                     width: 500px;
-                    @apply(--layout-vertical);
                 }
 
                 .right {
@@ -172,8 +179,8 @@
                     @apply(--layout-horizontal);
                     @apply(--layout-center-justified);
                 }
-                qwertyuioP!4
-                .badge-content div#infos {
+
+                .badge-content div.infos {
 
                     @apply(--layout-horizontal);
                     @apply(--layout-start-justified);
@@ -212,8 +219,9 @@
                     width: auto;
                 }
 
-                div#infos {
+                div.infos {
                     width: auto;
+                    @apply(--layout-vertical);
                 }
             }
 
@@ -262,17 +270,17 @@
                             </div>
                             <div class="lh-cj">
                                 <div class="lf">
-                                    <div id="infos" class="lh-j">
-                                        <div><p>Difficoltà: </p></div>
-                                        <div><p>Punto di accesso: {{__computeStartPointDiveLabel(entity.start_point_dive)}}</p></div>
+                                    <div class="lh-j infos">
+                                        <div><p>Difficoltà: <span></span></p></div>
+                                        <div><p>Punto di accesso: <span>{{__computeStartPointDiveLabel(entity.start_point_dive)}}</span></p></div>
                                     </div>
-                                    <div id="infos" class="lh-j">
-                                        <div><p>Prodondità min: {{entity.min_depth}} 0 m</p></div>
-                                        <div><p>Prodondità max: {{entity.max_depth}} m</p></div>
+                                    <div class="lh-j infos">
+                                        <div><p>Prodondità min: <span>{{entity.min_depth}} 0 m</span></p></div>
+                                        <div><p>Prodondità max: <span>{{entity.max_depth}} m</span></p></div>
                                     </div>
-                                    <div id="infos" class="lh-j">
-                                        <div><p>Visibilità: {{__computeVisibilityLabel(entity.visibility)}} / 10</p></div>
-                                        <div><p>Corrente: {{__computeCurrentLabel(entity.current)}} / 10</p></div>
+                                    <div class="lh-j infos">
+                                        <div><p>Visibilità: <span>{{__computeVisibilityLabel(entity.visibility)}}</span></p></div>
+                                        <div><p>Corrente: <span>{{__computeCurrentLabel(entity.current)}}</span></p></div>
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +288,7 @@
                             <template is="dom-if" if="{{hasBadges(entity.badges)}}">
                                 <div class="lh">
                                     <div class="lf badge-content">
-                                        <div id="infos" class="lh badges">
+                                        <div class="lh badges infos">
                                             <template is="dom-repeat" items="{{entity.badges}}" as="badge">
                                                 <img src="/images/badge/{{badge}}.png" title="{{__computeBadgeLabel(badge)}}" height="40" width="40">
                                             </template>
@@ -293,12 +301,11 @@
                                         map="{{map}}"
                                         id="map"
                                         api-key="AIzaSyAacdLcjhptOcr-sfCFfAnxirCk18GDxXQ"
-                                        zoom="12"
-                                        max-zoom="17"
-                                        min-zoom="9"
+                                        zoom="11"
                                         latitude="{{latMap}}"
                                         longitude="{{longMap}}"
                                         draggable="false"
+                                        disable-zoom
                                         disable-default-ui>
                                     <google-map-marker map=[[map]] latitude="{{entity.geo_coordinate.latitude}}" longitude="{{entity.geo_coordinate.longitude}}" icon="/images/mask-icon.png"></google-map-marker>
                                 </google-map>
