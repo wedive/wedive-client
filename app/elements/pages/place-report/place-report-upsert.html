@@ -276,10 +276,6 @@
                     'rest-delete-response': 'deleteImageResponseHandler'
                 },
 
-                attached: function () {
-                    console.log('attached');
-                },
-
                 ready: function() {
                     this.$.placeUpsert.addEventListener('rest-post-response', this.postResponseHandler.bind(this));
                     this.apiKey = new Polymer.IronMetaQuery({type:'google-map', key: 'apikey'}).value;
