@@ -10,6 +10,7 @@
     "iron-grid": "The5heepDev/iron-grid#master",
     "page": "page.js#~1.7.1",
     "google-map": "GoogleWebComponents/google-map#~1.1.10",
+    "google-analytics": "GoogleWebComponents/google-analytics#~1.2.3",
     "carousel": "git@github.com:visa4/l2t-paper-slider.git#1.2.7",
     "iron-data-table": "~1.0.6",
     "datepicker": "git@github.com:WebPaperElements/paper-input-date-picker.git#~0.22.0",

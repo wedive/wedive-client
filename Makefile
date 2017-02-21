@@ -29,7 +29,7 @@ git-checkout-tag:
 	git checkout tags/$$tag
 
 ## deploy-prod : Deploy tool for production
-deploy-prod: deploy-bower git-checkout-tag
+deploy-prod: git-checkout-tag
 	@rsync -avh ./ ${WORKING_PATH}/${WORKING_DIR} \
      		--delete \
      		--exclude 'node_modules' \
