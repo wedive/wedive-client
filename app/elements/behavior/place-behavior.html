@@ -112,6 +112,33 @@
          * @param value
          * @returns {string}
          */
+        __computeDiveTypeLabel: function (value) {
+            var returnValue = '';
+            if (Array.isArray(value)) {
+                for (i = 0; i < value.length; i++) {
+                    switch (value[i]) {
+                        case "open":
+                            returnValue = "Open";
+                            break;
+                        case "advance":
+                            returnValue = "Advance";
+                            break;
+                        case "deep":
+                            returnValue = "Deep";
+                            break;
+                        case "expert":
+                            returnValue = "Esperto";
+                            break;
+                    }
+                }
+            }
+            return returnValue;
+        },
+
+        /**
+         * @param value
+         * @returns {string}
+         */
         __computeBadgeLabel: function (value) {
             var returnValue = '';
             switch (value) {
