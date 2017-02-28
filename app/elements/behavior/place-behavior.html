@@ -23,6 +23,28 @@
                     {"value": "deep", "label" : "Deep"},
                     {"value": "expert", "label" : "Esperto"}
                 ]
+            },
+
+            currentDataSet: {
+                value: [
+                    {"value": "0", "label" : "Assente"},
+                    {"value": "1", "label" : "Molto leggera"},
+                    {"value": "2", "label" : "Leggera"},
+                    {"value": "3", "label" : "Moderata"},
+                    {"value": "3", "label" : "Intensa"},
+                    {"value": "3", "label" : "Molto intesa"}
+                ]
+            },
+
+            visibilityDataSet: {
+                value: [
+                    {"value": "0", "label" : "Assente"},
+                    {"value": "1", "label" : "Molto scarsa"},
+                    {"value": "2", "label" : "Scarsa"},
+                    {"value": "3", "label" : "Moderata"},
+                    {"value": "3", "label" : "Buona"},
+                    {"value": "3", "label" : "Ottima"}
+                ]
             }
         },
 
@@ -87,7 +109,7 @@
             var returnValue = '';
             switch (value) {
                 case 0:
-                    returnValue = "Nulla";
+                    returnValue = "Assente";
                     break;
                 case 1:
                     returnValue = "Molto scarsa";
@@ -154,8 +176,23 @@
                 case "wreck":
                     returnValue = "Relitto";
                     break;
+                case "archeological":
+                    returnValue = "Monumenti subacquei";
+                    break;
+                case "psa":
+                    returnValue = "Area marina protetta";
+                    break;
+                default:
+                    console.error('Invalid badge value '+ value);
             }
             return returnValue;
+        },
+
+        __computeMinDeph: function (value) {
+            if (value) {
+                return value;
+            }
+            return 0;
         }
     };
 </script>

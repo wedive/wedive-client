@@ -2,6 +2,7 @@
 <link rel="import" href="../../../bower_components/google-map/google-map.html">
 <link rel="import" href="../../../bower_components/google-map/google-map-marker.html">
 <link rel="import" href="../../google-map/google-map-autocomplete.html">
+<link rel="import" href="../../behavior/place-behavior.html">
 
 <dom-module id="maps-section">
     <template>
@@ -124,7 +125,7 @@
                                             <h2 class="lv-marker-content"><a href="/place/{{place.id}}">{{place.name}}</a></h2>
                                             <div class="lv-marker-content">
                                                 <template is="dom-repeat" items="{{place.badges}}" as="badge">
-                                                    <img src="/images/badge/{{badge}}.png" title="{{titleBadge(badge)}}" height="30" width="30">
+                                                    <img src="/images/badge/{{badge}}.png" title="{{__computeBadgeLabel(badge)}}" height="30" width="30">
                                                 </template>
                                             </div>
                                         </div>
@@ -169,6 +170,9 @@
                     },
                 },
 
+                behaviors: [
+                    EntityUtility.Place
+                ],
 
                 listeners: {
                     'api-load': 'loadMap',
@@ -187,27 +191,6 @@
                 loadPlace: function (e) {
                     this.latMap = e.target.latitude;
                     this.longMap = e.target.longitude;
-                },
-
-                titleBadge: function (badge) {
-                    var value = "";
-                    switch (badge) {
-                        case "cave":
-                            value = "Grotta";
-                            break;
-                        case "wall":
-                            value = "In parete";
-                            break;
-                        case "fish":
-                            value = "Ricca fauna";
-                            break;
-                        case "wreck":
-                            value = "Relitto";
-                            break;
-                        default:
-                            console.error('Invalid badge value '+badge);
-                    }
-                    return value;
                 },
 
                 loadMap: function (e) {

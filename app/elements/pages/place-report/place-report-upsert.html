@@ -167,21 +167,16 @@
                     <paper-input name="min_depth" label="Profodità minima (Metri)"></paper-input>
                     <dropdown-menu-input name="visibility" label="Visibilità">
                         <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
-                            <paper-item value="1">1</paper-item>
-                            <paper-item value="2">2</paper-item>
-                            <paper-item value="3">3</paper-item>
-                            <paper-item value="4">4</paper-item>
-                            <paper-item value="5">5</paper-item>
+                            <template is="dom-repeat" items="{{visibilityDataSet}}">
+                                <paper-item value="[[item.value]]">[[item.label]]</paper-item>
+                            </template>
                         </paper-menu>
                     </dropdown-menu-input>
                     <dropdown-menu-input name="current" label="Corrente">
                         <paper-menu class="dropdown-content" class="flex hspace" attr-for-selected="value">
-                            <paper-item value="0">0</paper-item>
-                            <paper-item value="1">1</paper-item>
-                            <paper-item value="2">2</paper-item>
-                            <paper-item value="3">3</paper-item>
-                            <paper-item value="4">4</paper-item>
-                            <paper-item value="5">5</paper-item>
+                            <template is="dom-repeat" items="{{currentDataSet}}">
+                                <paper-item value="[[item.value]]">[[item.label]]</paper-item>
+                            </template>
                         </paper-menu>
                     </dropdown-menu-input>
                     <dropdown-menu-input name="start_point_dive" label="Come raggiungere il punto di immersione">

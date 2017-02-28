@@ -10,7 +10,6 @@
 <link rel="import" href="../../paper-rating/paper-rating.html">
 <link rel="import" href="../../behavior/place-behavior.html">
 
-
 <dom-module id="place-profile">
     <template>
         <style>
@@ -275,7 +274,7 @@
                                         <div><p>Punto di accesso: <span>{{__computeStartPointDiveLabel(entity.start_point_dive)}}</span></p></div>
                                     </div>
                                     <div class="lh-j infos">
-                                        <div><p>Prodondità min: <span>{{entity.min_depth}} 0 m</span></p></div>
+                                        <div><p>Prodondità min: <span>{{__computeMinDeph(entity.min_depth)}} m</span></p></div>
                                         <div><p>Prodondità max: <span>{{entity.max_depth}} m</span></p></div>
                                     </div>
                                     <div class="lh-j infos">
